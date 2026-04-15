@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080,initial-scale=1" />
+<title>CampusCompass — EB Navigation Kiosk</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">◎</div>
+    <div>
+      <h1>CampusCompass</h1>
+      <p>EB Building · Point-of-Entry Navigation</p>
+    </div>
+  </div>
+  <div class="clock" id="clock">--:--</div>
+</header>
+
+<main id="app">
+
+  <!-- VIEW 1: ENCOUNTER -->
+  <section class="view" id="view-entrance">
+    <h2>Welcome — where are you entering from?</h2>
+    <p class="sub">Tap the entrance you just walked through.</p>
+    <div class="entrance-grid">
+      <button class="entrance-card" data-entrance="N">
+        <span class="big">North</span>
+        <span class="small">North Wing Entrance</span>
+      </button>
+      <button class="entrance-card primary" data-entrance="H">
+        <span class="big">Main</span>
+        <span class="small">Central Hallway Entrance</span>
+      </button>
+      <button class="entrance-card" data-entrance="S">
+        <span class="big">South</span>
+        <span class="small">South Wing Entrance</span>
+      </button>
+    </div>
+    <div class="hint">Confused by room codes like <b>EB204</b>? We'll route you straight there.</div>
+  </section>
+
+  <!-- VIEW 2: INPUT -->
+  <section class="view hidden" id="view-input">
+    <div class="youarehere">
+      <span class="dot"></span> You are here: <b id="entrance-label">—</b>
+    </div>
+    <h2>Enter your destination room</h2>
+    <div class="search-row">
+      <input id="room-input" type="text" inputmode="none" placeholder="e.g. EB204" autocomplete="off" />
+      <button id="go-btn" class="primary-btn">Route</button>
+    </div>
+    <div id="suggestions" class="suggestions"></div>
+
+    <div class="keypad">
+      <button data-k="E">E</button><button data-k="B">B</button><button data-k="clear" class="warn">Clear</button>
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button data-k="back" class="warn">⌫</button><button data-k="0">0</button><button data-k="enter" class="go">Go</button>
+    </div>
+
+    <button class="link-btn" id="back-to-entrance">← Change entrance</button>
+  </section>
+
+  <!-- VIEW 3: ROUTING / ARRIVAL -->
+  <section class="view hidden" id="view-route">
+    <div class="route-header">
+      <div>
+        <div class="youarehere"><span class="dot"></span> From <b id="from-label">—</b></div>
+        <h2>Route to <span id="dest-label" class="accent">—</span></h2>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="stat-dist">—</b><span>metres</span></div>
+        <div class="stat"><b id="stat-time">—</b><span>sec walk</span></div>
+        <div class="stat"><b id="stat-floor">—</b><span>floor</span></div>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <svg id="map" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="legend">
+        <span><i class="sw-you"></i> You are here</span>
+        <span><i class="sw-dest"></i> Destination</span>
+        <span><i class="sw-path"></i> Shortest path</span>
+      </div>
+    </div>
+
+    <div class="directions">
+      <h3>Step-by-step</h3>
+      <ol id="steps"></ol>
+    </div>
+
+    <div class="route-actions">
+      <button class="primary-btn" id="new-search">New search</button>
+      <button class="link-btn" id="reset">Start over</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  CPT208 Group D-2 · CampusCompass prototype · 2D top-down kiosk view
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
