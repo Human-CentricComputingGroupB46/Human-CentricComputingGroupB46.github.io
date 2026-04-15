@@ -1,22 +1,27 @@
-/* CampusCompass — view controller, routing (Dijkstra), and SVG rendering. */
+/* CampusCompass - one-screen EB first-floor navigator. */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
+
 const state = {
-  entrance: null,          // "N" | "H" | "S"
-  entranceNodeId: null,    // graph node
-  dest: null,              // room code like "EB204"
+  entrance: "NW",
+  entranceNodeId: ENTRANCES.NW.id,
+  dest: null,
   graph: null,
+  route: null,
+  mode: "idle",
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   state.graph = buildGraph();
-  tickClock(); setInterval(tickClock, 1000 * 15);
-  wireEntranceView();
-  wireInputView();
-  wireRouteView();
+  tickClock();
+  setInterval(tickClock, 1000 * 15);
+  wireEntrancePicker();
+  wireInput();
+  renderSuggestions("");
+  renderMap();
+  renderStatus();
 });
 
-/* --------------- Clock --------------- */
 function tickClock() {
   const d = new Date();
   const hh = String(d.getHours()).padStart(2, "0");
@@ -24,99 +29,157 @@ function tickClock() {
   document.getElementById("clock").textContent = `${hh}:${mm}`;
 }
 
-/* --------------- View switching --------------- */
-function show(viewId) {
-  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
-  document.getElementById(viewId).classList.remove("hidden");
-}
-
-/* --------------- Entrance view --------------- */
-function wireEntranceView() {
-  document.querySelectorAll(".entrance-card").forEach(btn => {
+function wireEntrancePicker() {
+  document.querySelectorAll(".entrance-option").forEach(btn => {
     btn.addEventListener("click", () => {
       state.entrance = btn.dataset.entrance;
-      state.entranceNodeId = LAYOUT.entrances[state.entrance].id;
-      document.getElementById("entrance-label").textContent = LAYOUT.entrances[state.entrance].label;
+      state.entranceNodeId = ENTRANCES[state.entrance].id;
+      state.dest = null;
+      state.route = null;
+      state.mode = state.entrance === "SW" ? "recommend" : "idle";
       document.getElementById("room-input").value = "";
       renderSuggestions("");
-      show("view-input");
+      renderMap();
+      renderStatus();
       document.getElementById("room-input").focus();
     });
   });
 }
 
-/* --------------- Input view --------------- */
-function wireInputView() {
+function wireInput() {
   const input = document.getElementById("room-input");
-  const go = document.getElementById("go-btn");
 
   input.addEventListener("input", () => {
-    input.value = input.value.toUpperCase();
+    input.value = cleanRoomInput(input.value);
     renderSuggestions(input.value);
   });
-  input.addEventListener("keydown", e => { if (e.key === "Enter") tryRoute(); });
 
-  document.querySelectorAll(".keypad button").forEach(b => {
-    b.addEventListener("click", () => {
-      const k = b.dataset.k;
-      if (k === "clear") input.value = "";
-      else if (k === "back") input.value = input.value.slice(0, -1);
-      else if (k === "enter") { tryRoute(); return; }
-      else input.value = (input.value + k).toUpperCase();
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") tryRoute();
+  });
+
+  document.querySelectorAll(".keypad button").forEach(button => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.k;
+      if (key === "clear") {
+        input.value = "";
+        clearRoute();
+      } else if (key === "back") {
+        input.value = input.value.slice(0, -1);
+      } else if (key === "enter") {
+        tryRoute();
+        return;
+      } else {
+        input.value = cleanRoomInput(input.value + key);
+      }
       renderSuggestions(input.value);
     });
   });
 
-  go.addEventListener("click", tryRoute);
-  document.getElementById("back-to-entrance").addEventListener("click", () => show("view-entrance"));
+  document.getElementById("go-btn").addEventListener("click", tryRoute);
+  document.getElementById("clear-route").addEventListener("click", () => {
+    input.value = "";
+    clearRoute();
+    renderSuggestions("");
+  });
+}
+
+function cleanRoomInput(value) {
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 5);
+}
+
+function clearRoute() {
+  state.dest = null;
+  state.route = null;
+  state.mode = state.entrance === "SW" ? "recommend" : "idle";
+  renderMap();
+  renderStatus();
 }
 
 function renderSuggestions(prefix) {
   const box = document.getElementById("suggestions");
   box.innerHTML = "";
-  const codes = allRoomCodes();
-  const p = (prefix || "").toUpperCase().replace(/\s+/g, "");
-  let matches;
-  if (!p) matches = codes.slice(0, 6);
-  else matches = codes.filter(c => c.startsWith(p)).slice(0, 8);
+  const p = cleanRoomInput(prefix || "");
+  const matches = allRoomCodes()
+    .filter(code => !p || code.startsWith(p))
+    .slice(0, p ? 8 : 10);
+
   if (matches.length === 0 && p.length >= 3) {
-    box.innerHTML = `<span style="color:var(--warn);font-size:14px;">No room matches "${p}". Try EB101–EB425.</span>`;
+    const span = document.createElement("span");
+    span.textContent = `No first-floor room found for "${p}".`;
+    box.appendChild(span);
     return;
   }
+
   matches.forEach(code => {
-    const b = document.createElement("button");
-    b.textContent = code;
-    b.addEventListener("click", () => {
+    const button = document.createElement("button");
+    button.textContent = code;
+    button.addEventListener("click", () => {
       document.getElementById("room-input").value = code;
       renderSuggestions(code);
+      tryRoute();
     });
-    box.appendChild(b);
+    box.appendChild(button);
   });
 }
 
 function tryRoute() {
-  const code = document.getElementById("room-input").value.trim().toUpperCase();
+  const input = document.getElementById("room-input");
+  const code = cleanRoomInput(input.value);
+  input.value = code;
+
   if (!allRoomCodes().includes(code)) {
+    state.dest = null;
+    state.route = null;
+    state.mode = state.entrance === "SW" ? "recommend" : "invalid";
     flashInput();
+    renderMap();
+    renderStatus();
     return;
   }
+
   state.dest = code;
-  computeAndShowRoute();
+
+  if (state.entrance === "SW") {
+    state.route = { path: RECOMMENDED_SW_TO_NW, distance: estimatePathDistance(RECOMMENDED_SW_TO_NW) };
+    state.mode = "recommend";
+    renderMap();
+    renderStatus();
+    return;
+  }
+
+  const result = dijkstra(state.graph, state.entranceNodeId, `ROOM-${code}`);
+  if (!result) {
+    state.route = null;
+    state.mode = "unreachable";
+  } else {
+    state.route = result;
+    state.mode = "route";
+  }
+  renderMap();
+  renderStatus();
 }
 
 function flashInput() {
   const el = document.getElementById("room-input");
   el.style.borderColor = "var(--warn)";
-  el.animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 240 });
+  el.animate(
+    [
+      { transform: "translateX(0)" },
+      { transform: "translateX(-6px)" },
+      { transform: "translateX(6px)" },
+      { transform: "translateX(0)" },
+    ],
+    { duration: 240 }
+  );
   setTimeout(() => (el.style.borderColor = ""), 600);
 }
 
-/* --------------- Routing (Dijkstra) --------------- */
 function dijkstra(graph, startId, endId) {
   const dist = {};
   const prev = {};
   const visited = new Set();
-  const pq = []; // simple array-based priority queue (small graph)
+  const pq = [];
 
   for (const id in graph.nodes) dist[id] = Infinity;
   dist[startId] = 0;
@@ -128,6 +191,7 @@ function dijkstra(graph, startId, endId) {
     if (visited.has(u)) continue;
     visited.add(u);
     if (u === endId) break;
+
     for (const { to, w } of graph.edges[u] || []) {
       if (visited.has(to)) continue;
       const nd = d + w;
@@ -140,177 +204,297 @@ function dijkstra(graph, startId, endId) {
   }
 
   if (dist[endId] === Infinity) return null;
+
   const path = [];
   let cur = endId;
-  while (cur !== undefined) { path.unshift(cur); cur = prev[cur]; }
+  while (cur !== undefined) {
+    path.unshift(cur);
+    cur = prev[cur];
+  }
   return { path, distance: dist[endId] };
 }
 
-/* --------------- Compute + render route --------------- */
-function computeAndShowRoute() {
-  const g = state.graph;
-  const destNodeId = `ROOM-${state.dest}`;
-  const result = dijkstra(g, state.entranceNodeId, destNodeId);
-  if (!result) { alert("No route found."); return; }
-
-  const destNode = g.nodes[destNodeId];
-  document.getElementById("from-label").textContent = LAYOUT.entrances[state.entrance].label;
-  document.getElementById("dest-label").textContent = state.dest;
-  document.getElementById("stat-dist").textContent = Math.round(result.distance / 10) * 1; // arbitrary scale → metres
-  document.getElementById("stat-time").textContent = Math.round(result.distance / 15);
-  document.getElementById("stat-floor").textContent = destNode.floor;
-
-  renderMap(result.path, destNode);
-  renderSteps(result.path);
-  show("view-route");
+function estimatePathDistance(path) {
+  let total = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    const a = state.graph.nodes[path[i]];
+    const b = state.graph.nodes[path[i + 1]];
+    if (a && b) total += Math.hypot(a.x - b.x, a.y - b.y);
+  }
+  return total;
 }
 
-/* --------------- SVG map render --------------- */
-function renderMap(path, destNode) {
+function renderStatus() {
+  const entrance = ENTRANCES[state.entrance];
+  document.getElementById("entrance-label").textContent = entrance.label;
+  document.querySelectorAll(".entrance-option").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.entrance === state.entrance);
+  });
+
+  const title = document.getElementById("route-title");
+  const steps = document.getElementById("steps");
+  const message = document.getElementById("message");
+  const dist = document.getElementById("stat-dist");
+  const time = document.getElementById("stat-time");
+
+  steps.innerHTML = "";
+  dist.textContent = "--";
+  time.textContent = "--";
+  message.className = "message";
+
+  if (state.mode === "route" && state.route && state.dest) {
+    title.textContent = `${entrance.label} to ${state.dest}`;
+    message.textContent = "Shortest first-floor route shown on the map.";
+    dist.textContent = Math.round(state.route.distance / 10);
+    time.textContent = Math.max(5, Math.round(state.route.distance / 14));
+    addStep(`Start at ${entrance.label}.`);
+    addRouteLandmarks(state.route.path);
+    addStep(`Arrive at ${state.dest}.`);
+    return;
+  }
+
+  if (state.mode === "recommend") {
+    title.textContent = "Use the North-West Entrance.";
+    message.classList.add("warn");
+    message.textContent = "From the South-West Entrance, please go to the North-West Entrance first.";
+    if (state.route) {
+      dist.textContent = Math.round(state.route.distance / 10);
+      time.textContent = Math.max(10, Math.round(state.route.distance / 14));
+    }
+    addStep("You are at the South-West Entrance.");
+    addStep("Go to the North-West Entrance before starting indoor navigation.");
+    if (state.dest) addStep(`Then search ${state.dest} from the North-West Entrance.`);
+    return;
+  }
+
+  if (state.mode === "invalid") {
+    title.textContent = "Room not found.";
+    message.classList.add("warn");
+    message.textContent = "Please enter one of the listed first-floor room numbers.";
+    addStep("Check the room code and try again.");
+    return;
+  }
+
+  if (state.mode === "unreachable") {
+    title.textContent = "No route found.";
+    message.classList.add("warn");
+    message.textContent = "This room is in the data, but no connected route was found.";
+    addStep("Try another entrance or check the room code.");
+    return;
+  }
+
+  if (state.entrance === "SW") {
+    title.textContent = "Use the North-West Entrance.";
+    message.classList.add("warn");
+    message.textContent = "South-West users should go to the North-West Entrance.";
+    addStep("Select NW after moving to the North-West Entrance.");
+    return;
+  }
+
+  title.textContent = "Choose an entrance, then enter a room.";
+  message.textContent = "Only EB first-floor rooms are available.";
+  addStep("Select NW, NE, or SW on the input panel.");
+  addStep("Enter a room such as EB102, EB111, or EB138.");
+}
+
+function addRouteLandmarks(path) {
+  const labels = [];
+  for (const id of path) {
+    const node = state.graph.nodes[id];
+    if (!node || !node.label || node.kind === "room") continue;
+    if (labels[labels.length - 1] !== node.label) labels.push(node.label);
+  }
+  labels.forEach(label => addStep(`Pass ${label}.`));
+}
+
+function addStep(text) {
+  const li = document.createElement("li");
+  li.textContent = text;
+  document.getElementById("steps").appendChild(li);
+}
+
+function renderMap() {
   const svg = document.getElementById("map");
   svg.innerHTML = "";
-  const floor = destNode.floor;
 
-  // Title bar
-  const title = el("text", { x: 500, y: 34, "text-anchor": "middle", "font-size": 18, "font-weight": 700, fill: "#0b1f3a" });
-  title.textContent = `EB Building · Floor ${floor}`;
-  svg.appendChild(title);
+  drawBase(svg);
+  drawEdges(svg);
+  drawRooms(svg);
+  drawServicePoints(svg);
+  drawEntrances(svg);
+  drawPath(svg);
+  drawMarkers(svg);
+}
 
-  // Wings
-  for (const wk of ["N", "H", "S"]) {
-    const w = LAYOUT.wings[wk];
-    const rect = el("rect", { x: w.block.x, y: w.block.y, width: w.block.w, height: w.block.h, rx: 8, ry: 8, class: wk === "H" ? "hallway-block" : "wing-block" });
-    svg.appendChild(rect);
-    const lbl = el("text", { x: w.block.x + w.block.w / 2, y: w.block.y + 22, "text-anchor": "middle", class: "wing-label" });
-    lbl.textContent = w.label.toUpperCase();
-    svg.appendChild(lbl);
+function drawBase(svg) {
+  svg.appendChild(el("rect", {
+    x: 24,
+    y: 24,
+    width: MAP.width - 48,
+    height: MAP.height - 48,
+    rx: 8,
+    class: "map-shell",
+  }));
 
-    // Corridor line
-    svg.appendChild(el("line", { x1: w.block.x + 10, y1: w.corridorY, x2: w.block.x + w.block.w - 10, y2: w.corridorY, class: "edge", "stroke-dasharray": "4 4" }));
-
-    // Stair marker
-    svg.appendChild(el("rect", { x: w.stair.x - 14, y: w.corridorY - 12, width: 28, height: 24, fill: "#fff", stroke: "#8a94ae", "stroke-width": 1.5, rx: 4 }));
-    const stxt = el("text", { x: w.stair.x, y: w.corridorY + 4, "text-anchor": "middle", "font-size": 10, fill: "#5a6485", "font-weight": 700 });
-    stxt.textContent = "STAIR";
-    svg.appendChild(stxt);
+  for (const area of INACCESSIBLE_AREAS) {
+    svg.appendChild(el("rect", {
+      x: area.x,
+      y: area.y,
+      width: area.w,
+      height: area.h,
+      rx: 6,
+      class: "inaccessible",
+    }));
+    const t = el("text", {
+      x: area.x + area.w / 2,
+      y: area.y + area.h / 2,
+      class: "inaccessible-label",
+      "text-anchor": "middle",
+    });
+    t.textContent = area.label;
+    svg.appendChild(t);
   }
 
-  // Inter-wing seams
-  svg.appendChild(el("line", { x1: 300, y1: 260, x2: 340, y2: 260, class: "edge" }));
-  svg.appendChild(el("line", { x1: 660, y1: 260, x2: 700, y2: 260, class: "edge" }));
+  const labels = [
+    { text: "North", x: 500, y: 18 },
+    { text: "South", x: 500, y: 628 },
+    { text: "West", x: 42, y: 326, rotate: -90 },
+    { text: "East", x: 958, y: 326, rotate: 90 },
+  ];
 
-  // Rooms on this floor
-  for (const wk of ["N", "H", "S"]) {
-    for (const slot of ROOM_SLOTS[wk]) {
-      const code = `EB${floor}${slot.n}`;
-      const isDest = code === destNode.room;
-      const rw = 44, rh = 34;
-      const rx = slot.x - rw / 2;
-      const ry = slot.y - rh / 2;
-      svg.appendChild(el("rect", { x: rx, y: ry, width: rw, height: rh, rx: 4, class: "room-rect" + (isDest ? " dest" : "") }));
-      const lbl = el("text", { x: slot.x, y: slot.y + 3, class: "room-label" });
-      lbl.textContent = code;
-      svg.appendChild(lbl);
+  for (const label of labels) {
+    const t = el("text", {
+      x: label.x,
+      y: label.y,
+      class: "axis-label",
+      "text-anchor": "middle",
+    });
+    if (label.rotate) t.setAttribute("transform", `rotate(${label.rotate} ${label.x} ${label.y})`);
+    t.textContent = label.text;
+    svg.appendChild(t);
+  }
+}
+
+function drawEdges(svg) {
+  for (const [aId, bId] of WALKABLE_EDGES) {
+    const a = state.graph.nodes[aId];
+    const b = state.graph.nodes[bId];
+    svg.appendChild(el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: "edge" }));
+  }
+
+  for (const [aId, bId] of DOORWAY_EDGES) {
+    const a = state.graph.nodes[aId];
+    const b = state.graph.nodes[bId];
+    svg.appendChild(el("line", { x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: "doorway-edge" }));
+  }
+}
+
+function drawRooms(svg) {
+  const dest = state.dest ? getRoom(state.dest) : null;
+
+  for (const room of ROOM_DATA[1]) {
+    svg.appendChild(el("rect", {
+      x: room.x - room.w / 2,
+      y: room.y - room.h / 2,
+      width: room.w,
+      height: room.h,
+      rx: 4,
+      class: "room-rect" + (dest && dest.code === room.code ? " dest" : ""),
+    }));
+
+    const label = el("text", { x: room.x, y: room.y + 4, class: "room-label" });
+    label.textContent = room.code;
+    svg.appendChild(label);
+
+    if (room.note) {
+      const note = el("text", { x: room.x, y: room.y + 22, class: "room-note" });
+      note.textContent = room.note;
+      svg.appendChild(note);
     }
+
+    const door = state.graph.nodes[room.doorNode];
+    svg.appendChild(el("line", {
+      x1: door.x,
+      y1: door.y,
+      x2: room.x,
+      y2: room.y,
+      class: "door-link",
+    }));
+  }
+}
+
+function drawServicePoints(svg) {
+  for (const sp of SERVICE_POINTS) {
+    svg.appendChild(el("rect", {
+      x: sp.x - 22,
+      y: sp.y - 14,
+      width: 44,
+      height: 28,
+      rx: 4,
+      class: "service-marker",
+    }));
+    const t = el("text", { x: sp.x, y: sp.y + 4, class: "service-label" });
+    t.textContent = "Lift/Stair";
+    svg.appendChild(t);
+  }
+}
+
+function drawEntrances(svg) {
+  for (const [key, entrance] of Object.entries(ENTRANCES)) {
+    svg.appendChild(el("circle", {
+      cx: entrance.x,
+      cy: entrance.y,
+      r: 18,
+      class: "entrance-marker" + (state.entrance === key ? " active" : ""),
+    }));
+    const t = el("text", { x: entrance.x, y: entrance.y + 5, class: "entrance-marker-label" });
+    t.textContent = key;
+    svg.appendChild(t);
+  }
+}
+
+function drawPath(svg) {
+  if (!state.route || !state.route.path || state.route.path.length < 2) {
+    if (state.entrance === "SW") drawRecommendedPath(svg);
+    return;
   }
 
-  // Entrance markers (floor 1 only display)
-  if (floor === 1) {
-    for (const k of ["N", "H", "S"]) {
-      const e = LAYOUT.entrances[k];
-      svg.appendChild(el("circle", { cx: e.x, cy: e.y, r: 16, class: "entrance-marker" }));
-      const t = el("text", { x: e.x, y: e.y + 4, class: "entrance-marker-label" });
-      t.textContent = k;
-      svg.appendChild(t);
-    }
+  const d = pathToD(state.route.path);
+  svg.appendChild(el("path", {
+    d,
+    class: state.mode === "recommend" ? "path recommend" : "path",
+  }));
+}
+
+function drawRecommendedPath(svg) {
+  const d = pathToD(RECOMMENDED_SW_TO_NW);
+  svg.appendChild(el("path", { d, class: "path recommend" }));
+}
+
+function drawMarkers(svg) {
+  const start = state.graph.nodes[state.entranceNodeId];
+  if (start) {
+    svg.appendChild(el("circle", { cx: start.x, cy: start.y, r: 24, class: "node-you-ring" }));
+    svg.appendChild(el("circle", { cx: start.x, cy: start.y, r: 10, class: "node-you" }));
   }
 
-  // Filter path to nodes on this floor (destination floor)
-  const g = state.graph;
-  const floorPath = path.map(id => g.nodes[id]).filter(n => n.floor === floor);
-
-  // Entry point for this floor's drawing:
-  //   If floor === 1: draw from entrance marker along the path.
-  //   Else: the path enters this floor at a stair node — mark it "You arrive here".
-  if (floorPath.length >= 2) {
-    const d = floorPath.map((n, i) => (i === 0 ? `M ${n.x} ${n.y}` : `L ${n.x} ${n.y}`)).join(" ");
-    svg.appendChild(el("path", { d, class: "path" }));
-  }
-
-  // "You are here" marker at start of floor path
-  const you = floorPath[0];
-  if (you) {
-    svg.appendChild(el("circle", { cx: you.x, cy: you.y, r: 20, class: "node-you-ring" }));
-    svg.appendChild(el("circle", { cx: you.x, cy: you.y, r: 9, class: "node-you" }));
-    if (floor !== 1) {
-      const t = el("text", { x: you.x, y: you.y - 28, "text-anchor": "middle", "font-size": 12, "font-weight": 700, fill: "#c2690e" });
-      t.textContent = "Arrive via stair";
-      svg.appendChild(t);
-    }
-  }
-
-  // Destination marker
+  if (!state.dest) return;
+  const destNode = state.graph.nodes[`ROOM-${state.dest}`];
+  if (!destNode || state.mode === "recommend") return;
   svg.appendChild(el("circle", { cx: destNode.x, cy: destNode.y, r: 10, class: "node-dest" }));
+}
+
+function pathToD(path) {
+  return path
+    .map((id, index) => {
+      const n = state.graph.nodes[id];
+      return `${index === 0 ? "M" : "L"} ${n.x} ${n.y}`;
+    })
+    .join(" ");
 }
 
 function el(name, attrs) {
   const e = document.createElementNS(SVG_NS, name);
-  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  for (const key in attrs) e.setAttribute(key, attrs[key]);
   return e;
-}
-
-/* --------------- Step-by-step directions --------------- */
-function renderSteps(path) {
-  const g = state.graph;
-  const ol = document.getElementById("steps");
-  ol.innerHTML = "";
-  const steps = [];
-
-  const startFloor = g.nodes[path[0]].floor;
-  steps.push(`Start at the <b>${LAYOUT.entrances[state.entrance].label}</b>.`);
-
-  // Detect floor changes and wing entries
-  let curFloor = startFloor;
-  let curWing = g.nodes[path[0]].wing || state.entrance;
-
-  for (let i = 1; i < path.length; i++) {
-    const n = g.nodes[path[i]];
-    const prev = g.nodes[path[i - 1]];
-
-    if (n.floor !== curFloor) {
-      const wingName = LAYOUT.wings[n.wing || curWing]?.label || "nearby stair";
-      const dir = n.floor > curFloor ? "up" : "down";
-      steps.push(`Take the <b>${wingName} stair</b> ${dir} to <b>Floor ${n.floor}</b>.`);
-      curFloor = n.floor;
-    }
-    if (n.wing && n.wing !== curWing && n.kind !== "entrance") {
-      const enteringName = LAYOUT.wings[n.wing]?.label;
-      if (enteringName && prev.kind === "junction") {
-        steps.push(`Enter the <b>${enteringName}</b>.`);
-      }
-      curWing = n.wing;
-    }
-    if (n.kind === "room") {
-      steps.push(`Arrive at <b>${n.room}</b>. ✓`);
-    }
-  }
-
-  steps.forEach(s => {
-    const li = document.createElement("li");
-    li.innerHTML = s;
-    ol.appendChild(li);
-  });
-}
-
-/* --------------- Route view wiring --------------- */
-function wireRouteView() {
-  document.getElementById("new-search").addEventListener("click", () => {
-    document.getElementById("room-input").value = "";
-    renderSuggestions("");
-    show("view-input");
-  });
-  document.getElementById("reset").addEventListener("click", () => {
-    state.entrance = null; state.dest = null;
-    show("view-entrance");
-  });
 }
