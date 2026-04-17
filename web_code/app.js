@@ -17,11 +17,14 @@ const state = {
   editMode: false,
   editorTool: "move",
   dirtyRoomLayout: false,
+  overlaySelected: false,
+  overlayResizeHandle: null,
   selectedRoomCode: null,
   selectedNodeId: null,
   hoverRoomCode: null,
   hoverNodeId: null,
   draggingRoomCode: null,
+  draggingOverlay: null,
   dragOffset: null,
   editorMessage: "Edit mode is off.",
   editorTone: "",
@@ -29,6 +32,7 @@ const state = {
   roomLayoutSnapshot: "",
   roomLayoutResetData: null,
   mapSurface: null,
+  editSurface: null,
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -112,6 +116,7 @@ function wireInput() {
 
 function wireEditor() {
   state.mapSurface = document.querySelector(".map-stack");
+  state.editSurface = document.getElementById("map-hit-area") || state.mapSurface;
 
   document.getElementById("toggle-edit-mode").addEventListener("click", () => {
     setEditMode(!state.editMode);
@@ -129,13 +134,13 @@ function wireEditor() {
   document.getElementById("save-room-data").addEventListener("click", saveRoomDataBlock);
   document.getElementById("reset-room-data").addEventListener("click", resetUnsavedRoomData);
 
-  if (!state.mapSurface) return;
+  if (!state.editSurface) return;
 
-  state.mapSurface.addEventListener("pointerdown", handleEditorPointerDown);
-  state.mapSurface.addEventListener("pointermove", handleEditorPointerMove);
-  state.mapSurface.addEventListener("pointerup", handleEditorPointerUp);
-  state.mapSurface.addEventListener("pointercancel", handleEditorPointerUp);
-  state.mapSurface.addEventListener("pointerleave", handleEditorPointerLeave);
+  state.editSurface.addEventListener("pointerdown", handleEditorPointerDown);
+  state.editSurface.addEventListener("pointermove", handleEditorPointerMove);
+  state.editSurface.addEventListener("pointerup", handleEditorPointerUp);
+  state.editSurface.addEventListener("pointercancel", handleEditorPointerUp);
+  state.editSurface.addEventListener("pointerleave", handleEditorPointerLeave);
 }
 
 function cleanRoomInput(value) {
@@ -485,6 +490,7 @@ function renderMap() {
   if (!state.map || !state.ctx || !state.canvas) return;
 
   syncOverlaySize();
+  syncEditSurfaceBounds();
 
   const ctx = state.ctx;
   const rect = state.canvas.getBoundingClientRect();
@@ -918,6 +924,30 @@ function syncOverlaySize() {
   state.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
+function syncEditSurfaceBounds() {
+  if (!state.editSurface) return;
+
+  const polygon = getOverlayScreenPolygon();
+  if (!state.editMode || !polygon) {
+    state.editSurface.style.display = "none";
+    return;
+  }
+
+  const padding = 20;
+  const xs = polygon.map(point => point.x);
+  const ys = polygon.map(point => point.y);
+  const left = Math.max(0, Math.min(...xs) - padding);
+  const top = Math.max(0, Math.min(...ys) - padding);
+  const right = Math.max(...xs) + padding;
+  const bottom = Math.max(...ys) + padding;
+
+  state.editSurface.style.display = "block";
+  state.editSurface.style.left = `${left}px`;
+  state.editSurface.style.top = `${top}px`;
+  state.editSurface.style.width = `${Math.max(1, right - left)}px`;
+  state.editSurface.style.height = `${Math.max(1, bottom - top)}px`;
+}
+
 function localPointToLatLng(x, y) {
   return mapLocalPointToLatLng(x, y);
 }
@@ -1096,8 +1126,117 @@ function drawEditorOverlay(ctx) {
     return;
   }
 
+  drawOverlayFrame(ctx);
+
+  if (state.overlaySelected || state.draggingOverlay) {
+    drawOverlayBadge(ctx);
+    return;
+  }
+
   const roomId = state.selectedRoomCode ? `ROOM-${state.selectedRoomCode}` : null;
   drawSelectedNodeBadge(ctx, roomId);
+}
+
+function drawOverlayFrame(ctx) {
+  const polygon = getOverlayScreenPolygon();
+  if (!polygon) return;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(polygon[0].x, polygon[0].y);
+  for (let index = 1; index < polygon.length; index += 1) {
+    ctx.lineTo(polygon[index].x, polygon[index].y);
+  }
+  ctx.closePath();
+  ctx.strokeStyle = state.overlaySelected || state.draggingOverlay ? "#f29325" : "rgba(11, 31, 58, 0.42)";
+  ctx.lineWidth = state.overlaySelected || state.draggingOverlay ? 2.5 : 1.2;
+  ctx.setLineDash([8, 6]);
+  ctx.stroke();
+  ctx.restore();
+
+  for (const handle of getOverlayResizeHandles()) {
+    const isActive = handle.name === state.overlayResizeHandle || handle.name === state.draggingOverlay?.handle;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(handle.point.x, handle.point.y, 7, 0, Math.PI * 2);
+    ctx.fillStyle = isActive ? "#f29325" : "rgba(11, 31, 58, 0.78)";
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 2;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function getOverlayScreenPolygon() {
+  const polygon = [
+    projectLocalPoint(BUILDING_SHELL.x, BUILDING_SHELL.y),
+    projectLocalPoint(BUILDING_SHELL.x + BUILDING_SHELL.w, BUILDING_SHELL.y),
+    projectLocalPoint(BUILDING_SHELL.x + BUILDING_SHELL.w, BUILDING_SHELL.y + BUILDING_SHELL.h),
+    projectLocalPoint(BUILDING_SHELL.x, BUILDING_SHELL.y + BUILDING_SHELL.h),
+  ];
+
+  return polygon.some(point => !point) ? null : polygon;
+}
+
+function getOverlayResizeHandles() {
+  const polygon = getOverlayScreenPolygon();
+  if (!polygon) return [];
+
+  return [
+    { name: "nw", point: polygon[0] },
+    { name: "ne", point: polygon[1] },
+    { name: "se", point: polygon[2] },
+    { name: "sw", point: polygon[3] },
+  ];
+}
+
+function pickOverlayResizeHandle(point) {
+  let bestHandle = null;
+  for (const handle of getOverlayResizeHandles()) {
+    const distance = Math.hypot(handle.point.x - point.x, handle.point.y - point.y);
+    if (distance > 16) continue;
+    if (!bestHandle || distance < bestHandle.distance) {
+      bestHandle = { ...handle, distance };
+    }
+  }
+  return bestHandle;
+}
+
+function getOverlayScreenCenter() {
+  return projectLocalPoint(BUILDING_SHELL.x + BUILDING_SHELL.w / 2, BUILDING_SHELL.y + BUILDING_SHELL.h / 2);
+}
+
+function drawOverlayBadge(ctx) {
+  const point = getOverlayScreenCenter();
+  if (!point) return;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(point.x, point.y, 9, 0, Math.PI * 2);
+  ctx.fillStyle = "#f29325";
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 2;
+  ctx.fill();
+  ctx.stroke();
+
+  const badgeWidth = 230;
+  const badgeX = Math.min(point.x + 16, state.canvas.getBoundingClientRect().width - badgeWidth - 12);
+  const badgeY = Math.max(14, point.y - 56);
+  drawScreenRoundedRect(ctx, badgeX, badgeY, badgeWidth, 48, 8, {
+    fillStyle: "rgba(11, 31, 58, 0.9)",
+    strokeStyle: "rgba(255, 255, 255, 0.18)",
+    lineWidth: 1,
+  });
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "800 12px Arial, sans-serif";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillText("Indoor overlay anchor", badgeX + 12, badgeY + 16);
+  ctx.fillStyle = "#d7e1f1";
+  ctx.font = "700 10px Arial, sans-serif";
+  ctx.fillText(`${formatCoordinate(GEO_REFERENCE.centerLat)}, ${formatCoordinate(GEO_REFERENCE.centerLng)}`, badgeX + 12, badgeY + 32);
+  ctx.restore();
 }
 
 function drawLinkEditorNodes(ctx) {
@@ -1165,7 +1304,10 @@ function setEditMode(enabled) {
 
   if (!enabled) {
     state.draggingRoomCode = null;
+    state.draggingOverlay = null;
     state.dragOffset = null;
+    state.overlaySelected = false;
+    state.overlayResizeHandle = null;
     state.selectedNodeId = null;
     state.mapSurface?.classList.remove("dragging");
     setEditorMessage("Edit mode is off.");
@@ -1183,7 +1325,10 @@ function setEditMode(enabled) {
 function setEditorTool(tool) {
   state.editorTool = tool;
   state.draggingRoomCode = null;
+  state.draggingOverlay = null;
   state.dragOffset = null;
+  state.overlaySelected = false;
+  state.overlayResizeHandle = null;
   state.hoverRoomCode = null;
   state.hoverNodeId = null;
 
@@ -1192,8 +1337,8 @@ function setEditorTool(tool) {
     state.selectedRoomCode = state.selectedRoomCode || state.dest || ROOM_DATA[1][0]?.code || null;
     setEditorMessage(
       canSaveRoomDataToFile()
-        ? "Move Rooms is active. Drag a room to update its lat/lng, then save the layout blocks back to data.js."
-        : "Move Rooms is active. Drag a room to update its lat/lng. Direct file save requires the local editor server.",
+        ? "Move / Resize Overlay is active. Drag a room to move only that room, drag inside the frame to move the whole layer, or drag a corner handle to resize it before saving back to data.js."
+        : "Move / Resize Overlay is active. Drag a room to move only that room, drag inside the frame to move the whole layer, or drag a corner handle to resize it. Direct file save requires the local editor server.",
       canSaveRoomDataToFile() ? "" : "warn"
     );
   } else {
@@ -1243,12 +1388,70 @@ function handleEditorPointerDown(event) {
     return;
   }
 
+  const resizeHandle = pickOverlayResizeHandle(point);
+  if (resizeHandle) {
+    const center = getOverlayScreenCenter();
+    if (!center) return;
+
+    state.selectedRoomCode = null;
+    state.overlaySelected = true;
+    state.overlayResizeHandle = resizeHandle.name;
+    state.draggingOverlay = {
+      action: "resize",
+      handle: resizeHandle.name,
+      didMove: false,
+      startGeoReference: {
+        centerLat: GEO_REFERENCE.centerLat,
+        centerLng: GEO_REFERENCE.centerLng,
+        unitsPerMeter: GEO_REFERENCE.unitsPerMeter,
+      },
+      startCenterScreen: center,
+      startHandleDistance: Math.max(24, Math.hypot(resizeHandle.point.x - center.x, resizeHandle.point.y - center.y)),
+      roomLocalPointSnapshot: cloneRoomLocalPointSnapshot(),
+    };
+    state.mapSurface?.classList.add("dragging");
+    safeSetPointerCapture(state.editSurface, event.pointerId);
+    setEditorMessage("Resizing the indoor overlay. Release to keep the new size.");
+    renderEditorState();
+    renderMap();
+    event.preventDefault();
+    return;
+  }
+
   const room = pickRoomAtScreenPoint(point.x, point.y);
   state.selectedRoomCode = room ? room.code : null;
   state.hoverRoomCode = room ? room.code : null;
+  state.overlaySelected = false;
+  state.overlayResizeHandle = null;
+
+  if (!room && isScreenPointInsideOverlay(point)) {
+    const startPointerLatLng = containerPointToLatLng(point.x, point.y);
+    if (!startPointerLatLng) return;
+
+    state.selectedRoomCode = null;
+    state.draggingOverlay = {
+      action: "move",
+      didMove: false,
+      startPointerLatLng,
+      startGeoReference: {
+        centerLat: GEO_REFERENCE.centerLat,
+        centerLng: GEO_REFERENCE.centerLng,
+        unitsPerMeter: GEO_REFERENCE.unitsPerMeter,
+      },
+      roomLatLngSnapshot: cloneRoomLatLngSnapshot(),
+    };
+    state.overlaySelected = true;
+    state.mapSurface?.classList.add("dragging");
+    safeSetPointerCapture(state.editSurface, event.pointerId);
+    setEditorMessage("Dragging the indoor overlay. Release to keep the new anchor position.");
+    renderEditorState();
+    renderMap();
+    event.preventDefault();
+    return;
+  }
 
   if (!room) {
-    setEditorMessage("Click a room, then drag it to place its saved lat/lng anchor.");
+    setEditorMessage("Drag a room to move only that room, drag inside the overlay frame to move the whole layer, or drag a corner handle to resize it.");
     renderEditorState();
     renderMap();
     return;
@@ -1258,7 +1461,7 @@ function handleEditorPointerDown(event) {
   state.draggingRoomCode = room.code;
   state.dragOffset = center ? { x: point.x - center.x, y: point.y - center.y } : { x: 0, y: 0 };
   state.mapSurface?.classList.add("dragging");
-  state.mapSurface?.setPointerCapture?.(event.pointerId);
+  safeSetPointerCapture(state.editSurface, event.pointerId);
   setEditorMessage(`Dragging ${room.code}. Release to keep the new saved position.`);
   renderEditorState();
   renderMap();
@@ -1314,6 +1517,33 @@ function handleEditorPointerMove(event) {
     return;
   }
 
+  if (state.draggingOverlay) {
+    if (state.draggingOverlay.action === "resize") {
+      const center = state.draggingOverlay.startCenterScreen;
+      const nextDistance = Math.max(20, Math.hypot(point.x - center.x, point.y - center.y));
+      const scale = clamp(nextDistance / state.draggingOverlay.startHandleDistance, 0.25, 8);
+      applyOverlayScale(
+        state.draggingOverlay.startGeoReference,
+        state.draggingOverlay.roomLocalPointSnapshot,
+        state.draggingOverlay.startGeoReference.unitsPerMeter / scale
+      );
+      state.draggingOverlay.didMove = state.draggingOverlay.didMove || Math.abs(scale - 1) > 1e-4;
+    } else {
+      const latLng = containerPointToLatLng(point.x, point.y);
+      if (!latLng) return;
+
+      const deltaLat = latLng.lat - state.draggingOverlay.startPointerLatLng.lat;
+      const deltaLng = latLng.lng - state.draggingOverlay.startPointerLatLng.lng;
+      applyOverlayShift(state.draggingOverlay.startGeoReference, state.draggingOverlay.roomLatLngSnapshot, deltaLat, deltaLng);
+      state.draggingOverlay.didMove = state.draggingOverlay.didMove || Math.abs(deltaLat) > 1e-10 || Math.abs(deltaLng) > 1e-10;
+    }
+    markEditorDirty();
+    renderEditorState();
+    renderMap();
+    event.preventDefault();
+    return;
+  }
+
   if (state.draggingRoomCode) {
     const targetPoint = {
       x: point.x - (state.dragOffset?.x || 0),
@@ -1336,12 +1566,33 @@ function handleEditorPointerMove(event) {
 
 function handleEditorPointerUp(event) {
   if (state.editorTool !== "move") return;
+
+  if (state.draggingOverlay) {
+    const action = state.draggingOverlay.action;
+    const didMove = state.draggingOverlay.didMove;
+    state.draggingOverlay = null;
+    state.overlayResizeHandle = null;
+    safeReleasePointerCapture(state.editSurface, event.pointerId);
+    state.mapSurface?.classList.remove("dragging");
+    setEditorMessage(
+      didMove
+        ? action === "resize"
+          ? "Resized the indoor overlay. Save to data.js to persist the new scale, or reset unsaved changes to revert."
+          : "Moved the indoor overlay. Save to data.js to persist the new anchor, or reset unsaved changes to revert."
+        : "Indoor overlay selected. Drag inside the frame to move it, or drag a corner handle to resize it.",
+      didMove ? "" : ""
+    );
+    renderEditorState();
+    renderMap();
+    return;
+  }
+
   if (!state.draggingRoomCode) return;
 
   const roomCode = state.draggingRoomCode;
   state.draggingRoomCode = null;
   state.dragOffset = null;
-  state.mapSurface?.releasePointerCapture?.(event.pointerId);
+  safeReleasePointerCapture(state.editSurface, event.pointerId);
   state.mapSurface?.classList.remove("dragging");
   setEditorMessage(`Moved ${roomCode}. Save to data.js to persist it, or reset unsaved changes to revert.`);
   renderEditorState();
@@ -1349,7 +1600,11 @@ function handleEditorPointerUp(event) {
 }
 
 function handleEditorPointerLeave() {
-  if (!state.editMode || state.draggingRoomCode) return;
+  if (!state.editMode || state.draggingRoomCode || state.draggingOverlay) return;
+  if (state.overlayResizeHandle) {
+    state.overlayResizeHandle = null;
+    renderMap();
+  }
   if (state.editorTool === "link") {
     if (state.hoverNodeId) {
       state.hoverNodeId = null;
@@ -1382,13 +1637,75 @@ function updateRoomPosition(roomCode, lat, lng) {
   renderEditorState();
 }
 
+function cloneRoomLocalPointSnapshot() {
+  const snapshot = {};
+  for (const [floor, rooms] of Object.entries(ROOM_DATA)) {
+    snapshot[floor] = rooms.map(room => ({ code: room.code, ...getRoomLocalPoint(room) }));
+  }
+  return snapshot;
+}
+
+function isScreenPointInsideOverlay(point) {
+  const latLng = containerPointToLatLng(point.x, point.y);
+  if (!latLng) return false;
+  const localPoint = latLngToLocalPoint(latLng.lat, latLng.lng);
+  return isLocalPointInsideBuilding(localPoint);
+}
+
+function isLocalPointInsideBuilding(point) {
+  if (!point) return false;
+  return point.x >= BUILDING_SHELL.x && point.x <= BUILDING_SHELL.x + BUILDING_SHELL.w
+    && point.y >= BUILDING_SHELL.y && point.y <= BUILDING_SHELL.y + BUILDING_SHELL.h;
+}
+
+function cloneRoomLatLngSnapshot() {
+  const snapshot = {};
+  for (const [floor, rooms] of Object.entries(ROOM_DATA)) {
+    snapshot[floor] = rooms.map(room => ({ code: room.code, lat: room.lat, lng: room.lng }));
+  }
+  return snapshot;
+}
+
+function applyOverlayScale(startGeoReference, roomLocalPointSnapshot, nextUnitsPerMeter) {
+  GEO_REFERENCE.centerLat = roundCoordinate(startGeoReference.centerLat);
+  GEO_REFERENCE.centerLng = roundCoordinate(startGeoReference.centerLng);
+  GEO_REFERENCE.unitsPerMeter = roundUnitsPerMeter(nextUnitsPerMeter);
+
+  for (const [floor, rooms] of Object.entries(ROOM_DATA)) {
+    const snapshotRooms = roomLocalPointSnapshot[floor] || [];
+    rooms.forEach((room, index) => {
+      const startRoom = snapshotRooms[index];
+      if (!startRoom) return;
+      const latLng = localPointToLatLngUsingReference(startRoom.x, startRoom.y, GEO_REFERENCE);
+      room.lat = roundCoordinate(latLng.lat);
+      room.lng = roundCoordinate(latLng.lng);
+    });
+  }
+}
+
+function applyOverlayShift(startGeoReference, roomLatLngSnapshot, deltaLat, deltaLng) {
+  GEO_REFERENCE.centerLat = roundCoordinate(startGeoReference.centerLat + deltaLat);
+  GEO_REFERENCE.centerLng = roundCoordinate(startGeoReference.centerLng + deltaLng);
+  GEO_REFERENCE.unitsPerMeter = roundUnitsPerMeter(startGeoReference.unitsPerMeter);
+
+  for (const [floor, rooms] of Object.entries(ROOM_DATA)) {
+    const snapshotRooms = roomLatLngSnapshot[floor] || [];
+    rooms.forEach((room, index) => {
+      const startRoom = snapshotRooms[index];
+      if (!startRoom) return;
+      room.lat = roundCoordinate(startRoom.lat + deltaLat);
+      room.lng = roundCoordinate(startRoom.lng + deltaLng);
+    });
+  }
+}
+
 function resetUnsavedRoomData() {
   if (!state.dirtyRoomLayout || !state.roomLayoutResetData) return;
 
   applyEditorDataSnapshot(state.roomLayoutResetData);
   state.dirtyRoomLayout = false;
   state.graph = buildGraph();
-  setEditorMessage("Unsaved room edits were reverted.", "success");
+  setEditorMessage("Unsaved layout edits were reverted.", "success");
   refreshGraphAndRoute();
   renderEditorState();
 }
@@ -1432,7 +1749,7 @@ async function saveRoomDataBlock() {
     state.roomLayoutSnapshot = generateEditableDataSource();
     state.roomLayoutResetData = cloneEditorDataSnapshot();
     state.dirtyRoomLayout = false;
-    setEditorMessage(`Saved updated node links and room lat/lng back to data.js at ${new Date(result.savedAt).toLocaleTimeString()}.`, "success");
+    setEditorMessage(`Saved updated overlay anchor, node links, and room positions back to data.js at ${new Date(result.savedAt).toLocaleTimeString()}.`, "success");
   } catch (error) {
     console.error("Failed to save layout data blocks", error);
     setEditorMessage(`Save failed: ${error.message}`, "warn");
@@ -1459,6 +1776,7 @@ function renderEditorState() {
   const selectedRecord = state.editorTool === "link"
     ? findEditableNodeRecord(state.selectedNodeId)
     : (state.selectedRoomCode ? findEditableNodeRecord(`ROOM-${state.selectedRoomCode}`) : null);
+  const selectedOverlayLatLng = state.overlaySelected ? { lat: GEO_REFERENCE.centerLat, lng: GEO_REFERENCE.centerLng } : null;
   const selectedLatLng = selectedRecord ? getEditableNodeLatLng(selectedRecord.id) : null;
   const selectedLinks = selectedRecord ? getLinksForRecord(selectedRecord) : [];
 
@@ -1472,31 +1790,51 @@ function renderEditorState() {
   message.className = `editor-message${state.editorTone ? ` ${state.editorTone}` : ""}`;
   message.textContent = state.editorMessage;
 
-  selection.textContent = selectedRecord && selectedLatLng
+  selection.textContent = selectedOverlayLatLng
+    ? `Selected overlay · lat ${formatCoordinate(selectedOverlayLatLng.lat)} · lng ${formatCoordinate(selectedOverlayLatLng.lng)} · scale ${GEO_REFERENCE.unitsPerMeter.toFixed(3)} units/m` 
+    : selectedRecord && selectedLatLng
     ? `Selected ${selectedRecord.kind}: ${selectedRecord.label} · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
     : "Selected item: --";
 
-  neighbors.textContent = selectedRecord
+  neighbors.textContent = selectedOverlayLatLng
+    ? "Neighbors: Drag inside the frame to move the overlay, or drag a corner handle to resize the whole indoor layer uniformly."
+    : selectedRecord
     ? `Neighbors: ${selectedLinks.length ? selectedLinks.map(link => findEditableNodeRecord(link.to)?.label || link.to).join(", ") : "--"}`
     : "Neighbors: --";
 
   exportBox.value = state.editMode || state.dirtyRoomLayout ? generateEditableDataSource() : "";
   state.mapSurface?.classList.toggle("editing", state.editMode);
-  state.mapSurface?.classList.toggle("dragging", Boolean(state.draggingRoomCode));
+  state.mapSurface?.classList.toggle("dragging", Boolean(state.draggingRoomCode || state.draggingOverlay));
 }
 
 function generateEditableDataSource() {
   const blocks = generateEditableDataBlocks();
-  return [blocks.ENTRANCES, blocks.SERVICE_POINTS, blocks.WALKABLE_NODES, blocks.ROOM_DATA].join("\n\n");
+  return [blocks.GEO_REFERENCE, blocks.ENTRANCES, blocks.SERVICE_POINTS, blocks.WALKABLE_NODES, blocks.ROOM_DATA].join("\n\n");
 }
 
 function generateEditableDataBlocks() {
   return {
+    GEO_REFERENCE: generateGeoReferenceBlock(),
     ENTRANCES: generateEntrancesBlock(),
     SERVICE_POINTS: generateServicePointsBlock(),
     WALKABLE_NODES: generateWalkableNodesBlock(),
     ROOM_DATA: generateRoomDataBlock(),
   };
+}
+
+function generateGeoReferenceBlock() {
+  return [
+    "const GEO_REFERENCE = {",
+    `  centerLat: ${formatCoordinate(GEO_REFERENCE.centerLat)},`,
+    `  centerLng: ${formatCoordinate(GEO_REFERENCE.centerLng)},`,
+    `  unitsPerMeter: ${GEO_REFERENCE.unitsPerMeter},`,
+    `  minZoom: ${GEO_REFERENCE.minZoom},`,
+    `  initialZoom: ${GEO_REFERENCE.initialZoom},`,
+    `  maxZoom: ${GEO_REFERENCE.maxZoom},`,
+    `  tileUrl: ${JSON.stringify(GEO_REFERENCE.tileUrl)},`,
+    `  tileAttribution: ${JSON.stringify(GEO_REFERENCE.tileAttribution)},`,
+    "};",
+  ].join("\n");
 }
 
 function generateEntrancesBlock() {
@@ -1570,6 +1908,7 @@ function formatValue(value) {
 
 function cloneEditorDataSnapshot() {
   return {
+    geoReference: JSON.parse(JSON.stringify(GEO_REFERENCE)),
     entrances: JSON.parse(JSON.stringify(ENTRANCES)),
     servicePoints: JSON.parse(JSON.stringify(SERVICE_POINTS)),
     walkableNodes: JSON.parse(JSON.stringify(WALKABLE_NODES)),
@@ -1578,6 +1917,8 @@ function cloneEditorDataSnapshot() {
 }
 
 function applyEditorDataSnapshot(snapshot) {
+  Object.assign(GEO_REFERENCE, JSON.parse(JSON.stringify(snapshot.geoReference)));
+
   for (const key of Object.keys(ENTRANCES)) {
     ENTRANCES[key] = JSON.parse(JSON.stringify(snapshot.entrances[key]));
   }
@@ -1658,8 +1999,43 @@ function formatCoordinate(value) {
   return Number(value).toFixed(9);
 }
 
+function roundUnitsPerMeter(value) {
+  return Number(clamp(value, 1, 200).toFixed(6));
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function localPointToLatLngUsingReference(x, y, reference) {
+  const latMeters = (MAP.height / 2 - y) / reference.unitsPerMeter;
+  const lngMeters = (x - MAP.width / 2) / reference.unitsPerMeter;
+  return {
+    lat: reference.centerLat + latMeters / 111320,
+    lng: reference.centerLng + lngMeters / (111320 * Math.cos(reference.centerLat * Math.PI / 180)),
+  };
+}
+
 function roundCoordinate(value) {
   return Number(Number(value).toFixed(9));
+}
+
+function safeSetPointerCapture(element, pointerId) {
+  if (!element?.setPointerCapture || pointerId == null) return;
+  try {
+    element.setPointerCapture(pointerId);
+  } catch {
+    // Ignore synthetic or unsupported pointer-capture failures.
+  }
+}
+
+function safeReleasePointerCapture(element, pointerId) {
+  if (!element?.releasePointerCapture || pointerId == null) return;
+  try {
+    element.releasePointerCapture(pointerId);
+  } catch {
+    // Ignore synthetic or unsupported pointer-capture failures.
+  }
 }
 
 async function loadRuntimeConfig() {

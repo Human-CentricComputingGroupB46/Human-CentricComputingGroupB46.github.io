@@ -46,12 +46,14 @@ const server = http.createServer(async (req, res) => {
 
       const source = fs.readFileSync(DATA_FILE, "utf8");
       const replacements = {
+        GEO_REFERENCE: blocks.GEO_REFERENCE,
         ENTRANCES: blocks.ENTRANCES,
         SERVICE_POINTS: blocks.SERVICE_POINTS,
         WALKABLE_NODES: blocks.WALKABLE_NODES,
         ROOM_DATA: blocks.ROOM_DATA,
       };
       const blockPatterns = {
+        GEO_REFERENCE: /const GEO_REFERENCE = \{[\s\S]*?\n\};/m,
         ENTRANCES: /const ENTRANCES = \{[\s\S]*?\n\};/m,
         SERVICE_POINTS: /const SERVICE_POINTS = \[[\s\S]*?\n\];/m,
         WALKABLE_NODES: /const WALKABLE_NODES = \[[\s\S]*?\n\];/m,
@@ -60,6 +62,7 @@ const server = http.createServer(async (req, res) => {
 
       let next = source;
       for (const [constName, block] of Object.entries(replacements)) {
+        if (block == null) continue;
         if (typeof block !== "string" || !block.startsWith(`const ${constName} = `)) {
           return sendJson(res, 400, { ok: false, error: `Invalid block for ${constName}` });
         }

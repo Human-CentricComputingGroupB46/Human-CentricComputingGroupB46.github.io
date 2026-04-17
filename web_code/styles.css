@@ -128,6 +128,8 @@ body {
 }
 
 #map {
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-height: 420px;
   height: clamp(420px, 62vh, 720px);
@@ -137,9 +139,31 @@ body {
 .map-overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.map-hit-area {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.map-stack.editing .map-hit-area {
+  pointer-events: auto;
+}
+
+.map-stack.editing #map .gm-style button,
+.map-stack.editing #map .gm-style [role="button"],
+.map-stack.editing #map .gm-style [role="menu"],
+.map-stack.editing #map .gm-style menu,
+.map-stack.editing #map .gm-style .gm-control-active,
+.map-stack.editing #map .leaflet-control {
+  position: relative;
+  z-index: 4;
 }
 
 .leaflet-container {

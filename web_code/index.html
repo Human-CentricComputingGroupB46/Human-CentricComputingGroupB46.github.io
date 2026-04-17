@@ -36,6 +36,7 @@
       <div class="map-stack">
         <div id="map" class="geo-map" role="img" aria-label="EB first floor geo map"></div>
         <canvas id="map-overlay" class="map-overlay" aria-hidden="true"></canvas>
+        <div id="map-hit-area" class="map-hit-area" aria-hidden="true"></div>
       </div>
       <div class="legend">
         <span><i class="sw-you"></i> You are here</span>
@@ -95,7 +96,7 @@
         <button id="reset-room-data" class="secondary-btn" type="button" disabled>Reset Unsaved</button>
       </div>
       <div class="editor-tools" role="group" aria-label="Editing tool selection">
-        <button id="room-edit-tool" class="secondary-btn" type="button">Move Rooms</button>
+        <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Overlay</button>
         <button id="link-edit-tool" class="secondary-btn" type="button">Edit Links</button>
       </div>
       <p id="editor-message" class="editor-message">Edit mode is off.</p>

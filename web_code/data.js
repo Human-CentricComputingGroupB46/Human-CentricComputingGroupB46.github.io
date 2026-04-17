@@ -13,9 +13,9 @@ const MAP = {
 };
 
 const GEO_REFERENCE = {
-  centerLat: 31.280630,
-  centerLng: 120 + 44.0853 / 60,
-  unitsPerMeter: 10,
+  centerLat: 31.274474868,
+  centerLng: 120.737729881,
+  unitsPerMeter: 6.834551,
   minZoom: 18,
   initialZoom: 20,
   maxZoom: 22,
@@ -73,20 +73,20 @@ const WALKABLE_NODES = [
 // Room lat/lng are the authoritative persisted positions for editing.
 const ROOM_DATA = {
   1: [
-    { code: "EB139", lat: 31.280697373, lng: 120.734429157, w: 90, h: 56, zone: "north", links: [{ to: "NORTH-139", kind: "room" }] },
-    { code: "EB133", lat: 31.280697373, lng: 120.734497479, w: 90, h: 56, zone: "north", links: [{ to: "NORTH-133", kind: "room" }] },
-    { code: "EB131", lat: 31.280697373, lng: 120.734565801, w: 96, h: 64, zone: "north", links: [{ to: "NORTH-131", kind: "room" }] },
-    { code: "EB119", lat: 31.280697373, lng: 120.734639378, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-119", kind: "room" }] },
-    { code: "EB115", lat: 31.280697373, lng: 120.734707700, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-115", kind: "room" }] },
-    { code: "EB111", lat: 31.280697373, lng: 120.734776022, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-111", kind: "room" }] },
-    { code: "EB132", lat: 31.280697373, lng: 120.734844344, w: 92, h: 56, zone: "north", links: [{ to: "NORTH-132", kind: "room" }] },
-    { code: "EB136", lat: 31.280634492, lng: 120.734954710, w: 115, h: 92, zone: "north", links: [{ to: "NORTH-136", kind: "room" }] },
-    { code: "EB138", lat: 31.280634492, lng: 120.734791789, w: 145, h: 108, zone: "north", links: [{ to: "EB138-SMALL-DOOR", kind: "room" }], note: "Tiered classroom / 2F link" },
-    { code: "EB102", lat: 31.280843798, lng: 120.735101865, w: 92, h: 56, zone: "east", links: [{ to: "NORTH-102", kind: "room" }] },
-    { code: "EB104", lat: 31.280661441, lng: 120.735028288, w: 150, h: 82, zone: "east", links: [{ to: "NORTH-104", kind: "room" }] },
-    { code: "EB106", lat: 31.280697373, lng: 120.735143909, w: 92, h: 56, zone: "east", links: [{ to: "NORTH-106", kind: "room" }] },
-    { code: "EB155", lat: 31.280841103, lng: 120.735175442, w: 88, h: 52, zone: "east", links: [{ to: "NORTH-155", kind: "room" }] },
-    { code: "EB161", lat: 31.280715340, lng: 120.735217487, w: 82, h: 54, zone: "east", links: [{ to: "NORTH-161", kind: "room" }] },
+    { code: "EB139", lat: 31.274814337, lng: 120.737256170, w: 90, h: 56, zone: "north", links: [{ to: "NORTH-139", kind: "room" }] },
+    { code: "EB133", lat: 31.274813035, lng: 120.737403065, w: 90, h: 56, zone: "north", links: [{ to: "NORTH-133", kind: "room" }] },
+    { code: "EB131", lat: 31.274802646, lng: 120.737566343, w: 96, h: 64, zone: "north", links: [{ to: "NORTH-131", kind: "room" }] },
+    { code: "EB119", lat: 31.274798087, lng: 120.737720501, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-119", kind: "room" }] },
+    { code: "EB115", lat: 31.274801442, lng: 120.737867602, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-115", kind: "room" }] },
+    { code: "EB111", lat: 31.274797627, lng: 120.738041663, w: 88, h: 56, zone: "north", links: [{ to: "NORTH-111", kind: "room" }] },
+    { code: "EB132", lat: 31.274594506, lng: 120.737441983, w: 92, h: 56, zone: "north", links: [{ to: "NORTH-132", kind: "room" }] },
+    { code: "EB136", lat: 31.274600817, lng: 120.737282123, w: 115, h: 92, zone: "north", links: [{ to: "NORTH-136", kind: "room" }] },
+    { code: "EB138", lat: 31.274461623, lng: 120.737305214, w: 145, h: 108, zone: "north", links: [{ to: "EB138-SMALL-DOOR", kind: "room" }], note: "Tiered classroom / 2F link" },
+    { code: "EB102", lat: 31.274604339, lng: 120.738340323, w: 92, h: 56, zone: "east", links: [{ to: "NORTH-102", kind: "room" }] },
+    { code: "EB104", lat: 31.274510029, lng: 120.738256839, w: 150, h: 82, zone: "east", links: [{ to: "NORTH-104", kind: "room" }] },
+    { code: "EB106", lat: 31.274605022, lng: 120.738190767, w: 92, h: 56, zone: "east", links: [{ to: "NORTH-106", kind: "room" }] },
+    { code: "EB155", lat: 31.274379372, lng: 120.738300948, w: 88, h: 52, zone: "east", links: [{ to: "NORTH-155", kind: "room" }] },
+    { code: "EB161", lat: 31.274183822, lng: 120.738288736, w: 82, h: 54, zone: "east", links: [{ to: "NORTH-161", kind: "room" }] },
   ],
 };
 
