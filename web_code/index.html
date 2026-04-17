@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>CampusCompass - EB First Floor</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -32,13 +33,17 @@
     </div>
 
     <div class="map-wrap">
-      <svg id="map" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="map-stack">
+        <div id="map" class="geo-map" role="img" aria-label="EB first floor geo map"></div>
+        <canvas id="map-overlay" class="map-overlay" aria-hidden="true"></canvas>
+      </div>
       <div class="legend">
         <span><i class="sw-you"></i> You are here</span>
         <span><i class="sw-dest"></i> Destination</span>
         <span><i class="sw-path"></i> Route</span>
         <span><i class="sw-block"></i> Inaccessible</span>
       </div>
+      <p id="map-source-note" class="map-source-note">Loading map provider...</p>
     </div>
 
     <div class="route-card" aria-live="polite">
@@ -82,6 +87,23 @@
       <button data-k="back" class="warn">⌫</button><button data-k="0">0</button><button data-k="enter" class="go">Route</button>
     </div>
 
+    <section class="editor-panel" aria-label="Room editing tools">
+      <div class="editor-toolbar">
+        <button id="toggle-edit-mode" class="secondary-btn" type="button">Edit Rooms</button>
+        <button id="save-room-data" class="secondary-btn" type="button" disabled>Save to data.js</button>
+        <button id="copy-room-data" class="secondary-btn" type="button" disabled>Copy layout data</button>
+        <button id="reset-room-data" class="secondary-btn" type="button" disabled>Reset Unsaved</button>
+      </div>
+      <div class="editor-tools" role="group" aria-label="Editing tool selection">
+        <button id="room-edit-tool" class="secondary-btn" type="button">Move Rooms</button>
+        <button id="link-edit-tool" class="secondary-btn" type="button">Edit Links</button>
+      </div>
+      <p id="editor-message" class="editor-message">Edit mode is off.</p>
+      <div id="editor-selection" class="editor-selection">Selected room: --</div>
+      <div id="editor-neighbors" class="editor-neighbors">Neighbors: --</div>
+      <textarea id="editor-export" class="editor-export" readonly spellcheck="false" aria-label="Generated layout data blocks"></textarea>
+    </section>
+
     <button id="clear-route" class="link-btn">Clear route</button>
   </aside>
 </main>
@@ -90,6 +112,7 @@
   CPT208 Group D-2 · EB first-floor navigation prototype
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
