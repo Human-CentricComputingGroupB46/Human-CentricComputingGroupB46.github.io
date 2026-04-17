@@ -6,8 +6,6 @@ const HOST = process.env.HOST || "127.0.0.1";
 const PORT = Number(process.env.PORT || 4173);
 const WEB_ROOT = __dirname;
 const DATA_FILE = path.join(WEB_ROOT, "data.js");
-const ENV_FILE = path.join(WEB_ROOT, "..", ".env");
-const RUNTIME_CONFIG = loadRuntimeConfig();
 
 const CONTENT_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -28,12 +26,6 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname === "/api/health") {
       return sendJson(res, 200, { ok: true });
-    }
-
-    if (req.method === "GET" && url.pathname === "/api/runtime-config") {
-      return sendJson(res, 200, {
-        googleMapsApiKey: RUNTIME_CONFIG.google_map_api_key || "",
-      });
     }
 
     if (req.method === "POST" && url.pathname === "/api/save-room-data") {
@@ -120,23 +112,6 @@ function serveStaticFile(requestPath, res, headOnly) {
   }
 
   res.end();
-}
-
-function loadRuntimeConfig() {
-  if (!fs.existsSync(ENV_FILE)) return {};
-
-  const config = {};
-  const lines = fs.readFileSync(ENV_FILE, "utf8").split(/\r?\n/);
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) continue;
-    const separatorIndex = trimmed.indexOf("=");
-    if (separatorIndex === -1) continue;
-    const key = trimmed.slice(0, separatorIndex).trim();
-    const value = trimmed.slice(separatorIndex + 1).trim();
-    config[key] = value;
-  }
-  return config;
 }
 
 function sendJson(res, statusCode, payload) {

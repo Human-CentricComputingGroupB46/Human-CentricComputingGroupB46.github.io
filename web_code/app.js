@@ -12,18 +12,19 @@ const state = {
   ctx: null,
   mapProvider: null,
   mapNote: "",
-  runtimeConfig: {},
   googleOverlay: null,
   editMode: false,
   editorTool: "move",
   dirtyRoomLayout: false,
   overlaySelected: false,
   overlayResizeHandle: null,
+  roomResizeHandle: null,
   selectedRoomCode: null,
   selectedNodeId: null,
   hoverRoomCode: null,
   hoverNodeId: null,
   draggingRoomCode: null,
+  draggingRoomResize: null,
   draggingOverlay: null,
   dragOffset: null,
   editorMessage: "Edit mode is off.",
@@ -35,8 +36,9 @@ const state = {
   editSurface: null,
 };
 
+const MIN_ROOM_DIMENSION = 24;
+
 document.addEventListener("DOMContentLoaded", async () => {
-  state.runtimeConfig = await loadRuntimeConfig();
   state.graph = buildGraph();
   await initMap();
   tickClock();
@@ -126,8 +128,27 @@ function wireEditor() {
     setEditorTool("move");
   });
 
+  document.getElementById("add-room-tool").addEventListener("click", () => {
+    setEditorTool("add-room");
+  });
+
   document.getElementById("link-edit-tool").addEventListener("click", () => {
     setEditorTool("link");
+  });
+
+  ["new-room-code", "new-room-width", "new-room-height", "new-room-zone", "new-room-note"].forEach(id => {
+    const field = document.getElementById(id);
+    field?.addEventListener("input", () => {
+      if (id === "new-room-code") {
+        field.value = normalizeRoomCodeInput(field.value);
+      }
+      renderEditorState();
+    });
+  });
+
+  ["selected-room-width", "selected-room-height"].forEach(id => {
+    const field = document.getElementById(id);
+    field?.addEventListener("change", updateSelectedRoomDimensionsFromInputs);
   });
 
   document.getElementById("copy-room-data").addEventListener("click", copyRoomDataBlock);
@@ -144,7 +165,11 @@ function wireEditor() {
 }
 
 function cleanRoomInput(value) {
-  return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 5);
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
+}
+
+function normalizeRoomCodeInput(value) {
+  return String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
 }
 
 function clearRoute() {
@@ -398,60 +423,63 @@ async function initMap() {
     }
   }
 
+  if (!window.L) {
+    state.mapNote = "Leaflet fallback is not loaded, so the page requires the embedded Google Maps page script to show the basemap.";
+    renderMapSourceNote();
+    return;
+  }
+
   initLeafletMap();
   renderMapSourceNote();
 }
 
 async function initGoogleMap() {
-  const apiKey = getGoogleMapsApiKey();
-  if (!apiKey) {
-    state.mapNote = "Google Maps API key is not available in the local runtime config, so the page is using the open fallback layer.";
+  if (!window.google?.maps?.Map || !window.google?.maps?.OverlayView || !window.google?.maps?.LatLngBounds) {
+    state.mapNote = "Google Maps JS API is not available from the embedded page script, so the page is using the open fallback layer.";
     return false;
   }
-
   try {
-    await loadGoogleMapsApi(apiKey);
+    state.mapProvider = "google";
+    state.map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: GEO_REFERENCE.centerLat, lng: GEO_REFERENCE.centerLng },
+      zoom: MAP_PROVIDER.googleInitialZoom,
+      minZoom: MAP_PROVIDER.googleMinZoom,
+      maxZoom: MAP_PROVIDER.googleMaxZoom,
+      mapTypeId: MAP_PROVIDER.googleMapTypeId,
+      disableDefaultUI: false,
+      gestureHandling: "greedy",
+      keyboardShortcuts: true,
+      clickableIcons: false,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
+
+    state.googleOverlay = new google.maps.OverlayView();
+    state.googleOverlay.onAdd = () => {};
+    state.googleOverlay.onRemove = () => {};
+    state.googleOverlay.draw = () => renderMap();
+    state.googleOverlay.setMap(state.map);
+
+    const buildingBounds = getBuildingBounds();
+    const bounds = new google.maps.LatLngBounds(
+      { lat: buildingBounds.south, lng: buildingBounds.west },
+      { lat: buildingBounds.north, lng: buildingBounds.east }
+    );
+    state.map.fitBounds(bounds, 32);
+
+    state.map.addListener("bounds_changed", renderMap);
+    state.map.addListener("zoom_changed", renderMap);
+    state.map.addListener("drag", renderMap);
+    window.addEventListener("resize", syncOverlaySize);
+    syncOverlaySize();
+    state.mapNote = "Base layer: Google Maps satellite imagery. Indoor rooms, nodes, and routes are canvas overlays anchored near the EB building coordinate.";
+    return true;
   } catch (error) {
-    console.error("Failed to load Google Maps JS API", error);
-    state.mapNote = "Google Maps JS API failed to load, so the page is using the open fallback layer.";
+    console.error("Failed to initialize Google Maps JS API", error);
+    state.mapNote = "Google Maps JS API is present but failed during page-side initialization, so the page is using the open fallback layer.";
     return false;
   }
-
-  state.mapProvider = "google";
-  state.map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: GEO_REFERENCE.centerLat, lng: GEO_REFERENCE.centerLng },
-    zoom: MAP_PROVIDER.googleInitialZoom,
-    minZoom: MAP_PROVIDER.googleMinZoom,
-    maxZoom: MAP_PROVIDER.googleMaxZoom,
-    mapTypeId: MAP_PROVIDER.googleMapTypeId,
-    disableDefaultUI: false,
-    gestureHandling: "greedy",
-    keyboardShortcuts: true,
-    clickableIcons: false,
-    mapTypeControl: true,
-    streetViewControl: false,
-    fullscreenControl: false,
-  });
-
-  state.googleOverlay = new google.maps.OverlayView();
-  state.googleOverlay.onAdd = () => {};
-  state.googleOverlay.onRemove = () => {};
-  state.googleOverlay.draw = () => renderMap();
-  state.googleOverlay.setMap(state.map);
-
-  const bounds = new google.maps.LatLngBounds(
-    { lat: getBuildingBounds().getSouth(), lng: getBuildingBounds().getWest() },
-    { lat: getBuildingBounds().getNorth(), lng: getBuildingBounds().getEast() }
-  );
-  state.map.fitBounds(bounds, 32);
-
-  state.map.addListener("bounds_changed", renderMap);
-  state.map.addListener("zoom_changed", renderMap);
-  state.map.addListener("drag", renderMap);
-  window.addEventListener("resize", syncOverlaySize);
-  syncOverlaySize();
-  state.mapNote = "Base layer: Google Maps satellite imagery. Indoor rooms, nodes, and routes are canvas overlays anchored near the EB building coordinate.";
-  return true;
 }
 
 function initLeafletMap() {
@@ -474,7 +502,11 @@ function initLeafletMap() {
   }).addTo(state.map);
 
   syncOverlaySize();
-  state.map.fitBounds(getBuildingBounds(), {
+  const buildingBounds = getBuildingBounds();
+  state.map.fitBounds(L.latLngBounds(
+    L.latLng(buildingBounds.north, buildingBounds.west),
+    L.latLng(buildingBounds.south, buildingBounds.east)
+  ), {
     padding: [32, 32],
     maxZoom: GEO_REFERENCE.initialZoom,
   });
@@ -499,6 +531,7 @@ function renderMap() {
   drawNorthBadge(ctx);
   drawBase(ctx);
   drawEdges(ctx);
+  drawRoomLinks(ctx);
   drawRooms(ctx);
   drawServicePoints(ctx);
   drawEntrances(ctx);
@@ -637,12 +670,52 @@ function getRenderableGraphLinks() {
   return segments;
 }
 
+function getRenderableRoomLinks() {
+  const seen = new Set();
+  const segments = [];
+
+  for (const room of getRoomsForFloor(1)) {
+    for (const link of getRoomLinks(room)) {
+      const from = `ROOM-${room.code}`;
+      const to = link.to;
+      const pairKey = [from, to].sort().join("::");
+      if (seen.has(pairKey)) continue;
+
+      const targetRecord = findEditableNodeRecord(to);
+      if (!targetRecord) continue;
+
+      segments.push({
+        from,
+        to,
+        kind: targetRecord.kind === "room" ? "room-room" : (link.kind || "room"),
+      });
+      seen.add(pairKey);
+    }
+  }
+
+  return segments;
+}
+
+function drawRoomLinks(ctx) {
+  for (const segment of getRenderableRoomLinks()) {
+    const start = getEditableNodeLocalPoint(segment.from);
+    const end = getEditableNodeLocalPoint(segment.to);
+    if (!start || !end) continue;
+
+    drawGeoLine(ctx, start.x, start.y, end.x, end.y, {
+      strokeStyle: segment.kind === "room-room" ? "rgba(79, 122, 189, 0.9)" : "rgba(141, 166, 198, 0.95)",
+      lineWidth: localUnitsToPixels(segment.kind === "room-room" ? 3 : 2),
+      lineDash: segment.kind === "room-room" ? [8, 4] : [4, 4],
+    });
+  }
+}
+
 function drawRooms(ctx) {
   const dest = state.dest ? getRoom(state.dest) : null;
   const showLabels = state.editMode || getMapZoom() >= 19;
   const showNotes = state.editMode || getMapZoom() >= 20;
 
-  for (const room of ROOM_DATA[1]) {
+  for (const room of getRoomsForFloor(1)) {
     const roomPoint = getRoomLocalPoint(room);
     const isSelected = state.selectedRoomCode === room.code;
     const isHover = state.hoverRoomCode === room.code;
@@ -688,16 +761,6 @@ function drawRooms(ctx) {
         ctx.fillText(room.note, notePoint.x, notePoint.y);
         ctx.restore();
       }
-    }
-
-    for (const link of getRoomLinks(room)) {
-      const door = state.graph.nodes[link.to];
-      if (!door) continue;
-      drawGeoLine(ctx, door.x, door.y, roomPoint.x, roomPoint.y, {
-        strokeStyle: "rgba(141, 166, 198, 0.95)",
-        lineWidth: localUnitsToPixels(2),
-        lineDash: [4, 4],
-      });
     }
   }
 }
@@ -995,22 +1058,86 @@ function getRoomCenterScreenPoint(room) {
 }
 
 function getRoomScreenPolygon(room) {
-  const roomPoint = getRoomCenterLocalPoint(room);
-  if (!roomPoint) return null;
+  const bounds = getRoomLocalBounds(room);
+  if (!bounds) return null;
 
   const polygon = [
-    projectLocalPoint(roomPoint.x - room.w / 2, roomPoint.y - room.h / 2),
-    projectLocalPoint(roomPoint.x + room.w / 2, roomPoint.y - room.h / 2),
-    projectLocalPoint(roomPoint.x + room.w / 2, roomPoint.y + room.h / 2),
-    projectLocalPoint(roomPoint.x - room.w / 2, roomPoint.y + room.h / 2),
+    projectLocalPoint(bounds.left, bounds.top),
+    projectLocalPoint(bounds.right, bounds.top),
+    projectLocalPoint(bounds.right, bounds.bottom),
+    projectLocalPoint(bounds.left, bounds.bottom),
   ];
 
   return polygon.some(point => !point) ? null : polygon;
 }
 
+function getRoomLocalBounds(room) {
+  const roomPoint = getRoomCenterLocalPoint(room);
+  if (!roomPoint) return null;
+
+  return {
+    center: roomPoint,
+    left: roomPoint.x - room.w / 2,
+    right: roomPoint.x + room.w / 2,
+    top: roomPoint.y - room.h / 2,
+    bottom: roomPoint.y + room.h / 2,
+  };
+}
+
+function getRoomResizeHandles(room) {
+  const bounds = getRoomLocalBounds(room);
+  if (!bounds) return [];
+
+  const handles = [
+    { name: "nw", localPoint: { x: bounds.left, y: bounds.top } },
+    { name: "ne", localPoint: { x: bounds.right, y: bounds.top } },
+    { name: "se", localPoint: { x: bounds.right, y: bounds.bottom } },
+    { name: "sw", localPoint: { x: bounds.left, y: bounds.bottom } },
+  ].map(handle => ({
+    ...handle,
+    point: projectLocalPoint(handle.localPoint.x, handle.localPoint.y),
+  }));
+
+  return handles.filter(handle => Boolean(handle.point));
+}
+
+function pickRoomResizeHandle(point, room) {
+  if (!room) return null;
+
+  let bestHandle = null;
+  for (const handle of getRoomResizeHandles(room)) {
+    const distance = Math.hypot(handle.point.x - point.x, handle.point.y - point.y);
+    if (distance > 16) continue;
+    if (!bestHandle || distance < bestHandle.distance) {
+      bestHandle = { ...handle, distance };
+    }
+  }
+
+  return bestHandle;
+}
+
+function getOppositeRoomCornerLocalPoint(room, handleName) {
+  const bounds = getRoomLocalBounds(room);
+  if (!bounds) return null;
+
+  switch (handleName) {
+    case "nw":
+      return { x: bounds.right, y: bounds.bottom };
+    case "ne":
+      return { x: bounds.left, y: bounds.bottom };
+    case "se":
+      return { x: bounds.left, y: bounds.top };
+    case "sw":
+      return { x: bounds.right, y: bounds.top };
+    default:
+      return null;
+  }
+}
+
 function pickRoomAtScreenPoint(x, y) {
-  for (let index = ROOM_DATA[1].length - 1; index >= 0; index -= 1) {
-    const room = ROOM_DATA[1][index];
+  const rooms = getRoomsForFloor(1);
+  for (let index = rooms.length - 1; index >= 0; index -= 1) {
+    const room = rooms[index];
     const polygon = getRoomScreenPolygon(room);
     if (polygon && pointInPolygon({ x, y }, polygon)) return room;
   }
@@ -1020,7 +1147,7 @@ function pickRoomAtScreenPoint(x, y) {
 function getEditableNodeIds() {
   return [
     ...getNonRoomNodes().map(node => node.id),
-    ...ROOM_DATA[1].map(room => `ROOM-${room.code}`),
+    ...getRoomsForFloor(1).map(room => `ROOM-${room.code}`),
   ];
 }
 
@@ -1073,7 +1200,12 @@ function isEditorControlTarget(target) {
 function getBuildingBounds() {
   const northWest = localPointToLatLng(BUILDING_SHELL.x, BUILDING_SHELL.y);
   const southEast = localPointToLatLng(BUILDING_SHELL.x + BUILDING_SHELL.w, BUILDING_SHELL.y + BUILDING_SHELL.h);
-  return L.latLngBounds(L.latLng(northWest.lat, northWest.lng), L.latLng(southEast.lat, southEast.lng));
+  return {
+    north: northWest.lat,
+    south: southEast.lat,
+    west: northWest.lng,
+    east: southEast.lng,
+  };
 }
 
 function localUnitsToPixels(units) {
@@ -1134,7 +1266,23 @@ function drawEditorOverlay(ctx) {
   }
 
   const roomId = state.selectedRoomCode ? `ROOM-${state.selectedRoomCode}` : null;
+  if (state.editorTool === "move" && state.selectedRoomCode) {
+    drawSelectedRoomResizeHandles(ctx, getRoom(state.selectedRoomCode));
+  }
   drawSelectedNodeBadge(ctx, roomId);
+}
+
+function drawSelectedRoomResizeHandles(ctx, room) {
+  if (!room) return;
+
+  for (const handle of getRoomResizeHandles(room)) {
+    const isActive = handle.name === state.roomResizeHandle || handle.name === state.draggingRoomResize?.handle;
+    drawScreenRoundedRect(ctx, handle.point.x - 7, handle.point.y - 7, 14, 14, 4, {
+      fillStyle: isActive ? "#f29325" : "rgba(11, 31, 58, 0.78)",
+      strokeStyle: "#ffffff",
+      lineWidth: 2,
+    });
+  }
 }
 
 function drawOverlayFrame(ctx) {
@@ -1301,9 +1449,11 @@ function setEditMode(enabled) {
   state.editMode = enabled;
   state.hoverRoomCode = null;
   state.hoverNodeId = null;
+  state.roomResizeHandle = null;
 
   if (!enabled) {
     state.draggingRoomCode = null;
+    state.draggingRoomResize = null;
     state.draggingOverlay = null;
     state.dragOffset = null;
     state.overlaySelected = false;
@@ -1312,7 +1462,7 @@ function setEditMode(enabled) {
     state.mapSurface?.classList.remove("dragging");
     setEditorMessage("Edit mode is off.");
   } else {
-    state.selectedRoomCode = state.selectedRoomCode || state.dest || ROOM_DATA[1][0]?.code || null;
+    state.selectedRoomCode = state.selectedRoomCode || state.dest || getRoomsForFloor(1)[0]?.code || null;
     setEditorTool(state.editorTool);
   }
 
@@ -1325,26 +1475,35 @@ function setEditMode(enabled) {
 function setEditorTool(tool) {
   state.editorTool = tool;
   state.draggingRoomCode = null;
+  state.draggingRoomResize = null;
   state.draggingOverlay = null;
   state.dragOffset = null;
   state.overlaySelected = false;
   state.overlayResizeHandle = null;
+  state.roomResizeHandle = null;
   state.hoverRoomCode = null;
   state.hoverNodeId = null;
 
   if (tool === "move") {
     state.selectedNodeId = null;
-    state.selectedRoomCode = state.selectedRoomCode || state.dest || ROOM_DATA[1][0]?.code || null;
+    state.selectedRoomCode = state.selectedRoomCode || state.dest || getRoomsForFloor(1)[0]?.code || null;
     setEditorMessage(
       canSaveRoomDataToFile()
-        ? "Move / Resize Overlay is active. Drag a room to move only that room, drag inside the frame to move the whole layer, or drag a corner handle to resize it before saving back to data.js."
-        : "Move / Resize Overlay is active. Drag a room to move only that room, drag inside the frame to move the whole layer, or drag a corner handle to resize it. Direct file save requires the local editor server.",
+        ? "Move / Resize Overlay is active. Drag a room to move it, drag its corner handles to resize width and height, or use the selected-room inputs before saving back to data.js."
+        : "Move / Resize Overlay is active. Drag a room to move it, drag its corner handles to resize width and height, or use the selected-room inputs. Direct file save requires the local editor server.",
       canSaveRoomDataToFile() ? "" : "warn"
     );
+  } else if (tool === "add-room") {
+    state.selectedNodeId = null;
+    setEditorMessage(
+      "Add Room is active. Fill in the draft below, then click inside the indoor frame to place a new room. The new room will auto-link to the nearest non-room node.",
+      ""
+    );
   } else {
+    state.selectedNodeId = state.selectedRoomCode ? `ROOM-${state.selectedRoomCode}` : state.selectedNodeId;
     state.selectedRoomCode = null;
     setEditorMessage(
-      "Edit Links is active. Click one node to select it, then click another node to add or remove a bidirectional link.",
+      "Edit Links is active. Click a room or node to select it, then click another room or node to add or remove a bidirectional link.",
       ""
     );
   }
@@ -1382,8 +1541,40 @@ function handleEditorPointerDown(event) {
   if (!state.editMode || isEditorControlTarget(event.target)) return;
 
   const point = getSurfacePointFromEvent(event);
+  if (state.editorTool === "add-room") {
+    handleAddRoomPointerDown(point);
+    event.preventDefault();
+    return;
+  }
+
   if (state.editorTool === "link") {
     handleLinkEditorPointerDown(point);
+    event.preventDefault();
+    return;
+  }
+
+  const selectedRoom = state.selectedRoomCode ? getRoom(state.selectedRoomCode) : null;
+  const roomResizeHandle = pickRoomResizeHandle(point, selectedRoom);
+  if (roomResizeHandle && selectedRoom) {
+    const anchorLocalPoint = getOppositeRoomCornerLocalPoint(selectedRoom, roomResizeHandle.name);
+    if (!anchorLocalPoint) return;
+
+    state.overlaySelected = false;
+    state.overlayResizeHandle = null;
+    state.hoverRoomCode = selectedRoom.code;
+    state.roomResizeHandle = roomResizeHandle.name;
+    state.draggingRoomCode = null;
+    state.draggingRoomResize = {
+      roomCode: selectedRoom.code,
+      handle: roomResizeHandle.name,
+      anchorLocalPoint,
+      didMove: false,
+    };
+    state.mapSurface?.classList.add("dragging");
+    safeSetPointerCapture(state.editSurface, event.pointerId);
+    setEditorMessage(`Resizing ${selectedRoom.code}. Drag the corner handle or use the width and height inputs below.`, "");
+    renderEditorState();
+    renderMap();
     event.preventDefault();
     return;
   }
@@ -1423,6 +1614,7 @@ function handleEditorPointerDown(event) {
   state.hoverRoomCode = room ? room.code : null;
   state.overlaySelected = false;
   state.overlayResizeHandle = null;
+  state.roomResizeHandle = null;
 
   if (!room && isScreenPointInsideOverlay(point)) {
     const startPointerLatLng = containerPointToLatLng(point.x, point.y);
@@ -1451,7 +1643,7 @@ function handleEditorPointerDown(event) {
   }
 
   if (!room) {
-    setEditorMessage("Drag a room to move only that room, drag inside the overlay frame to move the whole layer, or drag a corner handle to resize it.");
+    setEditorMessage("Drag a room to move it, drag a selected room corner to resize width and height, or drag inside the overlay frame to move the whole layer.");
     renderEditorState();
     renderMap();
     return;
@@ -1502,10 +1694,83 @@ function handleLinkEditorPointerDown(point) {
   }
 }
 
+function handleAddRoomPointerDown(point) {
+  if (!isScreenPointInsideOverlay(point)) {
+    setEditorMessage("Click inside the indoor overlay frame to place the new room.", "warn");
+    renderEditorState();
+    renderMap();
+    return;
+  }
+
+  const draft = getNewRoomDraft();
+  const validationError = validateNewRoomDraft(draft);
+  if (validationError) {
+    setEditorMessage(validationError, "warn");
+    renderEditorState();
+    return;
+  }
+
+  const latLng = containerPointToLatLng(point.x, point.y);
+  if (!latLng) {
+    setEditorMessage("Could not convert the clicked point into map coordinates.", "warn");
+    renderEditorState();
+    return;
+  }
+
+  const localPoint = latLngToLocalPoint(latLng.lat, latLng.lng);
+  const room = {
+    code: draft.code,
+    lat: roundCoordinate(latLng.lat),
+    lng: roundCoordinate(latLng.lng),
+    w: draft.w,
+    h: draft.h,
+    zone: draft.zone,
+    links: [],
+  };
+
+  if (draft.note) {
+    room.note = draft.note;
+  }
+
+  getRoomsForFloor(1).push(room);
+
+  const roomRecord = findEditableNodeRecord(`ROOM-${room.code}`);
+  const nearestNodeId = findNearestAttachableNodeId(localPoint);
+  if (roomRecord && nearestNodeId) {
+    const targetRecord = findEditableNodeRecord(nearestNodeId);
+    addLinkToRecord(roomRecord, nearestNodeId, "room");
+    if (targetRecord) {
+      addLinkToRecord(targetRecord, roomRecord.id, inferLinkKind(targetRecord, roomRecord));
+    }
+  }
+
+  state.selectedRoomCode = room.code;
+  markEditorDirty();
+  refreshGraphAndRoute();
+  setEditorMessage(
+    nearestNodeId
+      ? `Added ${room.code} and linked it to ${findEditableNodeRecord(nearestNodeId)?.label || nearestNodeId}. Use Edit Links if you want to change that connection.`
+      : `Added ${room.code}. No nearby node was linked automatically, so connect it manually in Edit Links.`,
+    "success"
+  );
+  renderEditorState();
+  renderMap();
+}
+
 function handleEditorPointerMove(event) {
   if (!state.editMode || isEditorControlTarget(event.target)) return;
 
   const point = getSurfacePointFromEvent(event);
+
+  if (state.editorTool === "add-room") {
+    const room = pickRoomAtScreenPoint(point.x, point.y);
+    const nextHover = room ? room.code : null;
+    if (nextHover !== state.hoverRoomCode) {
+      state.hoverRoomCode = nextHover;
+      renderMap();
+    }
+    return;
+  }
 
   if (state.editorTool === "link") {
     const record = pickEditableNodeAtScreenPoint(point.x, point.y);
@@ -1514,6 +1779,24 @@ function handleEditorPointerMove(event) {
       state.hoverNodeId = nextHover;
       renderMap();
     }
+    return;
+  }
+
+  if (state.draggingRoomResize) {
+    const latLng = containerPointToLatLng(point.x, point.y);
+    if (!latLng) return;
+
+    const localPoint = latLngToLocalPoint(latLng.lat, latLng.lng);
+    if (!localPoint) return;
+
+    const changed = resizeRoomFromHandle(
+      state.draggingRoomResize.roomCode,
+      state.draggingRoomResize.handle,
+      state.draggingRoomResize.anchorLocalPoint,
+      localPoint
+    );
+    state.draggingRoomResize.didMove = state.draggingRoomResize.didMove || changed;
+    event.preventDefault();
     return;
   }
 
@@ -1558,14 +1841,34 @@ function handleEditorPointerMove(event) {
 
   const room = pickRoomAtScreenPoint(point.x, point.y);
   const nextHover = room ? room.code : null;
-  if (nextHover !== state.hoverRoomCode) {
+  const nextResizeHandle = state.selectedRoomCode ? pickRoomResizeHandle(point, getRoom(state.selectedRoomCode))?.name || null : null;
+  if (nextHover !== state.hoverRoomCode || nextResizeHandle !== state.roomResizeHandle) {
     state.hoverRoomCode = nextHover;
+    state.roomResizeHandle = nextResizeHandle;
     renderMap();
   }
 }
 
 function handleEditorPointerUp(event) {
   if (state.editorTool !== "move") return;
+
+  if (state.draggingRoomResize) {
+    const roomCode = state.draggingRoomResize.roomCode;
+    const didMove = state.draggingRoomResize.didMove;
+    state.draggingRoomResize = null;
+    state.roomResizeHandle = null;
+    safeReleasePointerCapture(state.editSurface, event.pointerId);
+    state.mapSurface?.classList.remove("dragging");
+    setEditorMessage(
+      didMove
+        ? `Resized ${roomCode}. Save to data.js to persist the new width and height, or reset unsaved changes to revert.`
+        : `Selected ${roomCode}. Drag a corner handle to resize it or use the width and height inputs below.`,
+      didMove ? "success" : ""
+    );
+    renderEditorState();
+    renderMap();
+    return;
+  }
 
   if (state.draggingOverlay) {
     const action = state.draggingOverlay.action;
@@ -1600,14 +1903,26 @@ function handleEditorPointerUp(event) {
 }
 
 function handleEditorPointerLeave() {
-  if (!state.editMode || state.draggingRoomCode || state.draggingOverlay) return;
+  if (!state.editMode || state.draggingRoomCode || state.draggingRoomResize || state.draggingOverlay) return;
   if (state.overlayResizeHandle) {
     state.overlayResizeHandle = null;
+    renderMap();
+  }
+  if (state.roomResizeHandle) {
+    state.roomResizeHandle = null;
     renderMap();
   }
   if (state.editorTool === "link") {
     if (state.hoverNodeId) {
       state.hoverNodeId = null;
+      renderMap();
+    }
+    return;
+  }
+
+  if (state.editorTool === "add-room") {
+    if (state.hoverRoomCode) {
+      state.hoverRoomCode = null;
       renderMap();
     }
     return;
@@ -1620,11 +1935,26 @@ function handleEditorPointerLeave() {
 }
 
 function updateRoomPosition(roomCode, lat, lng) {
-  const room = getRoom(roomCode);
-  if (!room) return;
+  return updateRoomGeometry(roomCode, { lat, lng });
+}
 
-  room.lat = roundCoordinate(lat);
-  room.lng = roundCoordinate(lng);
+function updateRoomGeometry(roomCode, changes) {
+  const room = getRoom(roomCode);
+  if (!room) return false;
+
+  if (changes.centerLocalPoint) {
+    const latLng = localPointToLatLng(changes.centerLocalPoint.x, changes.centerLocalPoint.y);
+    if (!latLng) return false;
+    room.lat = roundCoordinate(latLng.lat);
+    room.lng = roundCoordinate(latLng.lng);
+  } else {
+    if (typeof changes.lat === "number") room.lat = roundCoordinate(changes.lat);
+    if (typeof changes.lng === "number") room.lng = roundCoordinate(changes.lng);
+  }
+
+  if (changes.w != null) room.w = roundRoomDimension(changes.w, "w");
+  if (changes.h != null) room.h = roundRoomDimension(changes.h, "h");
+
   markEditorDirty();
   state.graph = buildGraph();
 
@@ -1635,6 +1965,68 @@ function updateRoomPosition(roomCode, lat, lng) {
   }
 
   renderEditorState();
+  return true;
+}
+
+function resizeRoomFromHandle(roomCode, handleName, anchorLocalPoint, pointerLocalPoint) {
+  if (!anchorLocalPoint || !pointerLocalPoint) return false;
+
+  let left;
+  let right;
+  let top;
+  let bottom;
+
+  if (handleName.includes("w")) {
+    right = anchorLocalPoint.x;
+    left = Math.min(pointerLocalPoint.x, right - MIN_ROOM_DIMENSION);
+  } else {
+    left = anchorLocalPoint.x;
+    right = Math.max(pointerLocalPoint.x, left + MIN_ROOM_DIMENSION);
+  }
+
+  if (handleName.includes("n")) {
+    bottom = anchorLocalPoint.y;
+    top = Math.min(pointerLocalPoint.y, bottom - MIN_ROOM_DIMENSION);
+  } else {
+    top = anchorLocalPoint.y;
+    bottom = Math.max(pointerLocalPoint.y, top + MIN_ROOM_DIMENSION);
+  }
+
+  return updateRoomGeometry(roomCode, {
+    centerLocalPoint: { x: (left + right) / 2, y: (top + bottom) / 2 },
+    w: right - left,
+    h: bottom - top,
+  });
+}
+
+function updateSelectedRoomDimensionsFromInputs() {
+  if (!state.editMode || state.editorTool !== "move" || !state.selectedRoomCode) return;
+
+  const room = getRoom(state.selectedRoomCode);
+  const widthField = document.getElementById("selected-room-width");
+  const heightField = document.getElementById("selected-room-height");
+  if (!room || !widthField || !heightField) return;
+
+  if (widthField.value === "" || heightField.value === "") {
+    renderEditorState();
+    return;
+  }
+
+  const nextWidth = Number(widthField.value);
+  const nextHeight = Number(heightField.value);
+  const validationError = validateRoomDimensions(nextWidth, nextHeight);
+  if (validationError) {
+    setEditorMessage(validationError, "warn");
+    renderEditorState();
+    return;
+  }
+
+  const width = roundRoomDimension(nextWidth, "w");
+  const height = roundRoomDimension(nextHeight, "h");
+  if (room.w === width && room.h === height) return;
+
+  setEditorMessage(`Updated ${room.code} size to ${width} x ${height} local units.`, "success");
+  updateRoomGeometry(room.code, { w: width, h: height });
 }
 
 function cloneRoomLocalPointSnapshot() {
@@ -1749,7 +2141,7 @@ async function saveRoomDataBlock() {
     state.roomLayoutSnapshot = generateEditableDataSource();
     state.roomLayoutResetData = cloneEditorDataSnapshot();
     state.dirtyRoomLayout = false;
-    setEditorMessage(`Saved updated overlay anchor, node links, and room positions back to data.js at ${new Date(result.savedAt).toLocaleTimeString()}.`, "success");
+    setEditorMessage(`Saved updated overlay anchor, node links, room positions, and room sizes back to data.js at ${new Date(result.savedAt).toLocaleTimeString()}.`, "success");
   } catch (error) {
     console.error("Failed to save layout data blocks", error);
     setEditorMessage(`Save failed: ${error.message}`, "warn");
@@ -1765,13 +2157,23 @@ function renderEditorState() {
   const copy = document.getElementById("copy-room-data");
   const reset = document.getElementById("reset-room-data");
   const moveTool = document.getElementById("room-edit-tool");
+  const addRoomTool = document.getElementById("add-room-tool");
   const linkTool = document.getElementById("link-edit-tool");
   const message = document.getElementById("editor-message");
+  const selectedRoomSizeForm = document.getElementById("selected-room-size-form");
+  const selectedRoomWidth = document.getElementById("selected-room-width");
+  const selectedRoomHeight = document.getElementById("selected-room-height");
+  const selectedRoomSizeHint = document.getElementById("selected-room-size-hint");
   const selection = document.getElementById("editor-selection");
   const neighbors = document.getElementById("editor-neighbors");
   const exportBox = document.getElementById("editor-export");
+  const newRoomCode = document.getElementById("new-room-code");
+  const newRoomWidth = document.getElementById("new-room-width");
+  const newRoomHeight = document.getElementById("new-room-height");
+  const newRoomZone = document.getElementById("new-room-zone");
+  const newRoomNote = document.getElementById("new-room-note");
 
-  if (!toggle || !save || !copy || !reset || !moveTool || !linkTool || !message || !selection || !neighbors || !exportBox) return;
+  if (!toggle || !save || !copy || !reset || !moveTool || !addRoomTool || !linkTool || !message || !selection || !neighbors || !exportBox) return;
 
   const selectedRecord = state.editorTool === "link"
     ? findEditableNodeRecord(state.selectedNodeId)
@@ -1779,32 +2181,72 @@ function renderEditorState() {
   const selectedOverlayLatLng = state.overlaySelected ? { lat: GEO_REFERENCE.centerLat, lng: GEO_REFERENCE.centerLng } : null;
   const selectedLatLng = selectedRecord ? getEditableNodeLatLng(selectedRecord.id) : null;
   const selectedLinks = selectedRecord ? getLinksForRecord(selectedRecord) : [];
+  const selectedRoom = state.editorTool === "move" && state.selectedRoomCode ? getRoom(state.selectedRoomCode) : null;
+  const roomDraft = getNewRoomDraft();
+  const roomDraftSummary = `${roomDraft.code || "--"} · ${roomDraft.w || "--"} x ${roomDraft.h || "--"} · ${roomDraft.zone || "--"}`;
 
   toggle.textContent = state.editMode ? "Exit Edit Mode" : "Edit Rooms";
   save.disabled = !state.dirtyRoomLayout || state.saveInFlight || !canSaveRoomDataToFile();
   copy.disabled = state.saveInFlight;
   reset.disabled = !state.dirtyRoomLayout || state.saveInFlight;
   moveTool.classList.toggle("active-tool", state.editorTool === "move");
+  addRoomTool.classList.toggle("active-tool", state.editorTool === "add-room");
   linkTool.classList.toggle("active-tool", state.editorTool === "link");
+
+  [newRoomCode, newRoomWidth, newRoomHeight, newRoomZone, newRoomNote].forEach(field => {
+    if (!field) return;
+    field.disabled = !state.editMode || state.saveInFlight;
+  });
+
+  if (selectedRoomSizeForm) {
+    selectedRoomSizeForm.hidden = !state.editMode || state.editorTool !== "move";
+  }
+
+  [selectedRoomWidth, selectedRoomHeight].forEach(field => {
+    if (!field) return;
+    field.disabled = !selectedRoom || !state.editMode || state.saveInFlight;
+  });
+
+  if (selectedRoomWidth) {
+    selectedRoomWidth.value = selectedRoom ? String(roundRoomDimension(selectedRoom.w, "w")) : "";
+  }
+
+  if (selectedRoomHeight) {
+    selectedRoomHeight.value = selectedRoom ? String(roundRoomDimension(selectedRoom.h, "h")) : "";
+  }
+
+  if (selectedRoomSizeHint) {
+    selectedRoomSizeHint.textContent = selectedRoom
+      ? `Selected ${selectedRoom.code}. Drag any room corner handle on the map or type width and height here.`
+      : "Select a room in Move / Resize Overlay to edit its width and height.";
+  }
 
   message.className = `editor-message${state.editorTone ? ` ${state.editorTone}` : ""}`;
   message.textContent = state.editorMessage;
 
   selection.textContent = selectedOverlayLatLng
     ? `Selected overlay · lat ${formatCoordinate(selectedOverlayLatLng.lat)} · lng ${formatCoordinate(selectedOverlayLatLng.lng)} · scale ${GEO_REFERENCE.unitsPerMeter.toFixed(3)} units/m` 
+    : state.editorTool === "add-room"
+    ? `Add room draft: ${roomDraftSummary}`
+    : selectedRoom && selectedLatLng
+    ? `Selected room: ${selectedRoom.code} · ${selectedRoom.w} x ${selectedRoom.h} local units · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
     : selectedRecord && selectedLatLng
     ? `Selected ${selectedRecord.kind}: ${selectedRecord.label} · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
     : "Selected item: --";
 
   neighbors.textContent = selectedOverlayLatLng
     ? "Neighbors: Drag inside the frame to move the overlay, or drag a corner handle to resize the whole indoor layer uniformly."
+    : state.editorTool === "add-room"
+    ? "Links: A new room is created where you click and will automatically connect to the nearest entrance, service point, or corridor node. After that, use Edit Links to refine room-to-room or room-to-node connections."
+    : selectedRoom
+    ? `Neighbors: ${selectedLinks.length ? selectedLinks.map(link => findEditableNodeRecord(link.to)?.label || link.to).join(", ") : "--"}. Drag the room to move it, drag a corner handle to resize it, or type width and height above.`
     : selectedRecord
     ? `Neighbors: ${selectedLinks.length ? selectedLinks.map(link => findEditableNodeRecord(link.to)?.label || link.to).join(", ") : "--"}`
     : "Neighbors: --";
 
   exportBox.value = state.editMode || state.dirtyRoomLayout ? generateEditableDataSource() : "";
   state.mapSurface?.classList.toggle("editing", state.editMode);
-  state.mapSurface?.classList.toggle("dragging", Boolean(state.draggingRoomCode || state.draggingOverlay));
+  state.mapSurface?.classList.toggle("dragging", Boolean(state.draggingRoomCode || state.draggingRoomResize || state.draggingOverlay));
 }
 
 function generateEditableDataSource() {
@@ -1946,6 +2388,37 @@ function getLinksForRecord(record) {
   return record?.type === "room" ? getRoomLinks(record.data) : getNodeLinks(record?.data);
 }
 
+function getNewRoomDraft() {
+  return {
+    code: normalizeRoomCodeInput(document.getElementById("new-room-code")?.value || ""),
+    w: Number(document.getElementById("new-room-width")?.value || 0),
+    h: Number(document.getElementById("new-room-height")?.value || 0),
+    zone: String(document.getElementById("new-room-zone")?.value || "center").trim() || "center",
+    note: String(document.getElementById("new-room-note")?.value || "").trim(),
+  };
+}
+
+function validateNewRoomDraft(draft) {
+  if (!draft.code) return "Room code is required before placing a new room.";
+  if (allRoomCodes().includes(draft.code)) return `Room ${draft.code} already exists.`;
+  if (!Number.isFinite(draft.w) || draft.w < 24) return "Room width must be at least 24 local units.";
+  if (!Number.isFinite(draft.h) || draft.h < 24) return "Room height must be at least 24 local units.";
+  return "";
+}
+
+function findNearestAttachableNodeId(localPoint) {
+  let bestMatch = null;
+
+  for (const node of getNonRoomNodes()) {
+    const distance = Math.hypot(node.x - localPoint.x, node.y - localPoint.y);
+    if (!bestMatch || distance < bestMatch.distance) {
+      bestMatch = { id: node.id, distance };
+    }
+  }
+
+  return bestMatch ? bestMatch.id : null;
+}
+
 function toggleBidirectionalLink(aId, bId) {
   const source = findEditableNodeRecord(aId);
   const target = findEditableNodeRecord(bId);
@@ -2007,6 +2480,23 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
+function validateRoomDimensions(width, height) {
+  if (!Number.isFinite(width) || width < MIN_ROOM_DIMENSION) {
+    return `Room width must be at least ${MIN_ROOM_DIMENSION} local units.`;
+  }
+  if (!Number.isFinite(height) || height < MIN_ROOM_DIMENSION) {
+    return `Room height must be at least ${MIN_ROOM_DIMENSION} local units.`;
+  }
+  return "";
+}
+
+function roundRoomDimension(value, axis) {
+  const numeric = Number(value);
+  const max = axis === "w" ? BUILDING_SHELL.w : BUILDING_SHELL.h;
+  if (!Number.isFinite(numeric)) return MIN_ROOM_DIMENSION;
+  return Math.round(clamp(numeric, MIN_ROOM_DIMENSION, max));
+}
+
 function localPointToLatLngUsingReference(x, y, reference) {
   const latMeters = (MAP.height / 2 - y) / reference.unitsPerMeter;
   const lngMeters = (x - MAP.width / 2) / reference.unitsPerMeter;
@@ -2036,54 +2526,6 @@ function safeReleasePointerCapture(element, pointerId) {
   } catch {
     // Ignore synthetic or unsupported pointer-capture failures.
   }
-}
-
-async function loadRuntimeConfig() {
-  if (!/^https?:$/.test(window.location.protocol)) return {};
-
-  try {
-    const response = await fetch("/api/runtime-config", { cache: "no-store" });
-    if (!response.ok) return {};
-    return await response.json();
-  } catch (error) {
-    console.error("Failed to load runtime map config", error);
-    return {};
-  }
-}
-
-function getGoogleMapsApiKey() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("googleMapsApiKey") || state.runtimeConfig.googleMapsApiKey || "";
-}
-
-function loadGoogleMapsApi(apiKey) {
-  if (window.google?.maps) return Promise.resolve(window.google.maps);
-
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[data-map-provider="google"]');
-    if (existing) {
-      existing.addEventListener("load", () => resolve(window.google.maps), { once: true });
-      existing.addEventListener("error", reject, { once: true });
-      return;
-    }
-
-    const callbackName = `__campusCompassGoogleMapsReady_${Date.now()}`;
-    window[callbackName] = () => {
-      resolve(window.google.maps);
-      delete window[callbackName];
-    };
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&v=weekly&loading=async&callback=${callbackName}`;
-    script.async = true;
-    script.defer = true;
-    script.dataset.mapProvider = "google";
-    script.onerror = error => {
-      delete window[callbackName];
-      reject(error);
-    };
-    document.head.appendChild(script);
-  });
 }
 
 function renderMapSourceNote() {

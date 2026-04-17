@@ -97,9 +97,49 @@
       </div>
       <div class="editor-tools" role="group" aria-label="Editing tool selection">
         <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Overlay</button>
+        <button id="add-room-tool" class="secondary-btn" type="button">Add Room</button>
         <button id="link-edit-tool" class="secondary-btn" type="button">Edit Links</button>
       </div>
+      <div class="editor-room-form" aria-label="New room draft">
+        <label class="editor-field">
+          <span>Room code</span>
+          <input id="new-room-code" type="text" value="EB150" maxlength="10" autocomplete="off" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Width</span>
+          <input id="new-room-width" type="number" value="88" min="24" max="260" step="1" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Height</span>
+          <input id="new-room-height" type="number" value="56" min="24" max="260" step="1" />
+        </label>
+        <label class="editor-field">
+          <span>Zone</span>
+          <select id="new-room-zone">
+            <option value="north">north</option>
+            <option value="east">east</option>
+            <option value="south">south</option>
+            <option value="west">west</option>
+            <option value="center">center</option>
+          </select>
+        </label>
+        <label class="editor-field editor-field-full">
+          <span>Note</span>
+          <input id="new-room-note" type="text" value="" maxlength="80" placeholder="Optional secondary label" autocomplete="off" />
+        </label>
+      </div>
       <p id="editor-message" class="editor-message">Edit mode is off.</p>
+      <div id="selected-room-size-form" class="editor-size-form" aria-label="Selected room size" hidden>
+        <label class="editor-field editor-field-small">
+          <span>Selected width</span>
+          <input id="selected-room-width" type="number" min="24" step="1" inputmode="numeric" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Selected height</span>
+          <input id="selected-room-height" type="number" min="24" step="1" inputmode="numeric" />
+        </label>
+        <div id="selected-room-size-hint" class="editor-size-hint">Select a room in Move / Resize Overlay to edit its size.</div>
+      </div>
       <div id="editor-selection" class="editor-selection">Selected room: --</div>
       <div id="editor-neighbors" class="editor-neighbors">Neighbors: --</div>
       <textarea id="editor-export" class="editor-export" readonly spellcheck="false" aria-label="Generated layout data blocks"></textarea>
@@ -113,7 +153,9 @@
   CPT208 Group D-2 · EB first-floor navigation prototype
 </footer>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1DSPinHkJQaz-duQIkXpaISPXvFQszg&v=weekly"></script>
 <script src="data.js"></script>
+<script src="data-processing.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
