@@ -3,127 +3,392 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team Members</title>
-
+<title>CampusCompass</title>
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    background:#f5f5f5;
+:root {
+  --bg: #eef2f7;
+  --ink: #1f2a37;
+  --muted: #5a6676;
+  --brand: #2b4c7e;
+  --brand-deep: #243b63;
+  --accent: #2f7f79;
+  --line: #c9d3e1;
+  --card: #ffffff;
+  --mint: #edf6f4;
 }
 
-header{
-    text-align:center;
-    padding:30px;
-    background:#4CAF50;
-    color:white;
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 8%, #e4eaf2 0, #e4eaf2 16%, transparent 16.5%),
+    radial-gradient(circle at 84% 76%, #e5f0ee 0, #e5f0ee 14%, transparent 14.5%),
+    var(--bg);
 }
 
-.container{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    padding:20px;
-    gap:20px;
+.page {
+  width: min(1180px, calc(100vw - 28px));
+  margin: 0 auto 56px;
 }
 
-.card{
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    width:250px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+.top-nav {
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
+  backdrop-filter: blur(7px);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 10px;
+  z-index: 20;
 }
 
-.card img{
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    object-fit:cover;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--brand-deep);
+  font-weight: 800;
+  font-size: 22px;
 }
 
-.card h2{
-    margin:10px 0 5px 0;
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
 }
 
-.card-link{
-    text-decoration:none;
-    color:inherit;
+.nav-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.card p{
-    color:#666;
+.nav-links a {
+  text-decoration: none;
+  color: var(--brand);
+  font-weight: 700;
+  border: 1px solid #d2dbe7;
+  border-radius: 10px;
+  background: #f5f8fc;
+  padding: 8px 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-/* 平板 */
-@media (max-width:900px){
-    .card{
-        width:40%;
-    }
+.nav-links a:hover {
+  transform: translateY(-2px);
+  background: #eaf0f7;
+  box-shadow: 0 8px 18px rgba(36, 59, 99, 0.12);
 }
 
-/* 手机 */
-@media (max-width:500px){
-    .card{
-        width:90%;
-    }
+.hero {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(42px, 8vw, 88px);
+  line-height: 1;
+  color: var(--brand-deep);
+  letter-spacing: 0.5px;
+}
+
+.hero p {
+  margin: 14px auto 0;
+  max-width: 820px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.overview {
+  margin: 28px auto 0;
+  max-width: 860px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
+  padding: 26px;
+}
+
+.overview h2,
+.section-card h2 {
+  margin: 0 0 10px;
+  color: var(--brand-deep);
+  font-size: 32px;
+}
+
+.overview p,
+.section-card p {
+  margin: 0;
+  color: #3f4d60;
+  line-height: 1.75;
+  font-size: 17px;
+}
+
+.content {
+  margin-top: 30px;
+  display: grid;
+  gap: 18px;
+}
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
+  padding: 24px;
+}
+
+.grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f9fbfd;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(20, 54, 100, 0.12);
+}
+
+.profile-card img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #dce5f1;
+}
+
+.profile-card h3 {
+  margin: 0 0 6px;
+  color: var(--brand-deep);
+  font-size: 20px;
+}
+
+.profile-card p {
+  margin: 2px 0;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.persona-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.persona-tags span {
+  border: 1px solid #bfd3d0;
+  background: var(--mint);
+  color: #2e6e69;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.quick-link {
+  margin-top: 16px;
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(130deg, var(--brand), var(--accent));
+}
+
+.scroll-fx {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.72s ease, transform 0.72s ease;
+}
+
+.scroll-fx.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 860px) {
+  .top-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .brand {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero p,
+  .overview p,
+  .section-card p {
+    font-size: 15px;
+  }
+
+  .overview h2,
+  .section-card h2 {
+    font-size: 28px;
+  }
 }
 </style>
 </head>
-
 <body>
-
-<header>
-<h1>Our Team</h1>
-<p>Meet our members</p>
-<p>Click avatar to find our introduction!</p>
-</header>
-
-<div class="container">
-<a href="pingsongDeng.html" class="card-link">
-    <div class="card">
-        <img src="images/pingsong.jpg" alt="Pingsong Deng">
-        <h2>Pingsong Deng</h2>
-        <p>Role: Member</p>
-        <p>Email: pingsong.deng23@student.xjtlu.edu.cn</p>
+<div class="page">
+  <nav class="top-nav scroll-fx" aria-label="Top Navigation">
+    <a href="#about" class="brand">
+      <svg class="brand-icon" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2b4c7e"/>
+            <stop offset="100%" stop-color="#2f7f79"/>
+          </linearGradient>
+        </defs>
+        <rect x="48" y="18" width="58" height="84" rx="9" transform="rotate(8 48 18)" fill="#ecf2fa" stroke="#b7c7dd"/>
+        <path d="M58 34 L91 29 L95 86 L62 91 Z" fill="#ffffff" stroke="#c6d4e6"/>
+        <circle cx="40" cy="54" r="26" fill="#fff" stroke="url(#g1)" stroke-width="5"/>
+        <circle cx="40" cy="54" r="5" fill="#2b4c7e"/>
+        <path d="M40 30 L47 54 L40 47 L33 54 Z" fill="#2b4c7e"/>
+        <path d="M40 78 L47 54 L40 61 L33 54 Z" fill="#2f7f79"/>
+      </svg>
+      CampusCompass
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#team">Team</a>
+      <a href="#persona">Persona</a>
     </div>
-</a>
+  </nav>
 
+  <header class="hero scroll-fx" id="about">
+    <h1>CampusCompass</h1>
+    <p>
+      Human-centered indoor navigation experience for campus spaces. This page introduces our team and design persona.
+    </p>
+  </header>
 
-<a href="zichenFan.html" class="card-link">
-    <div class="card">
-        <img src="images/zichen.jpg" alt="Zichen Fan">
-        <h2>Zichen Fan</h2>
-        <p>Role: Member</p>
-        <p>Email: Zichen.Fan23@student.xjtlu.edu.cn</p>
-    </div>
-</a>
+  <section class="overview scroll-fx" id="overview">
+    <h2>Project Overview</h2>
+    <p>
+      CampusCompass is an interactive wayfinding prototype designed to help users quickly locate destinations in complex indoor environments.
+      The project combines spatial guidance, clear visual cues, and lightweight interaction patterns to reduce navigation stress and improve confidence,
+      especially for first-time visitors.
+    </p>
+  </section>
 
-<a href="ziyiJia.html" class="card-link">
-    <div class="card">
-        <img src="images/ziyi.jpg" alt="Ziyi Jia">
-        <h2>Ziyi Jia</h2>
-        <p>Role: Member</p>
-        <p>Email: ziyi.jia23@student.xjtlu.edu.cn</p>
-    </div>
-</a>
+  <main class="content">
+    <section class="section-card scroll-fx" id="team">
+      <h2>Team</h2>
+      <div class="grid">
+        <a href="Team/pingsongDeng.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/pingsong.jpg" alt="Pingsong Deng">
+            <div>
+              <h3>Pingsong Deng</h3>
+              <p>Role: Member</p>
+              <p>Email: pingsong.deng23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
 
-<a href="tianchenNiu.html" class="card-link">
-    <div class="card">
-        <img src="images/tianchen.jpg" alt="Tianchen Niu">
-        <h2>Tianchen Niu</h2>
-        <p>Role: Member</p>
-        <p>Email: tianchen.niu23@student.xjtlu.edu.cn</p>
-    </div>
-</a>
+        <a href="Team/zichenFan.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/zichen.jpg" alt="Zichen Fan">
+            <div>
+              <h3>Zichen Fan</h3>
+              <p>Role: Member</p>
+              <p>Email: zichen.fan23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
 
-<a href="./web_code/index.html" class="card-link">
-    <div class="card">
-        <h2>Road travel</h2>
-    </div>
-</a>
+        <a href="Team/ziyiJia.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/ziyi.jpg" alt="Ziyi Jia">
+            <div>
+              <h3>Ziyi Jia</h3>
+              <p>Role: Member</p>
+              <p>Email: ziyi.jia23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="Team/tianchenNiu.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/tianchen.jpg" alt="Tianchen Niu">
+            <div>
+              <h3>Tianchen Niu</h3>
+              <p>Role: Member</p>
+              <p>Email: tianchen.niu23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+      </div>
+      <a href="./web_code/index.html" class="quick-link">Road Travel</a>
+    </section>
+
+    <section class="section-card scroll-fx" id="persona">
+      <h2>Persona</h2>
+      <p>
+        Our target users are students and visitors who need fast, low-friction route guidance inside unfamiliar buildings.
+        They value simple directions, immediate feedback, and interface clarity over advanced controls.
+      </p>
+      <div class="persona-tags">
+        <span>User-first mindset</span>
+        <span>Accessible interaction</span>
+        <span>Clear orientation</span>
+        <span>Fast decision support</span>
+        <span>Cross-role collaboration</span>
+      </div>
+    </section>
+  </main>
 </div>
 
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('show');
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -10% 0px'
+});
+
+document.querySelectorAll('.scroll-fx').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
