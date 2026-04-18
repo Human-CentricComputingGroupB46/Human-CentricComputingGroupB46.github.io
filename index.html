@@ -286,6 +286,86 @@ body {
   line-height: 1.6;
 }
 
+.journey-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+  border: 1px solid #d7e0ec;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f8fbff 0%, #f2f7fc 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.journey-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.journey-table th {
+  text-align: left;
+  color: #ffffff;
+  background: linear-gradient(120deg, var(--brand-deep), var(--brand));
+  padding: 12px 14px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.journey-table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.journey-table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.journey-table td {
+  vertical-align: top;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #314255;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #dbe4ef;
+}
+
+.journey-table tr:last-child td {
+  border-bottom: none;
+}
+
+.journey-stage {
+  font-weight: 700;
+  color: var(--brand-deep);
+}
+
+.emotion-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.emotion-tag.neutral {
+  color: #5f5f32;
+  border-color: #e2d8a4;
+  background: #f9f3d7;
+}
+
+.emotion-tag.stressed {
+  color: #7a3a3a;
+  border-color: #e3b1b1;
+  background: #fce6e6;
+}
+
+.emotion-tag.relief {
+  color: #265f58;
+  border-color: #acd7d2;
+  background: #e8f6f4;
+}
+
 .quick-link {
   margin-top: 16px;
   display: inline-block;
@@ -378,6 +458,7 @@ body {
       <a href="#about">About</a>
       <a href="#team">Team</a>
       <a href="#persona">Persona</a>
+      <a href="#journey">Journey Map</a>
     </div>
   </nav>
 
@@ -517,6 +598,60 @@ body {
         <span>Trustworthy guidance</span>
         <span>Fast orientation</span>
         <span>Inclusive design</span>
+      </div>
+    </section>
+
+    <section class="section-card scroll-fx" id="journey">
+      <h2>User Journey Map</h2>
+      <div class="journey-wrap" aria-label="User Journey Map Table">
+        <table class="journey-table">
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>User Actions</th>
+              <th>User Thoughts</th>
+              <th>Emotion</th>
+              <th>Pain Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="journey-stage">1. Enter the Building</td>
+              <td>Walks through the main entrance and looks around.</td>
+              <td>"I need to go to Classroom EB102. Where is it?"</td>
+              <td><span class="emotion-tag stressed">Lost</span></td>
+              <td>No overview map at the entrance.</td>
+            </tr>
+            <tr>
+              <td class="journey-stage">2. Look for Signage</td>
+              <td>Looks left and right to find direction signs.</td>
+              <td>"Is there a navigation sign? Where is it?"</td>
+              <td><span class="emotion-tag stressed">Anxious</span></td>
+              <td>Signage location is not obvious.</td>
+            </tr>
+            <tr>
+              <td class="journey-stage">3. Read the Signboard</td>
+              <td>Walks closer and checks floor and room-number information.</td>
+              <td>"Which direction does this arrow point to?"</td>
+              <td><span class="emotion-tag stressed">Confused</span></td>
+              <td>Too much information with unclear hierarchy.</td>
+            </tr>
+            <tr>
+              <td class="journey-stage">4. Walk Along the Route</td>
+              <td>Follows the directions and moves toward the destination.</td>
+              <td>"Am I going the right way?"</td>
+              <td><span class="emotion-tag neutral">Uncertain</span></td>
+              <td>No confirmational signs along the route.</td>
+            </tr>
+            <tr>
+              <td class="journey-stage">5. Reach the Destination</td>
+              <td>Finds the classroom.</td>
+              <td>"Finally, I made it!"</td>
+              <td><span class="emotion-tag relief">Relieved</span></td>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
