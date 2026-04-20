@@ -40,6 +40,13 @@ const state = {
   mapSurface: null,
   editSurface: null,
   demoMode: true,
+  visibleLayers: {
+    rooms: true,
+    corridors: true,
+    entrances: true,
+    services: true,
+    edges: true,
+  },
 };
 
 const MIN_ROOM_DIMENSION = 24;
@@ -336,6 +343,24 @@ function wireEditor() {
   state.editSurface.addEventListener("pointerup", handleEditorPointerUp);
   state.editSurface.addEventListener("pointercancel", handleEditorPointerUp);
   state.editSurface.addEventListener("pointerleave", handleEditorPointerLeave);
+
+  wireLayerFilter();
+}
+
+function wireLayerFilter() {
+  const fieldset = document.querySelector(".editor-layer-filter");
+  if (!fieldset) return;
+  fieldset.addEventListener("change", (e) => {
+    const cb = e.target.closest("input[data-layer]");
+    if (!cb) return;
+    state.visibleLayers[cb.dataset.layer] = cb.checked;
+    renderMap();
+  });
+}
+
+function isLayerVisible(layer) {
+  if (state.demoMode || !state.editMode) return true;
+  return state.visibleLayers[layer] !== false;
 }
 
 function cleanRoomInput(value) {
@@ -844,6 +869,7 @@ function drawBase(ctx) {
 }
 
 function drawCorridorAreas(ctx) {
+  if (!isLayerVisible("corridors")) return;
   const showLabels = state.editMode || getMapZoom() >= 20;
 
   for (const node of getCorridorNodesForFloor()) {
@@ -891,6 +917,7 @@ function drawCorridorAreas(ctx) {
 }
 
 function drawEdges(ctx) {
+  if (!isLayerVisible("edges")) return;
   for (const segment of getRenderableGraphLinks()) {
     const a = state.graph.nodes[segment.from];
     const b = state.graph.nodes[segment.to];
@@ -1180,6 +1207,7 @@ function getRenderableRoomLinks() {
 }
 
 function drawRoomLinks(ctx) {
+  if (!isLayerVisible("edges")) return;
   for (const segment of getRenderableRoomLinks()) {
     const start = getEditableNodeLocalPoint(segment.from);
     const end = getEditableNodeLocalPoint(segment.to);
@@ -1194,6 +1222,7 @@ function drawRoomLinks(ctx) {
 }
 
 function drawRooms(ctx) {
+  if (!isLayerVisible("rooms")) return;
   const dest = state.dest ? getRoom(state.dest) : null;
   const showLabels = state.editMode || getMapZoom() >= 19;
   const showNotes = state.editMode || getMapZoom() >= 20;
@@ -1249,6 +1278,7 @@ function drawRooms(ctx) {
 }
 
 function drawServicePoints(ctx) {
+  if (!isLayerVisible("services")) return;
   for (const sp of SERVICE_POINTS.filter(point => getNodeFloor(point) === getVisibleFloor())) {
     const point = projectLocalPoint(sp.x, sp.y);
     if (!point) continue;
@@ -1268,6 +1298,7 @@ function drawServicePoints(ctx) {
 }
 
 function drawEntrances(ctx) {
+  if (!isLayerVisible("entrances")) return;
   if (getVisibleFloor() !== 1) return;
 
   for (const [key, entrance] of Object.entries(ENTRANCES)) {
@@ -1649,15 +1680,25 @@ function getEditableNodeIds() {
 }
 
 function pickEditableNodeAtScreenPoint(x, y) {
-  const room = pickRoomAtScreenPoint(x, y);
-  if (room) return findEditableNodeRecord(`ROOM-${room.code}`);
+  if (isLayerVisible("rooms")) {
+    const room = pickRoomAtScreenPoint(x, y);
+    if (room) return findEditableNodeRecord(`ROOM-${room.code}`);
+  }
 
-  const corridor = pickCorridorAtScreenPoint(x, y);
-  if (corridor) return findEditableNodeRecord(corridor.id);
+  if (isLayerVisible("corridors")) {
+    const corridor = pickCorridorAtScreenPoint(x, y);
+    if (corridor) return findEditableNodeRecord(corridor.id);
+  }
 
   let bestMatch = null;
 
   for (const nodeId of getEditableNodeIds()) {
+    const kind = getGraphNodeKind(nodeId);
+    if (kind === "room" && !isLayerVisible("rooms")) continue;
+    if ((kind === "corridor" || kind === "stair" || kind === "connector") && !isLayerVisible("corridors")) continue;
+    if (kind === "entrance" && !isLayerVisible("entrances")) continue;
+    if (kind === "service" && !isLayerVisible("services")) continue;
+
     const point = getEditableNodeScreenPoint(nodeId);
     if (!point) continue;
     const dx = point.x - x;
@@ -1756,7 +1797,9 @@ function drawEditorOverlay(ctx) {
   if (!state.editMode) return;
 
   if (state.editorTool === "link") {
+    drawLinkEditorLinks(ctx);
     drawLinkEditorNodes(ctx);
+    drawLinkEditorPreviewLine(ctx);
     drawSelectedNodeBadge(ctx, state.selectedNodeId || state.hoverNodeId);
     return;
   }
@@ -1905,20 +1948,90 @@ function drawOverlayBadge(ctx) {
   ctx.restore();
 }
 
+function drawLinkEditorLinks(ctx) {
+  const selectedRecord = state.selectedNodeId ? findEditableNodeRecord(state.selectedNodeId) : null;
+  if (!selectedRecord) return;
+
+  const origin = getEditableNodeScreenPoint(selectedRecord.id);
+  if (!origin) return;
+
+  const links = getLinksForRecord(selectedRecord);
+  for (const link of links) {
+    const target = getEditableNodeScreenPoint(link.to);
+    if (!target) continue;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(origin.x, origin.y);
+    ctx.lineTo(target.x, target.y);
+    ctx.strokeStyle = "rgba(36, 178, 96, 0.7)";
+    ctx.lineWidth = 2.4;
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawLinkEditorPreviewLine(ctx) {
+  if (!state.selectedNodeId || !state.hoverNodeId || state.selectedNodeId === state.hoverNodeId) return;
+
+  const origin = getEditableNodeScreenPoint(state.selectedNodeId);
+  const target = getEditableNodeScreenPoint(state.hoverNodeId);
+  if (!origin || !target) return;
+
+  const selectedRecord = findEditableNodeRecord(state.selectedNodeId);
+  const willRemove = selectedRecord && hasLinkTo(selectedRecord, state.hoverNodeId);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(origin.x, origin.y);
+  ctx.lineTo(target.x, target.y);
+  ctx.strokeStyle = willRemove ? "rgba(209, 55, 55, 0.75)" : "rgba(36, 178, 96, 0.75)";
+  ctx.lineWidth = 2.2;
+  ctx.setLineDash([6, 5]);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawLinkEditorNodes(ctx) {
+  const selectedRecord = state.selectedNodeId ? findEditableNodeRecord(state.selectedNodeId) : null;
+  const neighborIds = selectedRecord
+    ? new Set(getLinksForRecord(selectedRecord).map(l => l.to))
+    : new Set();
+  const hoverIsRemove = state.hoverNodeId && selectedRecord && hasLinkTo(selectedRecord, state.hoverNodeId);
+
   for (const nodeId of getEditableNodeIds()) {
+    const kind = getGraphNodeKind(nodeId);
+    if (kind === "room" && !isLayerVisible("rooms")) continue;
+    if ((kind === "corridor" || kind === "stair" || kind === "connector") && !isLayerVisible("corridors")) continue;
+    if (kind === "entrance" && !isLayerVisible("entrances")) continue;
+    if (kind === "service" && !isLayerVisible("services")) continue;
+
     const point = getEditableNodeScreenPoint(nodeId);
     const record = findEditableNodeRecord(nodeId);
     if (!point || !record) continue;
 
     const isSelected = state.selectedNodeId === nodeId;
     const isHover = state.hoverNodeId === nodeId;
+    const isNeighbor = neighborIds.has(nodeId);
     const radius = record.kind === "room" ? 7 : 5;
+
+    let fillColor;
+    if (isSelected) {
+      fillColor = "#f29325";
+    } else if (isHover && hoverIsRemove) {
+      fillColor = "#d13737";
+    } else if (isHover) {
+      fillColor = "#24b260";
+    } else if (isNeighbor) {
+      fillColor = "#24b260";
+    } else {
+      fillColor = "rgba(11, 31, 58, 0.45)";
+    }
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = isSelected ? "#f29325" : isHover ? "#0b1f3a" : "rgba(11, 31, 58, 0.68)";
+    ctx.arc(point.x, point.y, isNeighbor || isSelected ? radius + 1.5 : radius, 0, Math.PI * 2);
+    ctx.fillStyle = fillColor;
     ctx.strokeStyle = "#ffffff";
     ctx.lineWidth = 2;
     ctx.fill();
@@ -1944,6 +2057,10 @@ function drawSelectedNodeBadge(ctx, nodeId) {
   ctx.fill();
   ctx.stroke();
 
+  const links = getLinksForRecord(record);
+  const linkInfo = state.editorTool === "link"
+    ? `  ·  ${links.length} link${links.length !== 1 ? "s" : ""}`
+    : "";
   const badgeWidth = 220;
   const badgeX = Math.min(point.x + 16, state.canvas.getBoundingClientRect().width - badgeWidth - 12);
   const badgeY = Math.max(14, point.y - 56);
@@ -1956,10 +2073,10 @@ function drawSelectedNodeBadge(ctx, nodeId) {
   ctx.font = "800 12px Arial, sans-serif";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
-  ctx.fillText(record.label, badgeX + 12, badgeY + 16);
+  ctx.fillText(record.label + linkInfo, badgeX + 12, badgeY + 16);
   ctx.fillStyle = "#d7e1f1";
   ctx.font = "700 10px Arial, sans-serif";
-  ctx.fillText(`${formatCoordinate(latLng.lat)}, ${formatCoordinate(latLng.lng)}`, badgeX + 12, badgeY + 32);
+  ctx.fillText(`${record.kind}  ·  ${formatCoordinate(latLng.lat)}, ${formatCoordinate(latLng.lng)}`, badgeX + 12, badgeY + 32);
   ctx.restore();
 }
 
@@ -2245,21 +2362,30 @@ function handleLinkEditorPointerDown(point) {
 
   if (!state.selectedNodeId || state.selectedNodeId === record.id) {
     state.selectedNodeId = state.selectedNodeId === record.id ? null : record.id;
-    setEditorMessage(
-      state.selectedNodeId
-        ? `Selected ${record.label}. Click another node to toggle a bidirectional link.`
-        : "Node selection cleared.",
-      ""
-    );
+    if (state.selectedNodeId) {
+      const links = getLinksForRecord(record);
+      setEditorMessage(
+        `Selected ${record.label} (${links.length} neighbor${links.length !== 1 ? "s" : ""}). Click another node to add/remove a link. Green = connected, click to disconnect.`,
+        ""
+      );
+    } else {
+      setEditorMessage("Node selection cleared.", "");
+    }
     renderEditorState();
     renderMap();
     return;
   }
 
-  const changed = toggleBidirectionalLink(state.selectedNodeId, record.id);
-  if (changed) {
+  const result = toggleBidirectionalLink(state.selectedNodeId, record.id);
+  if (result) {
     const source = findEditableNodeRecord(state.selectedNodeId);
-    setEditorMessage(`Toggled link between ${source?.label || state.selectedNodeId} and ${record.label}.`, "success");
+    const sourceLinks = getLinksForRecord(source);
+    const verb = result === "added" ? "Connected" : "Disconnected";
+    const tone = result === "added" ? "success" : "warn";
+    setEditorMessage(
+      `${verb} ${source?.label || state.selectedNodeId} ↔ ${record.label}. ${source?.label} now has ${sourceLinks.length} neighbor${sourceLinks.length !== 1 ? "s" : ""}.`,
+      tone
+    );
     markEditorDirty();
     refreshGraphAndRoute();
     renderEditorState();
@@ -3238,7 +3364,7 @@ function detachLinksFromTarget(targetId) {
 function toggleBidirectionalLink(aId, bId) {
   const source = findEditableNodeRecord(aId);
   const target = findEditableNodeRecord(bId);
-  if (!source || !target || source.id === target.id) return false;
+  if (!source || !target || source.id === target.id) return null;
 
   const kind = inferLinkKind(source, target);
   const hasExisting = hasLinkTo(source, target.id);
@@ -3246,12 +3372,12 @@ function toggleBidirectionalLink(aId, bId) {
   if (hasExisting) {
     removeLinkFromRecord(source, target.id);
     removeLinkFromRecord(target, source.id);
+    return "removed";
   } else {
     addLinkToRecord(source, target.id, kind);
     addLinkToRecord(target, source.id, kind);
+    return "added";
   }
-
-  return true;
 }
 
 function hasLinkTo(record, targetId) {

@@ -102,6 +102,14 @@
         <button id="copy-room-data" class="secondary-btn" type="button" disabled>Copy layout data</button>
         <button id="reset-room-data" class="secondary-btn" type="button" disabled>Reset Unsaved</button>
       </div>
+      <fieldset class="editor-layer-filter" aria-label="Layer visibility filter">
+        <legend>Visible layers</legend>
+        <label><input type="checkbox" data-layer="rooms" checked /> Rooms</label>
+        <label><input type="checkbox" data-layer="corridors" checked /> Corridors</label>
+        <label><input type="checkbox" data-layer="entrances" checked /> Entrances</label>
+        <label><input type="checkbox" data-layer="services" checked /> Services</label>
+        <label><input type="checkbox" data-layer="edges" checked /> Edges</label>
+      </fieldset>
       <div class="editor-tools" role="group" aria-label="Editing tool selection">
         <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Layout</button>
         <button id="add-room-tool" class="secondary-btn" type="button">Add Room</button>
