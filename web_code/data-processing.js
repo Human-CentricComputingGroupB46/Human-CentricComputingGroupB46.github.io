@@ -22,6 +22,18 @@ function mapLatLngToLocalPoint(lat, lng) {
   };
 }
 
+function getAvailableFloors() {
+  return Object.keys(ROOM_DATA)
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+}
+
+function getFloorForRoomCode(code) {
+  const match = /^EB(\d)/i.exec(String(code || "").trim());
+  return match ? Number(match[1]) : null;
+}
+
 function getRoomsForFloor(floor = 1) {
   return ROOM_DATA[floor] || [];
 }
@@ -64,7 +76,9 @@ function buildGraph() {
     const end = nodes[b];
     if (!start || !end) return;
 
-    const weight = weightOverride == null ? Math.hypot(start.x - end.x, start.y - end.y) : weightOverride;
+    const weight = weightOverride == null
+      ? (start.floor !== end.floor ? 45 : Math.hypot(start.x - end.x, start.y - end.y))
+      : weightOverride;
     edges[a].push({ to: b, w: weight });
     edges[b].push({ to: a, w: weight });
     linkedPairs.add(pairKey);
@@ -75,33 +89,35 @@ function buildGraph() {
   }
 
   for (const servicePoint of SERVICE_POINTS) {
-    addNode({ ...servicePoint, floor: 1, kind: "service" });
+    addNode({ ...servicePoint, floor: servicePoint.floor ?? 1, kind: servicePoint.kind || "service" });
   }
 
   for (const walkableNode of WALKABLE_NODES) {
-    addNode({ ...walkableNode, floor: 1, kind: "corridor" });
+    addNode({ ...walkableNode, floor: walkableNode.floor ?? 1, kind: walkableNode.kind || "corridor" });
   }
 
-  for (const room of getRoomsForFloor(1)) {
-    const roomPoint = getRoomLocalPoint(room);
-    if (!roomPoint) continue;
+  for (const floor of getAvailableFloors()) {
+    for (const room of getRoomsForFloor(floor)) {
+      const roomPoint = getRoomLocalPoint(room);
+      if (!roomPoint) continue;
 
-    addNode({
-      id: `ROOM-${room.code}`,
-      x: roomPoint.x,
-      y: roomPoint.y,
-      floor: 1,
-      kind: "room",
-      room: room.code,
-      label: room.code,
-      links: room.links || [],
-    });
+      addNode({
+        id: `ROOM-${room.code}`,
+        x: roomPoint.x,
+        y: roomPoint.y,
+        floor,
+        kind: "room",
+        room: room.code,
+        label: room.code,
+        links: room.links || [],
+      });
+    }
   }
 
   for (const node of Object.values(nodes)) {
     const links = Array.isArray(node.links) ? node.links : [];
     for (const descriptor of links) {
-      link(node.id, descriptor.to);
+      link(node.id, typeof descriptor === "string" ? descriptor : descriptor.to);
     }
   }
 
@@ -109,9 +125,26 @@ function buildGraph() {
 }
 
 function allRoomCodes() {
-  return getRoomsForFloor(1).map(room => room.code).sort();
+  return getAvailableFloors()
+    .flatMap(floor => getRoomsForFloor(floor).map(room => room.code))
+    .sort();
 }
 
-function getRoom(code, floor = 1) {
-  return getRoomsForFloor(floor).find(room => room.code === code) || null;
+function getRoom(code, floor = null) {
+  if (floor != null) {
+    return getRoomsForFloor(floor).find(room => room.code === code) || null;
+  }
+
+  const inferredFloor = getFloorForRoomCode(code);
+  if (inferredFloor != null) {
+    const inferredMatch = getRoomsForFloor(inferredFloor).find(room => room.code === code);
+    if (inferredMatch) return inferredMatch;
+  }
+
+  for (const candidateFloor of getAvailableFloors()) {
+    const room = getRoomsForFloor(candidateFloor).find(entry => entry.code === code);
+    if (room) return room;
+  }
+
+  return null;
 }

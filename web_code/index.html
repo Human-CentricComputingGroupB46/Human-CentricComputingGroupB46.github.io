@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CampusCompass - EB First Floor</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<title>CampusCompass - EB Floors 1 and 2</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -13,28 +12,34 @@
     <div class="logo">◎</div>
     <div>
       <h1>CampusCompass</h1>
-      <p>EB Building · First Floor Navigation</p>
+      <p>EB Building · Floors 1 and 2 Navigation</p>
     </div>
   </div>
-  <div class="clock" id="clock">--:--</div>
+  <div class="topbar-meta">
+    <div id="mode-badge" class="mode-badge" hidden>Demo mode</div>
+    <div class="clock" id="clock">--:--</div>
+  </div>
 </header>
 
 <main id="app" class="kiosk-shell">
-  <section class="map-panel" aria-label="EB first floor map">
+  <section class="map-panel" aria-label="EB indoor map">
     <div class="map-header">
       <div>
-        <p class="eyebrow">EB 1st Floor</p>
-        <h2>First-floor route map</h2>
+        <p id="floor-eyebrow" class="eyebrow">EB Floor 1</p>
+        <h2 id="floor-title">First-floor route map</h2>
       </div>
-      <div class="orientation-note">
-        <b>Orientation</b>
-        <span>Top = North · Bottom = South · Left = West · Right = East</span>
+      <div class="map-header-tools">
+        <div id="floor-picker" class="floor-picker" aria-label="Choose floor"></div>
+        <div class="orientation-note">
+          <b>Orientation</b>
+          <span>Top = North · Bottom = South · Left = West · Right = East</span>
+        </div>
       </div>
     </div>
 
     <div class="map-wrap">
       <div class="map-stack">
-        <div id="map" class="geo-map" role="img" aria-label="EB first floor geo map"></div>
+        <div id="map" class="geo-map" role="img" aria-label="EB indoor geo map"></div>
         <canvas id="map-overlay" class="map-overlay" aria-hidden="true"></canvas>
         <div id="map-hit-area" class="map-hit-area" aria-hidden="true"></div>
       </div>
@@ -74,18 +79,18 @@
 
     <label class="input-label" for="room-input">Room number</label>
     <div class="search-row">
-      <input id="room-input" type="text" inputmode="none" placeholder="EB138" autocomplete="off" />
+      <input id="room-input" type="text" inputmode="none" placeholder="EB138 or EB204" autocomplete="off" />
       <button id="go-btn" class="primary-btn">Go</button>
     </div>
-    <div id="message" class="message">Only first-floor rooms are available.</div>
+    <div id="message" class="message">Floor 1 is calibrated. Floor 2 is available as a demo route layer.</div>
     <div id="suggestions" class="suggestions"></div>
 
     <div class="keypad">
-      <button data-k="E">E</button><button data-k="B">B</button><button data-k="clear" class="warn">Clear</button>
       <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
       <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
       <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
-      <button data-k="back" class="warn">⌫</button><button data-k="0">0</button><button data-k="enter" class="go">Route</button>
+      <button data-k="clear" class="warn">Clear</button><button data-k="0">0</button><button data-k="back" class="warn">⌫</button>
+      <button data-k="enter" class="go">Route</button>
     </div>
 
     <section class="editor-panel" aria-label="Room editing tools">
@@ -150,7 +155,7 @@
 </main>
 
 <footer class="footer">
-  CPT208 Group D-2 · EB first-floor navigation prototype
+  CPT208 Group D-2 · EB indoor navigation prototype
 </footer>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1DSPinHkJQaz-duQIkXpaISPXvFQszg&v=weekly"></script>

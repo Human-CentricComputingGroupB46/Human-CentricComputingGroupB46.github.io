@@ -36,6 +36,11 @@ body {
 }
 
 .brand { display: flex; align-items: center; gap: 14px; }
+.topbar-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .logo {
   width: 48px;
   height: 48px;
@@ -50,6 +55,16 @@ body {
 .topbar h1 { margin: 0; font-size: 22px; letter-spacing: 0; }
 .topbar p { margin: 2px 0 0; font-size: 13px; color: #c4d0e4; }
 .clock { font-variant-numeric: tabular-nums; font-size: 22px; color: #ffd59a; }
+.mode-badge {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  color: #d7e1f1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
 
 .kiosk-shell {
   width: min(1500px, calc(100vw - 32px));
@@ -82,6 +97,38 @@ body {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+}
+
+.map-header-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.floor-picker {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 8px;
+}
+
+.floor-option {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f7f9fd;
+  color: var(--navy);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.floor-option.active {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
 }
 
 .eyebrow {
@@ -400,6 +447,7 @@ body {
   color: var(--warn);
 }
 .keypad .go {
+  grid-column: 1 / -1;
   background: var(--orange);
   border-color: var(--orange);
 }
@@ -419,6 +467,10 @@ body {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #f8fbff;
+}
+
+.app-mode-demo .editor-panel {
+  display: none;
 }
 
 .editor-toolbar {
@@ -577,6 +629,17 @@ body {
   .route-card {
     grid-template-columns: 1fr;
   }
+  .map-header-tools {
+    width: 100%;
+    align-items: stretch;
+  }
+  .floor-picker {
+    width: 100%;
+    grid-auto-flow: column;
+  }
+  .floor-option {
+    width: 100%;
+  }
   .stats {
     width: 100%;
   }
@@ -601,11 +664,21 @@ body {
   .topbar h1 {
     font-size: 19px;
   }
+  .topbar-meta {
+    gap: 8px;
+  }
+  .mode-badge {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
   .clock {
     display: none;
   }
   .map-header {
     flex-direction: column;
+  }
+  .floor-picker {
+    grid-auto-flow: row;
   }
   .search-row {
     grid-template-columns: 1fr;

@@ -1,9 +1,9 @@
-/* CampusCompass - one-screen EB first-floor navigator. */
-
+/* CampusCompass - one-screen EB indoor navigator. */
 const state = {
   entrance: "NW",
   entranceNodeId: ENTRANCES.NW.id,
   dest: null,
+  activeFloor: 1,
   graph: null,
   route: null,
   mode: "idle",
@@ -34,25 +34,120 @@ const state = {
   roomLayoutResetData: null,
   mapSurface: null,
   editSurface: null,
+  demoMode: true,
 };
 
 const MIN_ROOM_DIMENSION = 24;
 
 document.addEventListener("DOMContentLoaded", async () => {
+  state.demoMode = getRequestedAppMode() !== "edit";
+  state.activeFloor = getAvailableFloors()[0] || 1;
+  applyAppMode();
   state.graph = buildGraph();
   await initMap();
   tickClock();
   setInterval(tickClock, 1000 * 15);
   wireEntrancePicker();
+  wireFloorPicker();
   wireInput();
-  wireEditor();
-  state.roomLayoutSnapshot = generateEditableDataSource();
-  state.roomLayoutResetData = cloneEditorDataSnapshot();
+  if (!state.demoMode) {
+    wireEditor();
+    state.roomLayoutSnapshot = generateEditableDataSource();
+    state.roomLayoutResetData = cloneEditorDataSnapshot();
+  }
   renderSuggestions("");
   renderMap();
   renderStatus();
-  renderEditorState();
+  if (!state.demoMode) {
+    renderEditorState();
+  }
 });
+
+function getRequestedAppMode() {
+  const params = new URLSearchParams(window.location.search);
+  const mode = String(params.get("mode") || "demo").trim().toLowerCase();
+  return mode === "edit" ? "edit" : "demo";
+}
+
+function applyAppMode() {
+  document.body.classList.toggle("app-mode-demo", state.demoMode);
+  document.body.classList.toggle("app-mode-edit", !state.demoMode);
+
+  const badge = document.getElementById("mode-badge");
+  if (!badge) return;
+
+  badge.hidden = false;
+  badge.textContent = state.demoMode ? "Demo mode" : "Edit mode";
+}
+
+function wireFloorPicker() {
+  const picker = document.getElementById("floor-picker");
+  if (!picker) return;
+
+  picker.addEventListener("click", event => {
+    const button = event.target.closest("button[data-floor]");
+    if (!button) return;
+    setActiveFloor(Number(button.dataset.floor));
+  });
+
+  renderFloorPicker();
+}
+
+function renderFloorPicker() {
+  const picker = document.getElementById("floor-picker");
+  const eyebrow = document.getElementById("floor-eyebrow");
+  const title = document.getElementById("floor-title");
+  const meta = FLOOR_METADATA[getVisibleFloor()] || {
+    label: `Floor ${getVisibleFloor()}`,
+    title: `Floor ${getVisibleFloor()} route map`,
+  };
+
+  if (eyebrow) eyebrow.textContent = `EB ${meta.label}`;
+  if (title) title.textContent = meta.title;
+  if (!picker) return;
+
+  picker.innerHTML = "";
+  getAvailableFloors().forEach(floor => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.floor = String(floor);
+    button.textContent = FLOOR_METADATA[floor]?.label || `Floor ${floor}`;
+    button.className = `floor-option${floor === getVisibleFloor() ? " active" : ""}`;
+    button.setAttribute("aria-pressed", floor === getVisibleFloor() ? "true" : "false");
+    picker.appendChild(button);
+  });
+}
+
+function setActiveFloor(floor) {
+  if (!getAvailableFloors().includes(floor) || floor === state.activeFloor) return;
+
+  state.activeFloor = floor;
+  syncSelectionToVisibleFloor();
+  renderFloorPicker();
+  renderMap();
+  renderStatus();
+
+  if (!state.demoMode) {
+    renderEditorState();
+  }
+}
+
+function syncSelectionToVisibleFloor() {
+  if (state.selectedRoomCode && getFloorForRoomCode(state.selectedRoomCode) !== getVisibleFloor()) {
+    state.selectedRoomCode = null;
+  }
+
+  if (!state.selectedNodeId) return;
+
+  const record = findEditableNodeRecord(state.selectedNodeId);
+  const recordFloor = record?.type === "room"
+    ? getFloorForRoomCode(record.data.code)
+    : getNodeFloor(record?.data);
+
+  if (recordFloor !== getVisibleFloor()) {
+    state.selectedNodeId = null;
+  }
+}
 
 function tickClock() {
   const d = new Date();
@@ -67,9 +162,12 @@ function wireEntrancePicker() {
       state.entrance = btn.dataset.entrance;
       state.entranceNodeId = ENTRANCES[state.entrance].id;
       state.dest = null;
+      state.activeFloor = 1;
       state.route = null;
       state.mode = state.entrance === "SW" ? "recommend" : "idle";
       document.getElementById("room-input").value = "";
+      syncSelectionToVisibleFloor();
+      renderFloorPicker();
       renderSuggestions("");
       renderMap();
       renderStatus();
@@ -82,7 +180,7 @@ function wireInput() {
   const input = document.getElementById("room-input");
 
   input.addEventListener("input", () => {
-    input.value = cleanRoomInput(input.value);
+    input.value = normalizeRoomSearchInput(input.value);
     renderSuggestions(input.value);
   });
 
@@ -97,12 +195,14 @@ function wireInput() {
         input.value = "";
         clearRoute();
       } else if (key === "back") {
-        input.value = input.value.slice(0, -1);
+        const suffix = getRoomSearchNumericSuffix(input.value);
+        input.value = formatRoomSearchNumericSuffix(suffix.slice(0, -1));
       } else if (key === "enter") {
         tryRoute();
         return;
       } else {
-        input.value = cleanRoomInput(input.value + key);
+        const suffix = getRoomSearchNumericSuffix(input.value);
+        input.value = formatRoomSearchNumericSuffix(`${suffix}${key}`);
       }
       renderSuggestions(input.value);
     });
@@ -168,14 +268,69 @@ function cleanRoomInput(value) {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
 }
 
+function normalizeRoomSearchInput(value) {
+  const cleaned = cleanRoomInput(value);
+  if (!cleaned) return "";
+  if (/^\d+$/.test(cleaned)) return `EB${cleaned}`;
+  if (/^[A-Z]+\d+$/.test(cleaned) && !cleaned.startsWith("EB")) {
+    return `EB${cleaned.replace(/^[A-Z]+/, "")}`;
+  }
+  return cleaned;
+}
+
+function getRoomSearchNumericSuffix(value) {
+  const normalized = normalizeRoomSearchInput(value);
+  if (!normalized) return "";
+  if (normalized.startsWith("EB")) return normalized.slice(2).replace(/\D/g, "");
+  return normalized.replace(/\D/g, "");
+}
+
+function formatRoomSearchNumericSuffix(value) {
+  const digits = String(value || "").replace(/\D/g, "").slice(0, 8);
+  return digits ? `EB${digits}` : "";
+}
+
 function normalizeRoomCodeInput(value) {
   return String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
 }
 
+function getVisibleFloor() {
+  return Number(state.activeFloor) || 1;
+}
+
+function getNodeFloor(node) {
+  return node?.floor ?? 1;
+}
+
+function getVisibleRooms() {
+  return getRoomsForFloor(getVisibleFloor());
+}
+
+function getVisibleInaccessibleAreas() {
+  return INACCESSIBLE_AREAS_BY_FLOOR[getVisibleFloor()] || [];
+}
+
+function getFloorLabel(floor) {
+  return FLOOR_METADATA[floor]?.label || `Floor ${floor}`;
+}
+
+function getRouteFloors(path) {
+  return [...new Set((path || [])
+    .map(id => state.graph?.nodes[id]?.floor)
+    .filter(Number.isFinite))];
+}
+
+function getVisibleRoutePath(path = state.route?.path) {
+  return (path || []).filter(id => state.graph?.nodes[id]?.floor === getVisibleFloor());
+}
+
 function clearRoute() {
   state.dest = null;
+  state.activeFloor = 1;
   state.route = null;
   state.mode = state.entrance === "SW" ? "recommend" : "idle";
+  syncSelectionToVisibleFloor();
+  renderFloorPicker();
   renderMap();
   renderStatus();
 }
@@ -183,14 +338,14 @@ function clearRoute() {
 function renderSuggestions(prefix) {
   const box = document.getElementById("suggestions");
   box.innerHTML = "";
-  const p = cleanRoomInput(prefix || "");
+  const p = normalizeRoomSearchInput(prefix || "");
   const matches = allRoomCodes()
     .filter(code => !p || code.startsWith(p))
-    .slice(0, p ? 8 : 10);
+    .slice(0, 4);
 
   if (matches.length === 0 && p.length >= 3) {
     const span = document.createElement("span");
-    span.textContent = `No first-floor room found for "${p}".`;
+    span.textContent = `No room found for "${p}".`;
     box.appendChild(span);
     return;
   }
@@ -209,7 +364,7 @@ function renderSuggestions(prefix) {
 
 function tryRoute() {
   const input = document.getElementById("room-input");
-  const code = cleanRoomInput(input.value);
+  const code = normalizeRoomSearchInput(input.value);
   input.value = code;
 
   if (!allRoomCodes().includes(code)) {
@@ -232,6 +387,7 @@ function refreshGraphAndRoute() {
   if (!state.dest) {
     state.route = null;
     state.mode = state.entrance === "SW" ? "recommend" : "idle";
+    renderFloorPicker();
     renderMap();
     renderStatus();
     return;
@@ -240,20 +396,21 @@ function refreshGraphAndRoute() {
   if (state.entrance === "SW") {
     state.route = { path: RECOMMENDED_SW_TO_NW, distance: estimatePathDistance(RECOMMENDED_SW_TO_NW) };
     state.mode = "recommend";
-    renderMap();
-    renderStatus();
-    return;
-  }
-
-  const result = dijkstra(state.graph, state.entranceNodeId, `ROOM-${state.dest}`);
-  if (!result) {
-    state.route = null;
-    state.mode = "unreachable";
+    state.activeFloor = 1;
   } else {
-    state.route = result;
-    state.mode = "route";
+    const result = dijkstra(state.graph, state.entranceNodeId, `ROOM-${state.dest}`);
+    if (!result) {
+      state.route = null;
+      state.mode = "unreachable";
+    } else {
+      state.route = result;
+      state.mode = "route";
+      state.activeFloor = getFloorForRoomCode(state.dest) || 1;
+    }
   }
 
+  syncSelectionToVisibleFloor();
+  renderFloorPicker();
   renderMap();
   renderStatus();
 }
@@ -328,12 +485,17 @@ function renderStatus() {
   document.querySelectorAll(".entrance-option").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.entrance === state.entrance);
   });
+  renderFloorPicker();
 
   const title = document.getElementById("route-title");
   const steps = document.getElementById("steps");
   const message = document.getElementById("message");
   const dist = document.getElementById("stat-dist");
   const time = document.getElementById("stat-time");
+  const visibleRoutePath = getVisibleRoutePath();
+  const routeFloors = getRouteFloors(state.route?.path);
+  const visibleFloorLabel = getFloorLabel(getVisibleFloor());
+  const destinationFloor = state.dest ? getFloorForRoomCode(state.dest) : null;
 
   steps.innerHTML = "";
   dist.textContent = "--";
@@ -342,12 +504,17 @@ function renderStatus() {
 
   if (state.mode === "route" && state.route && state.dest) {
     title.textContent = `${entrance.label} to ${state.dest}`;
-    message.textContent = `Shortest first-floor route shown on the ${getMapSurfaceLabel()}.`;
+    if (!visibleRoutePath.length) {
+      message.classList.add("warn");
+      message.textContent = `${visibleFloorLabel} is not used for this route. Switch to ${getFloorLabel(destinationFloor)} to see the arrival segment.`;
+    } else if (routeFloors.length > 1) {
+      message.textContent = `Showing the ${visibleFloorLabel.toLowerCase()} segment on the ${getMapSurfaceLabel()}.`;
+    } else {
+      message.textContent = `Shortest route shown on the ${getMapSurfaceLabel()}.`;
+    }
     dist.textContent = Math.round(state.route.distance / 10);
     time.textContent = Math.max(5, Math.round(state.route.distance / 14));
-    addStep(`Start at ${entrance.label}.`);
-    addRouteLandmarks(state.route.path);
-    addStep(`Arrive at ${state.dest}.`);
+    addRouteNarrative(state.route.path, entrance.label);
     return;
   }
 
@@ -368,7 +535,7 @@ function renderStatus() {
   if (state.mode === "invalid") {
     title.textContent = "Room not found.";
     message.classList.add("warn");
-    message.textContent = "Please enter one of the listed first-floor room numbers.";
+    message.textContent = "Please enter one of the listed room numbers.";
     addStep("Check the room code and try again.");
     return;
   }
@@ -390,19 +557,47 @@ function renderStatus() {
   }
 
   title.textContent = "Choose an entrance, then enter a room.";
-  message.textContent = `Only EB first-floor rooms are available. Room positions are approximate on the ${getMapSurfaceLabel()}.`;
+  message.textContent = `Floor 1 is calibrated, and Floor 2 is available as a demo route layer on the ${getMapSurfaceLabel()}.`;
   addStep("Select NW, NE, or SW on the input panel.");
-  addStep("Enter a room such as EB102, EB111, or EB138.");
+  addStep("Enter a room such as EB138, EB161, or EB204.");
 }
 
-function addRouteLandmarks(path) {
-  const labels = [];
-  for (const id of path) {
-    const node = state.graph.nodes[id];
-    if (!node || !node.label || node.kind === "room") continue;
-    if (labels[labels.length - 1] !== node.label) labels.push(node.label);
+function addRouteNarrative(path, entranceLabel) {
+  const nodes = (path || []).map(id => state.graph.nodes[id]).filter(Boolean);
+  if (!nodes.length) return;
+
+  addStep(`Start at ${entranceLabel}.`);
+
+  let currentFloor = nodes[0].floor;
+  const announcedLabels = new Set();
+
+  for (let index = 1; index < nodes.length; index += 1) {
+    const node = nodes[index];
+    const previous = nodes[index - 1];
+
+    if (node.floor !== currentFloor) {
+      const stairLabel = node.kind === "stair"
+        ? node.label
+        : previous.kind === "stair"
+          ? previous.label
+          : "nearest stair";
+      const direction = node.floor > currentFloor ? "up" : "down";
+      addStep(`Take the ${stairLabel} ${direction} to ${getFloorLabel(node.floor)}.`);
+      currentFloor = node.floor;
+      continue;
+    }
+
+    if (!node.label || node.kind === "room" || node.kind === "stair") continue;
+
+    const normalizedLabel = node.label.toLowerCase();
+    if (announcedLabels.has(normalizedLabel)) continue;
+    if (/hub|corridor|hall|path/i.test(node.label)) {
+      addStep(`Continue via ${node.label}.`);
+      announcedLabels.add(normalizedLabel);
+    }
   }
-  labels.forEach(label => addStep(`Pass ${label}.`));
+
+  addStep(`Arrive at ${state.dest}.`);
 }
 
 function addStep(text) {
@@ -547,7 +742,7 @@ function drawBase(ctx) {
     lineWidth: 2,
   });
 
-  for (const area of INACCESSIBLE_AREAS) {
+  for (const area of getVisibleInaccessibleAreas()) {
     drawGeoRect(ctx, area.x, area.y, area.w, area.h, {
       fillStyle: "rgba(215, 221, 232, 0.92)",
       strokeStyle: "rgba(184, 194, 210, 0.95)",
@@ -585,6 +780,10 @@ function getNonRoomNodes() {
   return [...Object.values(ENTRANCES), ...SERVICE_POINTS, ...WALKABLE_NODES];
 }
 
+function getNonRoomNodesForFloor(floor = getVisibleFloor()) {
+  return getNonRoomNodes().filter(node => getNodeFloor(node) === floor);
+}
+
 function getGraphNodeById(id) {
   return getNonRoomNodes().find(node => node.id === id) || null;
 }
@@ -612,9 +811,11 @@ function findEditableNodeRecord(nodeId) {
 }
 
 function getGraphNodeKind(nodeId) {
-  if (Object.values(ENTRANCES).some(node => node.id === nodeId)) return "entrance";
-  if (SERVICE_POINTS.some(node => node.id === nodeId)) return "service";
-  return "corridor";
+  const node = getGraphNodeById(nodeId);
+  if (!node) return "corridor";
+  if (Object.values(ENTRANCES).some(entry => entry.id === nodeId)) return "entrance";
+  if (SERVICE_POINTS.some(entry => entry.id === nodeId)) return "service";
+  return node.kind || "corridor";
 }
 
 function getEditableNodeLocalPoint(nodeId) {
@@ -656,10 +857,13 @@ function normalizeLinkDescriptors(links, defaultKind) {
 function getRenderableGraphLinks() {
   const seen = new Set();
   const segments = [];
+  const visibleFloor = getVisibleFloor();
 
-  for (const node of getNonRoomNodes()) {
+  for (const node of getNonRoomNodesForFloor(visibleFloor)) {
     for (const link of getNodeLinks(node)) {
       if (link.to.startsWith("ROOM-")) continue;
+      const target = state.graph.nodes[link.to];
+      if (!target || target.floor !== visibleFloor) continue;
       const pairKey = [node.id, link.to].sort().join("::");
       if (seen.has(pairKey)) continue;
       segments.push({ from: node.id, to: link.to, kind: link.kind || "corridor" });
@@ -673,8 +877,9 @@ function getRenderableGraphLinks() {
 function getRenderableRoomLinks() {
   const seen = new Set();
   const segments = [];
+  const visibleFloor = getVisibleFloor();
 
-  for (const room of getRoomsForFloor(1)) {
+  for (const room of getRoomsForFloor(visibleFloor)) {
     for (const link of getRoomLinks(room)) {
       const from = `ROOM-${room.code}`;
       const to = link.to;
@@ -682,7 +887,10 @@ function getRenderableRoomLinks() {
       if (seen.has(pairKey)) continue;
 
       const targetRecord = findEditableNodeRecord(to);
-      if (!targetRecord) continue;
+      const targetFloor = targetRecord?.type === "room"
+        ? getFloorForRoomCode(targetRecord.data.code)
+        : getNodeFloor(targetRecord?.data);
+      if (!targetRecord || targetFloor !== visibleFloor) continue;
 
       segments.push({
         from,
@@ -715,7 +923,7 @@ function drawRooms(ctx) {
   const showLabels = state.editMode || getMapZoom() >= 19;
   const showNotes = state.editMode || getMapZoom() >= 20;
 
-  for (const room of getRoomsForFloor(1)) {
+  for (const room of getVisibleRooms()) {
     const roomPoint = getRoomLocalPoint(room);
     const isSelected = state.selectedRoomCode === room.code;
     const isHover = state.hoverRoomCode === room.code;
@@ -766,7 +974,7 @@ function drawRooms(ctx) {
 }
 
 function drawServicePoints(ctx) {
-  for (const sp of SERVICE_POINTS) {
+  for (const sp of SERVICE_POINTS.filter(point => getNodeFloor(point) === getVisibleFloor())) {
     const point = projectLocalPoint(sp.x, sp.y);
     if (!point) continue;
     drawScreenRoundedRect(ctx, point.x - 24, point.y - 15, 48, 30, 5, {
@@ -785,6 +993,8 @@ function drawServicePoints(ctx) {
 }
 
 function drawEntrances(ctx) {
+  if (getVisibleFloor() !== 1) return;
+
   for (const [key, entrance] of Object.entries(ENTRANCES)) {
     const point = projectLocalPoint(entrance.x, entrance.y);
     if (!point) continue;
@@ -806,12 +1016,14 @@ function drawEntrances(ctx) {
 }
 
 function drawPath(ctx) {
-  if (!state.route || !state.route.path || state.route.path.length < 2) {
-    if (state.entrance === "SW") drawRecommendedPath(ctx);
+  const visiblePath = getVisibleRoutePath();
+
+  if (!state.route || visiblePath.length < 2) {
+    if (state.entrance === "SW" && getVisibleFloor() === 1) drawRecommendedPath(ctx);
     return;
   }
 
-  drawPolyline(ctx, state.route.path, {
+  drawPolyline(ctx, visiblePath, {
     strokeStyle: state.mode === "recommend" ? "#b8322a" : "#f29325",
     lineWidth: 7,
     lineDash: state.mode === "recommend" ? [12, 10] : [],
@@ -827,7 +1039,10 @@ function drawRecommendedPath(ctx) {
 }
 
 function drawMarkers(ctx) {
-  const start = state.graph.nodes[state.entranceNodeId];
+  const visibleRoutePath = getVisibleRoutePath();
+  const start = visibleRoutePath.length
+    ? state.graph.nodes[visibleRoutePath[0]]
+    : (getVisibleFloor() === 1 ? state.graph.nodes[state.entranceNodeId] : null);
   if (start) {
     const point = projectLocalPoint(start.x, start.y);
     if (point) {
@@ -841,13 +1056,20 @@ function drawMarkers(ctx) {
       ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
       ctx.fillStyle = "#f29325";
       ctx.fill();
+      if (getVisibleFloor() > 1 && start.kind === "stair") {
+        ctx.fillStyle = "#c2690e";
+        ctx.font = "700 11px Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText("Arrive via stair", point.x, point.y - 26);
+      }
       ctx.restore();
     }
   }
 
   if (!state.dest) return;
   const destNode = state.graph.nodes[`ROOM-${state.dest}`];
-  if (!destNode || state.mode === "recommend") return;
+  if (!destNode || state.mode === "recommend" || destNode.floor !== getVisibleFloor()) return;
   const destPoint = projectLocalPoint(destNode.x, destNode.y);
   if (!destPoint) return;
   ctx.save();
@@ -863,7 +1085,7 @@ function drawMarkers(ctx) {
 
 function drawNorthBadge(ctx) {
   ctx.save();
-  drawScreenRoundedRect(ctx, 16, 16, 134, 56, 10, {
+  drawScreenRoundedRect(ctx, 16, 16, 176, 56, 10, {
     fillStyle: "rgba(11, 31, 58, 0.82)",
     strokeStyle: "rgba(255, 255, 255, 0.2)",
     lineWidth: 1,
@@ -1135,7 +1357,7 @@ function getOppositeRoomCornerLocalPoint(room, handleName) {
 }
 
 function pickRoomAtScreenPoint(x, y) {
-  const rooms = getRoomsForFloor(1);
+  const rooms = getVisibleRooms();
   for (let index = rooms.length - 1; index >= 0; index -= 1) {
     const room = rooms[index];
     const polygon = getRoomScreenPolygon(room);
@@ -1146,8 +1368,8 @@ function pickRoomAtScreenPoint(x, y) {
 
 function getEditableNodeIds() {
   return [
-    ...getNonRoomNodes().map(node => node.id),
-    ...getRoomsForFloor(1).map(room => `ROOM-${room.code}`),
+    ...getNonRoomNodesForFloor(getVisibleFloor()).map(node => node.id),
+    ...getVisibleRooms().map(room => `ROOM-${room.code}`),
   ];
 }
 
@@ -1240,8 +1462,8 @@ function getMapCenterLat() {
 }
 
 function getMapBadgeText() {
-  if (state.mapProvider === "google") return "Google Maps + indoor overlay";
-  return "Terrain + indoor overlay";
+  const providerLabel = state.mapProvider === "google" ? "Google Maps" : "Terrain map";
+  return `${getFloorLabel(getVisibleFloor())} · ${providerLabel}`;
 }
 
 function getMapSurfaceLabel() {
@@ -1446,6 +1668,8 @@ function drawSelectedNodeBadge(ctx, nodeId) {
 }
 
 function setEditMode(enabled) {
+  if (state.demoMode) return;
+
   state.editMode = enabled;
   state.hoverRoomCode = null;
   state.hoverNodeId = null;
@@ -1462,7 +1686,8 @@ function setEditMode(enabled) {
     state.mapSurface?.classList.remove("dragging");
     setEditorMessage("Edit mode is off.");
   } else {
-    state.selectedRoomCode = state.selectedRoomCode || state.dest || getRoomsForFloor(1)[0]?.code || null;
+    const preferredRoom = state.dest && getFloorForRoomCode(state.dest) === getVisibleFloor() ? state.dest : null;
+    state.selectedRoomCode = state.selectedRoomCode || preferredRoom || getVisibleRooms()[0]?.code || null;
     setEditorTool(state.editorTool);
   }
 
@@ -1486,7 +1711,8 @@ function setEditorTool(tool) {
 
   if (tool === "move") {
     state.selectedNodeId = null;
-    state.selectedRoomCode = state.selectedRoomCode || state.dest || getRoomsForFloor(1)[0]?.code || null;
+    const preferredRoom = state.dest && getFloorForRoomCode(state.dest) === getVisibleFloor() ? state.dest : null;
+    state.selectedRoomCode = state.selectedRoomCode || preferredRoom || getVisibleRooms()[0]?.code || null;
     setEditorMessage(
       canSaveRoomDataToFile()
         ? "Move / Resize Overlay is active. Drag a room to move it, drag its corner handles to resize width and height, or use the selected-room inputs before saving back to data.js."
@@ -1732,7 +1958,7 @@ function handleAddRoomPointerDown(point) {
     room.note = draft.note;
   }
 
-  getRoomsForFloor(1).push(room);
+  getRoomsForFloor(getVisibleFloor()).push(room);
 
   const roomRecord = findEditableNodeRecord(`ROOM-${room.code}`);
   const nearestNodeId = findNearestAttachableNodeId(localPoint);
@@ -2152,6 +2378,8 @@ async function saveRoomDataBlock() {
 }
 
 function renderEditorState() {
+  if (state.demoMode) return;
+
   const toggle = document.getElementById("toggle-edit-mode");
   const save = document.getElementById("save-room-data");
   const copy = document.getElementById("copy-room-data");
@@ -2227,9 +2455,9 @@ function renderEditorState() {
   selection.textContent = selectedOverlayLatLng
     ? `Selected overlay · lat ${formatCoordinate(selectedOverlayLatLng.lat)} · lng ${formatCoordinate(selectedOverlayLatLng.lng)} · scale ${GEO_REFERENCE.unitsPerMeter.toFixed(3)} units/m` 
     : state.editorTool === "add-room"
-    ? `Add room draft: ${roomDraftSummary}`
+    ? `Add room draft (${getFloorLabel(getVisibleFloor())}): ${roomDraftSummary}`
     : selectedRoom && selectedLatLng
-    ? `Selected room: ${selectedRoom.code} · ${selectedRoom.w} x ${selectedRoom.h} local units · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
+    ? `Selected room: ${selectedRoom.code} · ${getFloorLabel(getFloorForRoomCode(selectedRoom.code) || getVisibleFloor())} · ${selectedRoom.w} x ${selectedRoom.h} local units · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
     : selectedRecord && selectedLatLng
     ? `Selected ${selectedRecord.kind}: ${selectedRecord.label} · lat ${formatCoordinate(selectedLatLng.lat)} · lng ${formatCoordinate(selectedLatLng.lng)}`
     : "Selected item: --";
@@ -2287,12 +2515,12 @@ function generateEntrancesBlock() {
 }
 
 function generateServicePointsBlock() {
-  const entries = SERVICE_POINTS.map(point => `  ${formatGraphNodeEntry(point, ["id", "label", "x", "y", "entrance", "links"])},`).join("\n");
+  const entries = SERVICE_POINTS.map(point => `  ${formatGraphNodeEntry(point, ["id", "label", "x", "y", "floor", "entrance", "links"] )},`).join("\n");
   return `const SERVICE_POINTS = [\n${entries}\n];`;
 }
 
 function generateWalkableNodesBlock() {
-  const entries = WALKABLE_NODES.map(node => `  ${formatGraphNodeEntry(node, ["id", "x", "y", "label", "links"])},`).join("\n");
+  const entries = WALKABLE_NODES.map(node => `  ${formatGraphNodeEntry(node, ["id", "floor", "kind", "x", "y", "label", "links"] )},`).join("\n");
   return `const WALKABLE_NODES = [\n${entries}\n];`;
 }
 
@@ -2401,6 +2629,9 @@ function getNewRoomDraft() {
 function validateNewRoomDraft(draft) {
   if (!draft.code) return "Room code is required before placing a new room.";
   if (allRoomCodes().includes(draft.code)) return `Room ${draft.code} already exists.`;
+  if (getFloorForRoomCode(draft.code) !== getVisibleFloor()) {
+    return `Room ${draft.code} does not match ${getFloorLabel(getVisibleFloor())}.`;
+  }
   if (!Number.isFinite(draft.w) || draft.w < 24) return "Room width must be at least 24 local units.";
   if (!Number.isFinite(draft.h) || draft.h < 24) return "Room height must be at least 24 local units.";
   return "";
@@ -2409,7 +2640,7 @@ function validateNewRoomDraft(draft) {
 function findNearestAttachableNodeId(localPoint) {
   let bestMatch = null;
 
-  for (const node of getNonRoomNodes()) {
+  for (const node of getNonRoomNodesForFloor(getVisibleFloor())) {
     const distance = Math.hypot(node.x - localPoint.x, node.y - localPoint.y);
     if (!bestMatch || distance < bestMatch.distance) {
       bestMatch = { id: node.id, distance };
