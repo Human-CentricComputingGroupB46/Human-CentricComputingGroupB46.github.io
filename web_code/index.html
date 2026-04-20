@@ -16,6 +16,7 @@
     </div>
   </div>
   <div class="topbar-meta">
+    <button id="mode-switch" class="mode-switch" type="button">Open Design</button>
     <div id="mode-badge" class="mode-badge" hidden>Demo mode</div>
     <div class="clock" id="clock">--:--</div>
   </div>
@@ -79,10 +80,10 @@
 
     <label class="input-label" for="room-input">Room number</label>
     <div class="search-row">
-      <input id="room-input" type="text" inputmode="none" placeholder="EB138 or EB204" autocomplete="off" />
+      <input id="room-input" type="text" inputmode="none" placeholder="EB" autocomplete="off" />
       <button id="go-btn" class="primary-btn">Go</button>
     </div>
-    <div id="message" class="message">Floor 1 is calibrated. Floor 2 is available as a demo route layer.</div>
+    <div id="message" class="message">Floor 1 is calibrated. Floor 2 is now an approximate overlay traced from the floor-plan photo.</div>
     <div id="suggestions" class="suggestions"></div>
 
     <div class="keypad">
@@ -95,13 +96,14 @@
 
     <section class="editor-panel" aria-label="Room editing tools">
       <div class="editor-toolbar">
-        <button id="toggle-edit-mode" class="secondary-btn" type="button">Edit Rooms</button>
+        <button id="toggle-edit-mode" class="secondary-btn" type="button">Enable Layout Editing</button>
+        <button id="delete-selected" class="secondary-btn danger-btn" type="button" disabled>Delete Selected</button>
         <button id="save-room-data" class="secondary-btn" type="button" disabled>Save to data.js</button>
         <button id="copy-room-data" class="secondary-btn" type="button" disabled>Copy layout data</button>
         <button id="reset-room-data" class="secondary-btn" type="button" disabled>Reset Unsaved</button>
       </div>
       <div class="editor-tools" role="group" aria-label="Editing tool selection">
-        <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Overlay</button>
+        <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Layout</button>
         <button id="add-room-tool" class="secondary-btn" type="button">Add Room</button>
         <button id="link-edit-tool" class="secondary-btn" type="button">Edit Links</button>
       </div>
@@ -133,7 +135,7 @@
           <input id="new-room-note" type="text" value="" maxlength="80" placeholder="Optional secondary label" autocomplete="off" />
         </label>
       </div>
-      <p id="editor-message" class="editor-message">Edit mode is off.</p>
+      <p id="editor-message" class="editor-message">Layout editing is off.</p>
       <div id="selected-room-size-form" class="editor-size-form" aria-label="Selected room size" hidden>
         <label class="editor-field editor-field-small">
           <span>Selected width</span>
@@ -143,7 +145,7 @@
           <span>Selected height</span>
           <input id="selected-room-height" type="number" min="24" step="1" inputmode="numeric" />
         </label>
-        <div id="selected-room-size-hint" class="editor-size-hint">Select a room in Move / Resize Overlay to edit its size.</div>
+        <div id="selected-room-size-hint" class="editor-size-hint">Select a room or corridor in Move / Resize Layout to edit its size.</div>
       </div>
       <div id="editor-selection" class="editor-selection">Selected room: --</div>
       <div id="editor-neighbors" class="editor-neighbors">Neighbors: --</div>

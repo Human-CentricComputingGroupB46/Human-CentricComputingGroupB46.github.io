@@ -66,6 +66,25 @@ body {
   text-transform: uppercase;
 }
 
+.mode-switch {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mode-switch:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
 .kiosk-shell {
   width: min(1500px, calc(100vw - 32px));
   min-height: calc(100vh - 132px);
@@ -364,6 +383,14 @@ body {
   letter-spacing: 0;
   text-transform: uppercase;
 }
+#room-input::placeholder {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 800;
+  letter-spacing: inherit;
+  text-transform: uppercase;
+  color: currentColor;
+}
 #room-input:focus {
   outline: none;
   border-color: var(--orange);
@@ -475,7 +502,7 @@ body {
 
 .editor-toolbar {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
 }
 
@@ -531,6 +558,16 @@ body {
   border-color: var(--navy);
   background: var(--navy);
   color: #fff;
+}
+
+.danger-btn {
+  border-color: #efc1bd;
+  background: #fdeeed;
+  color: var(--warn);
+}
+
+.danger-btn:not(:disabled):hover {
+  background: #fbdedb;
 }
 
 .editor-message {
@@ -665,10 +702,17 @@ body {
     font-size: 19px;
   }
   .topbar-meta {
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 8px;
   }
   .mode-badge {
     padding: 7px 10px;
+    font-size: 11px;
+  }
+  .mode-switch {
+    min-height: 36px;
+    padding: 0 12px;
     font-size: 11px;
   }
   .clock {
