@@ -46,6 +46,7 @@ const state = {
     entrances: true,
     services: true,
     edges: true,
+    zones: true,
   },
 };
 
@@ -848,6 +849,8 @@ function drawBase(ctx) {
     lineWidth: 2,
   });
 
+  if (!isLayerVisible("zones")) return;
+
   for (const area of getVisibleInaccessibleAreas()) {
     drawGeoRect(ctx, area.x, area.y, area.w, area.h, {
       fillStyle: "rgba(215, 221, 232, 0.92)",
@@ -1074,6 +1077,7 @@ function getOppositeCorridorCornerLocalPoint(node, handleName) {
 }
 
 function pickCorridorAtScreenPoint(x, y) {
+  if (!isLayerVisible("corridors")) return null;
   let bestMatch = null;
 
   for (const node of getCorridorNodesForFloor()) {
@@ -1663,6 +1667,7 @@ function getOppositeRoomCornerLocalPoint(room, handleName) {
 }
 
 function pickRoomAtScreenPoint(x, y) {
+  if (!isLayerVisible("rooms")) return null;
   const rooms = getVisibleRooms();
   for (let index = rooms.length - 1; index >= 0; index -= 1) {
     const room = rooms[index];
