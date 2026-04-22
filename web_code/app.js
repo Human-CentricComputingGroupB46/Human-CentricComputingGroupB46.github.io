@@ -31,6 +31,7 @@ const state = {
   draggingCorridorId: null,
   draggingCorridorResize: null,
   draggingOverlay: null,
+  draggingMap: null,
   dragOffset: null,
   editorMessage: "Layout editing is off.",
   editorTone: "",
@@ -202,14 +203,8 @@ function syncSelectionToVisibleFloor() {
 
   if (!state.selectedNodeId) return;
 
-  const record = findEditableNodeRecord(state.selectedNodeId);
-  const recordFloor = record?.type === "room"
-    ? getFloorForRoomCode(record.data.code)
-    : getNodeFloor(record?.data);
-
-  if (recordFloor !== getVisibleFloor()) {
-    state.selectedNodeId = null;
-  }
+  // Preserve selectedNodeId across floor changes to allow cross-floor linking.
+  // We no longer clear state.selectedNodeId.
 }
 
 function tickClock() {
@@ -318,6 +313,15 @@ function wireEditor() {
 
   document.getElementById("delete-selected").addEventListener("click", deleteSelectedLayoutItem);
 
+  document.addEventListener("keydown", (e) => {
+    if (!state.editMode) return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
+    if (e.key === "Backspace" || e.key === "Delete") {
+      deleteSelectedLayoutItem();
+      e.preventDefault();
+    }
+  });
+
   ["new-room-code", "new-room-width", "new-room-height", "new-room-zone", "new-room-note"].forEach(id => {
     const field = document.getElementById(id);
     field?.addEventListener("input", () => {
@@ -344,6 +348,16 @@ function wireEditor() {
   state.editSurface.addEventListener("pointerup", handleEditorPointerUp);
   state.editSurface.addEventListener("pointercancel", handleEditorPointerUp);
   state.editSurface.addEventListener("pointerleave", handleEditorPointerLeave);
+  state.editSurface.addEventListener("wheel", (e) => {
+    if (!state.editMode || !state.map) return;
+    const delta = Math.sign(e.deltaY);
+    if (state.mapProvider === "google") {
+      state.map.setZoom(state.map.getZoom() - delta);
+    } else if (state.map.setZoom && state.map.getZoom) {
+      state.map.setZoom(state.map.getZoom() - delta);
+    }
+    e.preventDefault();
+  }, { passive: false });
 
   wireLayerFilter();
 }
@@ -355,8 +369,41 @@ function wireLayerFilter() {
     const cb = e.target.closest("input[data-layer]");
     if (!cb) return;
     state.visibleLayers[cb.dataset.layer] = cb.checked;
+    deselectHiddenLayerObjects();
+    renderEditorState();
     renderMap();
   });
+}
+
+function deselectHiddenLayerObjects() {
+  if (state.selectedRoomCode && !isLayerVisible("rooms")) {
+    state.selectedRoomCode = null;
+    state.draggingRoomCode = null;
+    state.draggingRoomResize = null;
+    state.hoverRoomCode = null;
+    state.roomResizeHandle = null;
+  }
+  if (state.selectedCorridorId && !isLayerVisible("corridors")) {
+    state.selectedCorridorId = null;
+    state.draggingCorridorId = null;
+    state.draggingCorridorResize = null;
+    state.hoverCorridorId = null;
+    state.corridorResizeHandle = null;
+  }
+  if (state.selectedNodeId) {
+    const record = findEditableNodeRecord(state.selectedNodeId);
+    if (record) {
+      const layer = record.type === "room" ? "rooms"
+        : record.type === "corridor" ? "corridors"
+        : record.type === "entrance" ? "entrances"
+        : record.type === "service" ? "services"
+        : null;
+      if (layer && !isLayerVisible(layer)) {
+        state.selectedNodeId = null;
+        state.hoverNodeId = null;
+      }
+    }
+  }
 }
 
 function isLayerVisible(layer) {
@@ -399,6 +446,7 @@ function getVisibleFloor() {
 }
 
 function getNodeFloor(node) {
+  if (node?.id && (node.id.includes("SERVICE") || node.entrance)) return "all";
   return node?.floor ?? 1;
 }
 
@@ -421,7 +469,10 @@ function getRouteFloors(path) {
 }
 
 function getVisibleRoutePath(path = state.route?.path) {
-  return (path || []).filter(id => state.graph?.nodes[id]?.floor === getVisibleFloor());
+  return (path || []).filter(id => {
+    const floor = getNodeFloor(state.graph?.nodes[id]);
+    return floor === getVisibleFloor() || floor === "all";
+  });
 }
 
 function clearRoute() {
@@ -926,10 +977,20 @@ function drawEdges(ctx) {
     const b = state.graph.nodes[segment.to];
     if (!a || !b) continue;
 
+    const strokeStyle = segment.isCrossFloor 
+      ? "rgba(220, 100, 100, 0.9)" 
+      : (segment.kind === "doorway" ? "rgba(107, 123, 146, 0.98)" : "rgba(169, 194, 227, 0.95)");
+    const lineWidth = segment.isCrossFloor 
+      ? localUnitsToPixels(6) 
+      : (segment.kind === "doorway" ? localUnitsToPixels(4) : localUnitsToPixels(18));
+    const lineDash = segment.isCrossFloor 
+      ? [10, 10] 
+      : (segment.kind === "doorway" ? [7, 6] : []);
+
     drawGeoLine(ctx, a.x, a.y, b.x, b.y, {
-      strokeStyle: segment.kind === "doorway" ? "rgba(107, 123, 146, 0.98)" : "rgba(169, 194, 227, 0.95)",
-      lineWidth: segment.kind === "doorway" ? localUnitsToPixels(4) : localUnitsToPixels(18),
-      lineDash: segment.kind === "doorway" ? [7, 6] : [],
+      strokeStyle,
+      lineWidth,
+      lineDash,
     });
   }
 }
@@ -939,7 +1000,7 @@ function getNonRoomNodes() {
 }
 
 function getNonRoomNodesForFloor(floor = getVisibleFloor()) {
-  return getNonRoomNodes().filter(node => getNodeFloor(node) === floor);
+  return getNonRoomNodes().filter(node => getNodeFloor(node) === floor || getNodeFloor(node) === "all");
 }
 
 function getGraphNodeById(id) {
@@ -947,7 +1008,7 @@ function getGraphNodeById(id) {
 }
 
 function getCorridorNodesForFloor(floor = getVisibleFloor()) {
-  return WALKABLE_NODES.filter(node => getNodeFloor(node) === floor);
+  return WALKABLE_NODES.filter(node => getNodeFloor(node) === floor || getNodeFloor(node) === "all");
 }
 
 function getCorridorNodeById(id) {
@@ -1077,10 +1138,10 @@ function getOppositeCorridorCornerLocalPoint(node, handleName) {
 }
 
 function pickCorridorAtScreenPoint(x, y) {
-  if (!isLayerVisible("corridors")) return null;
+  if (!isLayerVisible("corridors") && !isLayerVisible("services")) return null;
   let bestMatch = null;
 
-  for (const node of getCorridorNodesForFloor()) {
+  for (const node of getNonRoomNodesForFloor()) {
     const polygon = getCorridorScreenPolygon(node);
     if (!polygon || !pointInPolygon({ x, y }, polygon)) continue;
 
@@ -1169,10 +1230,13 @@ function getRenderableGraphLinks() {
     for (const link of getNodeLinks(node)) {
       if (link.to.startsWith("ROOM-")) continue;
       const target = state.graph.nodes[link.to];
-      if (!target || target.floor !== visibleFloor) continue;
+      const targetFloor = getNodeFloor(target);
+      const isCrossFloor = targetFloor !== visibleFloor && targetFloor !== "all";
+      const isActivelySelected = state.editMode && (state.selectedNodeId === node.id || state.selectedNodeId === link.to);
+      if (!target || (isCrossFloor && !isActivelySelected)) continue;
       const pairKey = [node.id, link.to].sort().join("::");
       if (seen.has(pairKey)) continue;
-      segments.push({ from: node.id, to: link.to, kind: link.kind || "corridor" });
+      segments.push({ from: node.id, to: link.to, kind: link.kind || "corridor", isCrossFloor });
       seen.add(pairKey);
     }
   }
@@ -1196,11 +1260,17 @@ function getRenderableRoomLinks() {
       const targetFloor = targetRecord?.type === "room"
         ? getFloorForRoomCode(targetRecord.data.code)
         : getNodeFloor(targetRecord?.data);
-      if (!targetRecord || targetFloor !== visibleFloor) continue;
+      
+      // Let it draw if the target connects to 'all' floors (like a Service Point)
+      // or if we are actively selecting one of the sides of a cross-floor link.
+      const isCrossFloor = targetFloor !== visibleFloor && targetFloor !== "all";
+      const isActivelySelected = state.editMode && (state.selectedNodeId === from || state.selectedNodeId === to);
+      if (!targetRecord || (isCrossFloor && !isActivelySelected)) continue;
 
       segments.push({
         from,
         to,
+        isCrossFloor,
         kind: targetRecord.kind === "room" ? "room-room" : (link.kind || "room"),
       });
       seen.add(pairKey);
@@ -1217,10 +1287,20 @@ function drawRoomLinks(ctx) {
     const end = getEditableNodeLocalPoint(segment.to);
     if (!start || !end) continue;
 
+    const strokeStyle = segment.isCrossFloor 
+      ? "rgba(220, 100, 100, 0.9)" 
+      : (segment.kind === "room-room" ? "rgba(79, 122, 189, 0.9)" : "rgba(141, 166, 198, 0.95)");
+    const lineWidth = segment.isCrossFloor 
+      ? localUnitsToPixels(4) 
+      : localUnitsToPixels(segment.kind === "room-room" ? 3 : 2);
+    const lineDash = segment.isCrossFloor 
+      ? [12, 6] 
+      : (segment.kind === "room-room" ? [8, 4] : [4, 4]);
+
     drawGeoLine(ctx, start.x, start.y, end.x, end.y, {
-      strokeStyle: segment.kind === "room-room" ? "rgba(79, 122, 189, 0.9)" : "rgba(141, 166, 198, 0.95)",
-      lineWidth: localUnitsToPixels(segment.kind === "room-room" ? 3 : 2),
-      lineDash: segment.kind === "room-room" ? [8, 4] : [4, 4],
+      strokeStyle,
+      lineWidth,
+      lineDash,
     });
   }
 }
@@ -1283,7 +1363,7 @@ function drawRooms(ctx) {
 
 function drawServicePoints(ctx) {
   if (!isLayerVisible("services")) return;
-  for (const sp of SERVICE_POINTS.filter(point => getNodeFloor(point) === getVisibleFloor())) {
+  for (const sp of SERVICE_POINTS.filter(point => getNodeFloor(point) === getVisibleFloor() || getNodeFloor(point) === "all")) {
     const point = projectLocalPoint(sp.x, sp.y);
     if (!point) continue;
     drawScreenRoundedRect(ctx, point.x - 24, point.y - 15, 48, 30, 5, {
@@ -2101,6 +2181,7 @@ function setEditMode(enabled) {
     state.draggingCorridorId = null;
     state.draggingCorridorResize = null;
     state.draggingOverlay = null;
+    state.draggingMap = null;
     state.dragOffset = null;
     state.overlaySelected = false;
     state.overlayResizeHandle = null;
@@ -2127,6 +2208,7 @@ function setEditorTool(tool) {
   state.draggingCorridorId = null;
   state.draggingCorridorResize = null;
   state.draggingOverlay = null;
+  state.draggingMap = null;
   state.dragOffset = null;
   state.overlaySelected = false;
   state.overlayResizeHandle = null;
@@ -2144,15 +2226,15 @@ function setEditorTool(tool) {
     }
     setEditorMessage(
       canSaveRoomDataToFile()
-        ? "Move / Resize Layout is active. Drag a room or corridor to move it, drag corner handles to resize width and height, or use the selected-item inputs before saving back to data.js."
-        : "Move / Resize Layout is active. Drag a room or corridor to move it, drag corner handles to resize width and height, or use the selected-item inputs. Direct file save requires the local editor server.",
+        ? "Move/Resize: Drag to move, handles to resize. Select & press Delete to remove. Drag empty space to pan, wheel to zoom. Shift-drag map to move overlay."
+        : "Move/Resize: Drag to move, handles to resize. Select & press Delete to remove. Drag empty space to pan, wheel to zoom.",
       canSaveRoomDataToFile() ? "" : "warn"
     );
   } else if (tool === "add-room") {
     state.selectedCorridorId = null;
     state.selectedNodeId = null;
     setEditorMessage(
-      "Add Room is active. Fill in the draft below, then click inside the indoor frame to place a new room. The new room will auto-link to the nearest non-room node.",
+      "Add Room is active. Click inside map to place a new room. Drag empty space to pan, wheel to zoom.",
       ""
     );
   } else {
@@ -2162,7 +2244,7 @@ function setEditorTool(tool) {
     state.selectedRoomCode = null;
     state.selectedCorridorId = null;
     setEditorMessage(
-      "Edit Links is active. Click a room, corridor, stair, or node to select it, then click another item to add or remove a bidirectional link.",
+      "Edit Links is active. Click a node, then click another to connect. Drag empty space to pan, wheel to zoom.",
       ""
     );
   }
@@ -2201,14 +2283,16 @@ function handleEditorPointerDown(event) {
 
   const point = getSurfacePointFromEvent(event);
   if (state.editorTool === "add-room") {
-    handleAddRoomPointerDown(point);
-    event.preventDefault();
+    if (!handleAddRoomPointerDown(point)) {
+      startMapPanning(point, event);
+    }
     return;
   }
 
   if (state.editorTool === "link") {
-    handleLinkEditorPointerDown(point);
-    event.preventDefault();
+    if (!handleLinkEditorPointerDown(point)) {
+      startMapPanning(point, event);
+    }
     return;
   }
 
@@ -2306,7 +2390,7 @@ function handleEditorPointerDown(event) {
   state.roomResizeHandle = null;
   state.corridorResizeHandle = null;
 
-  if (!room && !corridor && isScreenPointInsideOverlay(point)) {
+  if (!room && !corridor && isScreenPointInsideOverlay(point) && event.shiftKey) {
     const startPointerLatLng = containerPointToLatLng(point.x, point.y);
     if (!startPointerLatLng) return;
 
@@ -2334,9 +2418,7 @@ function handleEditorPointerDown(event) {
   }
 
   if (!room && !corridor) {
-    setEditorMessage("Drag a room or corridor to move it, drag a selected corner to resize width and height, or drag inside the overlay frame to move the whole layer.");
-    renderEditorState();
-    renderMap();
+    startMapPanning(point, event);
     return;
   }
 
@@ -2362,7 +2444,7 @@ function handleLinkEditorPointerDown(point) {
     setEditorMessage("Click a node handle to select it, then click a second node to toggle adjacency.");
     renderEditorState();
     renderMap();
-    return;
+    return false;
   }
 
   if (!state.selectedNodeId || state.selectedNodeId === record.id) {
@@ -2378,7 +2460,7 @@ function handleLinkEditorPointerDown(point) {
     }
     renderEditorState();
     renderMap();
-    return;
+    return true;
   }
 
   const result = toggleBidirectionalLink(state.selectedNodeId, record.id);
@@ -2395,14 +2477,26 @@ function handleLinkEditorPointerDown(point) {
     refreshGraphAndRoute();
     renderEditorState();
   }
+  return true;
+}
+
+function startMapPanning(point, event) {
+  state.selectedRoomCode = null;
+  state.selectedCorridorId = null;
+  state.draggingMap = {
+    lastPoint: point
+  };
+  state.mapSurface?.classList.add("dragging-map");
+  safeSetPointerCapture(state.editSurface, event.pointerId);
+  setEditorMessage("Dragging the map viewport...");
+  renderEditorState();
+  renderMap();
+  event.preventDefault();
 }
 
 function handleAddRoomPointerDown(point) {
   if (!isScreenPointInsideOverlay(point)) {
-    setEditorMessage("Click inside the indoor overlay frame to place the new room.", "warn");
-    renderEditorState();
-    renderMap();
-    return;
+    return false;
   }
 
   const draft = getNewRoomDraft();
@@ -2410,14 +2504,14 @@ function handleAddRoomPointerDown(point) {
   if (validationError) {
     setEditorMessage(validationError, "warn");
     renderEditorState();
-    return;
+    return true;
   }
 
   const latLng = containerPointToLatLng(point.x, point.y);
   if (!latLng) {
     setEditorMessage("Could not convert the clicked point into map coordinates.", "warn");
     renderEditorState();
-    return;
+    return true;
   }
 
   const localPoint = latLngToLocalPoint(latLng.lat, latLng.lng);
@@ -2458,12 +2552,27 @@ function handleAddRoomPointerDown(point) {
   );
   renderEditorState();
   renderMap();
+  return true;
 }
 
 function handleEditorPointerMove(event) {
   if (!state.editMode || isEditorControlTarget(event.target)) return;
 
   const point = getSurfacePointFromEvent(event);
+
+  if (state.draggingMap) {
+    const dx = point.x - state.draggingMap.lastPoint.x;
+    const dy = point.y - state.draggingMap.lastPoint.y;
+    if (state.mapProvider === "google") {
+      state.map.panBy(-dx, -dy);
+    } else if (state.map) {
+      state.map.panBy([-dx, -dy], { animate: false });
+    }
+    state.draggingMap.lastPoint = point;
+    renderMap();
+    event.preventDefault();
+    return;
+  }
 
   if (state.editorTool === "add-room") {
     const room = pickRoomAtScreenPoint(point.x, point.y);
@@ -2591,6 +2700,17 @@ function handleEditorPointerMove(event) {
 }
 
 function handleEditorPointerUp(event) {
+  if (state.draggingMap) {
+    state.draggingMap = null;
+    state.mapSurface?.classList.remove("dragging-map");
+    safeReleasePointerCapture(state.editSurface, event.pointerId);
+    setEditorMessage("Layout editing is on. Map panned.");
+    renderEditorState();
+    renderMap();
+    event.preventDefault();
+    return;
+  }
+
   if (state.editorTool !== "move") return;
 
   if (state.draggingRoomResize) {
@@ -2676,6 +2796,7 @@ function handleEditorPointerUp(event) {
 }
 
 function handleEditorPointerLeave() {
+  if (state.draggingMap) return;
   if (!state.editMode || state.draggingRoomCode || state.draggingRoomResize || state.draggingCorridorId || state.draggingCorridorResize || state.draggingOverlay) return;
   if (state.overlayResizeHandle) {
     state.overlayResizeHandle = null;

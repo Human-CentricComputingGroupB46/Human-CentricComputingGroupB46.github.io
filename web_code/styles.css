@@ -683,6 +683,10 @@ body {
   cursor: grabbing;
 }
 
+.map-stack.editing.dragging-map {
+  cursor: grab;
+}
+
 .footer {
   padding: 14px 20px 20px;
   color: var(--muted);
