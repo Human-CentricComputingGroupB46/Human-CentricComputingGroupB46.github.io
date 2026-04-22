@@ -6,6 +6,7 @@ const state = {
   activeFloor: 1,
   graph: null,
   route: null,
+  recommendation: null,
   mode: "idle",
   map: null,
   canvas: null,
@@ -222,6 +223,7 @@ function wireEntrancePicker() {
       state.dest = null;
       state.activeFloor = 1;
       state.route = null;
+      state.recommendation = null;
       state.mode = state.entrance === "SW" ? "recommend" : "idle";
       document.getElementById("room-input").value = "";
       syncSelectionToVisibleFloor();
@@ -479,6 +481,7 @@ function clearRoute() {
   state.dest = null;
   state.activeFloor = 1;
   state.route = null;
+  state.recommendation = null;
   state.mode = state.entrance === "SW" ? "recommend" : "idle";
   syncSelectionToVisibleFloor();
   renderFloorPicker();
@@ -521,6 +524,7 @@ function tryRoute() {
   if (!allRoomCodes().includes(code)) {
     state.dest = null;
     state.route = null;
+    state.recommendation = null;
     state.mode = state.entrance === "SW" ? "recommend" : "invalid";
     flashInput();
     renderMap();
@@ -541,6 +545,7 @@ function refreshGraphAndRoute() {
 
   if (!state.dest) {
     state.route = null;
+    state.recommendation = null;
     state.mode = state.entrance === "SW" ? "recommend" : "idle";
     renderFloorPicker();
     renderMap();
@@ -549,10 +554,9 @@ function refreshGraphAndRoute() {
   }
 
   if (state.entrance === "SW") {
-    state.route = { path: RECOMMENDED_SW_TO_NW, distance: estimatePathDistance(RECOMMENDED_SW_TO_NW) };
-    state.mode = "recommend";
-    state.activeFloor = 1;
+    applySouthWestRoutingDecision();
   } else {
+    state.recommendation = null;
     const result = dijkstra(state.graph, state.entranceNodeId, `ROOM-${state.dest}`);
     if (!result) {
       state.route = null;
@@ -568,6 +572,52 @@ function refreshGraphAndRoute() {
   renderFloorPicker();
   renderMap();
   renderStatus();
+}
+
+function applySouthWestRoutingDecision() {
+  const destinationFloor = getFloorForRoomCode(state.dest) || 1;
+  const recommendedPathDistance = estimatePathDistance(RECOMMENDED_SW_TO_NW);
+
+  if (destinationFloor === 1) {
+    state.route = { path: RECOMMENDED_SW_TO_NW, distance: recommendedPathDistance };
+    state.recommendation = null;
+    state.mode = "recommend";
+    state.activeFloor = 1;
+    return;
+  }
+
+  const directFromSw = dijkstra(state.graph, ENTRANCES.SW.id, `ROOM-${state.dest}`);
+  const fromNwToDestination = dijkstra(state.graph, ENTRANCES.NW.id, `ROOM-${state.dest}`);
+  const northWestTotalDistance = fromNwToDestination
+    ? recommendedPathDistance + fromNwToDestination.distance
+    : Infinity;
+  const usesSouthWestStair = Boolean(directFromSw?.path?.includes("F2-SW-STAIR"));
+  const shouldUseSouthWestStair = Boolean(directFromSw)
+    && usesSouthWestStair
+    && directFromSw.distance <= northWestTotalDistance;
+
+  if (shouldUseSouthWestStair || (directFromSw && !fromNwToDestination)) {
+    state.route = directFromSw;
+    state.recommendation = null;
+    state.mode = "route";
+    state.activeFloor = destinationFloor;
+    return;
+  }
+
+  if (fromNwToDestination) {
+    state.route = { path: RECOMMENDED_SW_TO_NW, distance: recommendedPathDistance };
+    state.recommendation = {
+      viaEntrance: "NW",
+      continuation: fromNwToDestination,
+    };
+    state.mode = "recommend";
+    state.activeFloor = 1;
+    return;
+  }
+
+  state.route = null;
+  state.recommendation = null;
+  state.mode = "unreachable";
 }
 
 function flashInput() {
@@ -678,14 +728,30 @@ function renderStatus() {
   if (state.mode === "recommend") {
     title.textContent = "Use the North-West Entrance.";
     message.classList.add("warn");
-    message.textContent = "From the South-West Entrance, please go to the North-West Entrance first.";
+    const continuation = state.recommendation?.continuation;
+    if (state.dest && continuation) {
+      const destinationFloorNumber = getFloorForRoomCode(state.dest) || 1;
+      if (destinationFloorNumber > 1 && getVisibleFloor() === 1) {
+        message.textContent = "Dashed line shows Floor 1 guidance from SW to NW, and the solid line previews the NW-to-destination route. Switch to Floor 2 for the detailed arrival segment.";
+      } else {
+        message.textContent = "Dashed line shows Floor 1 guidance from SW to NW. Then continue to the destination from the North-West Entrance.";
+      }
+    } else if (state.dest && (getFloorForRoomCode(state.dest) || 1) > 1) {
+      message.textContent = "For this Floor 2 destination, the North-West stair approach is shorter. Please go to the North-West Entrance first.";
+    } else {
+      message.textContent = "From the South-West Entrance, please go to the North-West Entrance first.";
+    }
     if (state.route) {
       dist.textContent = Math.round(state.route.distance / 10);
       time.textContent = Math.max(10, Math.round(state.route.distance / 14));
     }
     addStep("You are at the South-West Entrance.");
     addStep("Go to the North-West Entrance before starting indoor navigation.");
-    if (state.dest) addStep(`Then search ${state.dest} from the North-West Entrance.`);
+    if (state.dest) addStep(`Then navigate to ${state.dest} from the North-West Entrance.`);
+    if (continuation) {
+      addStep(`After reaching NW, shortest route to ${state.dest} is about ${Math.round(continuation.distance / 10)} m (${Math.max(5, Math.round(continuation.distance / 14))} min).`);
+      addRouteNarrative(continuation.path, ENTRANCES.NW.label);
+    }
     return;
   }
 
@@ -708,7 +774,7 @@ function renderStatus() {
   if (state.entrance === "SW") {
     title.textContent = "Use the North-West Entrance.";
     message.classList.add("warn");
-    message.textContent = "South-West users should go to the North-West Entrance.";
+    message.textContent = "South-West users should go to the North-West Entrance by default.";
     addStep("Select NW after moving to the North-West Entrance.");
     return;
   }
@@ -1406,10 +1472,25 @@ function drawEntrances(ctx) {
 }
 
 function drawPath(ctx) {
-  const visiblePath = getVisibleRoutePath();
+  if (state.mode === "recommend") {
+    if (state.entrance === "SW" && getVisibleFloor() === 1) {
+      drawRecommendedPath(ctx);
+    }
 
+    const continuationPath = state.recommendation?.continuation?.path;
+    const continuationToDraw = getVisibleRoutePath(continuationPath);
+    if (continuationToDraw.length >= 2) {
+      drawPolyline(ctx, continuationToDraw, {
+        strokeStyle: "#f29325",
+        lineWidth: 7,
+        lineDash: [],
+      });
+    }
+    return;
+  }
+
+  const visiblePath = getVisibleRoutePath();
   if (!state.route || visiblePath.length < 2) {
-    if (state.entrance === "SW" && getVisibleFloor() === 1) drawRecommendedPath(ctx);
     return;
   }
 
@@ -1429,9 +1510,15 @@ function drawRecommendedPath(ctx) {
 }
 
 function drawMarkers(ctx) {
-  const visibleRoutePath = getVisibleRoutePath();
-  const start = visibleRoutePath.length
-    ? state.graph.nodes[visibleRoutePath[0]]
+  const defaultVisiblePath = getVisibleRoutePath();
+  const continuationVisiblePath = state.mode === "recommend"
+    ? getVisibleRoutePath(state.recommendation?.continuation?.path)
+    : [];
+  const markerPath = continuationVisiblePath.length && getVisibleFloor() > 1
+    ? continuationVisiblePath
+    : defaultVisiblePath;
+  const start = markerPath.length
+    ? state.graph.nodes[markerPath[0]]
     : (getVisibleFloor() === 1 ? state.graph.nodes[state.entranceNodeId] : null);
   if (start) {
     const point = projectLocalPoint(start.x, start.y);
@@ -1459,7 +1546,7 @@ function drawMarkers(ctx) {
 
   if (!state.dest) return;
   const destNode = state.graph.nodes[`ROOM-${state.dest}`];
-  if (!destNode || state.mode === "recommend" || destNode.floor !== getVisibleFloor()) return;
+  if (!destNode || destNode.floor !== getVisibleFloor()) return;
   const destPoint = projectLocalPoint(destNode.x, destNode.y);
   if (!destPoint) return;
   ctx.save();

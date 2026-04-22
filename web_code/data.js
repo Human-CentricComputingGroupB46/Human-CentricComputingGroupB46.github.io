@@ -161,7 +161,7 @@ const WALKABLE_NODES = [
   { id: "EAST-155", x: 876, y: 392, links: [{ to: "EAST-104", kind: "corridor" }, { to: "EAST-161", kind: "corridor" }, { to: "ROOM-EB155", kind: "room" }] },
   { id: "EAST-161", x: 878, y: 526, links: [{ to: "EAST-155", kind: "corridor" }, { to: "ROOM-EB161", kind: "room" }] },
   { id: "NE-HUB", x: 890, y: 160, label: "NE hub", links: [{ to: "NE-ENTRY", kind: "connector" }, { to: "NE-SERVICE", kind: "connector" }, { to: "NORTH-102", kind: "corridor" }] },
-  { id: "F2-NW-STAIR", floor: 2, kind: "stair", x: 120, y: 188, label: "North-west stair", links: [{ to: "NW-SERVICE", kind: "stairs" }, { to: "F2-NW-CORRIDOR", kind: "corridor" }, { to: "F2-WEST-UPPER", kind: "corridor" }] },
+  { id: "F2-NW-STAIR", floor: 2, kind: "stair", x: 120, y: 188, label: "North-west stair", links: [{ to: "NW-SERVICE", kind: "stairs" }, { to: "F2-NW-CORRIDOR", kind: "corridor" }] },
   { id: "F2-NW-CORRIDOR", floor: 2, x: 210, y: 205, label: "Floor 2 north-west corridor", links: [{ to: "F2-NW-STAIR", kind: "corridor" }, { to: "F2-NORTH-CORRIDOR", kind: "corridor" }, { to: "ROOM-EB237", kind: "room" }, { to: "ROOM-EB239", kind: "room" }] },
   { id: "F2-NORTH-CORRIDOR", floor: 2, x: 360, y: 205, label: "Floor 2 north corridor", links: [{ to: "F2-NW-CORRIDOR", kind: "corridor" }, { to: "F2-INNER-NORTH", kind: "corridor" }, { to: "ROOM-EB233", kind: "room" }, { to: "ROOM-EB231", kind: "room" }, { to: "ROOM-EB235", kind: "room" }] },
   { id: "F2-INNER-NORTH", floor: 2, x: 545, y: 205, label: "Floor 2 inner north corridor", links: [{ to: "F2-NORTH-CORRIDOR", kind: "corridor" }, { to: "F2-NE-CORRIDOR", kind: "corridor" }, { to: "ROOM-EB222", kind: "room" }, { to: "ROOM-EB220", kind: "room" }, { to: "ROOM-EB216", kind: "room" }, { to: "ROOM-EB214", kind: "room" }] },
@@ -172,9 +172,7 @@ const WALKABLE_NODES = [
   { id: "F2-SOUTH-EAST", floor: 2, x: 845, y: 520, label: "Floor 2 south-east junction", links: [{ to: "F2-EAST-LOWER", kind: "corridor" }, { to: "F2-SOUTH-CORRIDOR", kind: "corridor" }, { to: "ROOM-EB257", kind: "room" }, { to: "ROOM-EB261", kind: "room" }, { to: "ROOM-EB265A", kind: "room" }, { to: "ROOM-EB265", kind: "room" }] },
   { id: "F2-SOUTH-CORRIDOR", floor: 2, x: 650, y: 520, label: "Floor 2 south corridor", links: [{ to: "F2-SOUTH-EAST", kind: "corridor" }, { to: "F2-SOUTH-WEST", kind: "corridor" }, { to: "ROOM-EB273", kind: "room" }, { to: "ROOM-EB271", kind: "room" }, { to: "ROOM-EB269", kind: "room" }] },
   { id: "F2-SOUTH-WEST", floor: 2, x: 365, y: 520, label: "Floor 2 south-west corridor", links: [{ to: "F2-SOUTH-CORRIDOR", kind: "corridor" }, { to: "F2-SW-STAIR", kind: "corridor" }, { to: "ROOM-EB277", kind: "room" }, { to: "ROOM-EB279", kind: "room" }, { to: "ROOM-EB275", kind: "room" }] },
-  { id: "F2-SW-STAIR", floor: 2, kind: "stair", x: 120, y: 522, label: "South-west stair", links: [{ to: "SW-SERVICE", kind: "stairs" }, { to: "F2-SOUTH-WEST", kind: "corridor" }, { to: "F2-WEST-MID", kind: "corridor" }, { to: "ROOM-EB287", kind: "room" }, { to: "ROOM-EB283", kind: "room" }, { to: "ROOM-EB282", kind: "room" }, { to: "ROOM-EB280", kind: "room" }] },
-  { id: "F2-WEST-MID", floor: 2, x: 120, y: 400, label: "Floor 2 west corridor", links: [{ to: "F2-SW-STAIR", kind: "corridor" }, { to: "F2-WEST-UPPER", kind: "corridor" }, { to: "ROOM-EB238", kind: "room" }] },
-  { id: "F2-WEST-UPPER", floor: 2, x: 120, y: 285, label: "Floor 2 west upper corridor", links: [{ to: "F2-WEST-MID", kind: "corridor" }, { to: "F2-NW-STAIR", kind: "corridor" }, { to: "ROOM-EB236", kind: "room" }] },
+  { id: "F2-SW-STAIR", floor: 2, kind: "stair", x: 120, y: 522, label: "South-west stair", links: [{ to: "SW-SERVICE", kind: "stairs" }, { to: "F2-SOUTH-WEST", kind: "corridor" }, { to: "ROOM-EB287", kind: "room" }, { to: "ROOM-EB283", kind: "room" }, { to: "ROOM-EB282", kind: "room" }, { to: "ROOM-EB280", kind: "room" }, { to: "ROOM-EB238", kind: "room" }] },
 ];
 
 /*
@@ -212,8 +210,8 @@ const ROOM_DATA = {
     { code: "EB211", lat: 31.274546193, lng: 120.737947089, w: 250, h: 75, zone: "north", links: [{ to: "F2-NE-CORRIDOR", kind: "room" }] },
     { code: "EB239", lat: 31.274474328, lng: 120.737458358, w: 70, h: 34, zone: "west", links: [{ to: "F2-NW-CORRIDOR", kind: "room" }] },
     { code: "EB235", lat: 31.274474328, lng: 120.737526675, w: 70, h: 34, zone: "west", links: [{ to: "F2-NORTH-CORRIDOR", kind: "room" }] },
-    { code: "EB236", lat: 31.274406955, lng: 120.737495144, w: 92, h: 42, zone: "west", links: [{ to: "F2-WEST-UPPER", kind: "room" }] },
-    { code: "EB238", lat: 31.274321616, lng: 120.737458358, w: 180, h: 150, zone: "west", links: [{ to: "F2-WEST-MID", kind: "room" }] },
+    { code: "EB236", lat: 31.274406955, lng: 120.737495144, w: 92, h: 42, zone: "west", links: [{ to: "F2-NW-STAIR", kind: "room" }] },
+    { code: "EB238", lat: 31.274321616, lng: 120.737458358, w: 180, h: 150, zone: "west", links: [{ to: "F2-SW-STAIR", kind: "room" }] },
     { code: "EB222", lat: 31.274471634, lng: 120.737736882, w: 48, h: 26, zone: "north", links: [{ to: "F2-INNER-NORTH", kind: "room" }] },
     { code: "EB220", lat: 31.274471634, lng: 120.737784179, w: 48, h: 26, zone: "north", links: [{ to: "F2-INNER-NORTH", kind: "room" }] },
     { code: "EB216", lat: 31.274471634, lng: 120.737857751, w: 54, h: 26, zone: "north", links: [{ to: "F2-INNER-NORTH", kind: "room" }] },
