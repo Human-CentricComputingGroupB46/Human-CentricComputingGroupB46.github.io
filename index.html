@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCompass</title>
+<title>CampusCompass Process Portfolio</title>
 <style>
 :root {
   --bg: #eef2f7;
@@ -15,6 +15,7 @@
   --line: #c9d3e1;
   --card: #ffffff;
   --mint: #edf6f4;
+  --warn: #f9f2df;
 }
 
 * { box-sizing: border-box; }
@@ -72,6 +73,8 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav-links a {
@@ -98,7 +101,7 @@ body {
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(42px, 8vw, 88px);
+  font-size: clamp(38px, 8vw, 82px);
   line-height: 1;
   color: var(--brand-deep);
   letter-spacing: 0.5px;
@@ -106,19 +109,24 @@ body {
 
 .hero p {
   margin: 14px auto 0;
-  max-width: 820px;
+  max-width: 900px;
   color: var(--muted);
   font-size: 18px;
   line-height: 1.6;
 }
 
-.overview {
-  margin: 28px auto 0;
-  max-width: 860px;
+.overview,
+.section-card,
+.notice-card {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 18px;
   box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
+}
+
+.overview {
+  margin: 28px auto 0;
+  max-width: 980px;
   padding: 26px;
 }
 
@@ -137,18 +145,101 @@ body {
   font-size: 17px;
 }
 
+.link-row {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-link {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(130deg, var(--brand), var(--accent));
+}
+
+.quick-link.secondary {
+  color: var(--brand);
+  background: #f5f8fc;
+  border: 1px solid #d2dbe7;
+}
+
+.notice-card {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: var(--warn);
+  border-color: #ead6a5;
+}
+
+.notice-card p {
+  margin: 0;
+  font-size: 15px;
+  color: #5b4b1f;
+  line-height: 1.7;
+}
+
 .content {
   margin-top: 30px;
   display: grid;
   gap: 18px;
 }
 
-.section-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
-  padding: 24px;
+.section-card { padding: 24px; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.status {
+  border-radius: 999px;
+  border: 1px solid #bfd3d0;
+  background: var(--mint);
+  color: #2e6e69;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 10px;
+  letter-spacing: 0.2px;
+}
+
+.status.todo {
+  background: #fef5e9;
+  border-color: #efd2a5;
+  color: #7f4c00;
+}
+
+.progress-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.progress-item {
+  border: 1px solid #d8e0ec;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f9fbfd;
+}
+
+.progress-item h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 15px;
+}
+
+.progress-item p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #4c5b70;
+  line-height: 1.6;
 }
 
 .grid {
@@ -200,21 +291,38 @@ body {
   line-height: 1.45;
 }
 
-.persona-tags {
-  margin-top: 14px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.dual {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.persona-tags span {
-  border: 1px solid #bfd3d0;
-  background: var(--mint);
-  color: #2e6e69;
-  border-radius: 999px;
-  padding: 7px 12px;
-  font-size: 13px;
-  font-weight: 700;
+.block {
+  border: 1px solid #d8e0ec;
+  border-radius: 12px;
+  background: #f9fbfd;
+  padding: 14px;
+}
+
+.block h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--brand-deep);
+}
+
+.block ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+  color: #37495f;
+  line-height: 1.65;
+}
+
+.block li { margin-bottom: 6px; }
+
+.small-note {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #58687d;
 }
 
 .persona-grid {
@@ -286,95 +394,250 @@ body {
   line-height: 1.6;
 }
 
-.journey-wrap {
-  margin-top: 16px;
-  overflow-x: auto;
+.persona-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.persona-tags span {
+  border: 1px solid #bfd3d0;
+  background: var(--mint);
+  color: #2e6e69;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.journey-map {
+  margin-top: 14px;
   border: 1px solid #d7e0ec;
   border-radius: 14px;
   background: linear-gradient(180deg, #f8fbff 0%, #f2f7fc 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  overflow: hidden;
 }
 
-.journey-table {
-  width: 100%;
-  min-width: 900px;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.journey-table th {
-  text-align: left;
-  color: #ffffff;
-  background: linear-gradient(120deg, var(--brand-deep), var(--brand));
-  padding: 12px 14px;
+.journey-actor {
+  padding: 10px 12px;
+  background: #e8f0fb;
+  border-bottom: 1px solid #d5e0f0;
+  color: #294463;
   font-size: 14px;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
+  line-height: 1.55;
 }
 
-.journey-table th:first-child {
-  border-top-left-radius: 12px;
+.journey-grid-wrap {
+  overflow-x: auto;
 }
 
-.journey-table th:last-child {
-  border-top-right-radius: 12px;
+.journey-grid {
+  min-width: 980px;
+  display: grid;
+  grid-template-columns: 180px repeat(4, minmax(180px, 1fr));
+  border-top: 1px solid #d8e2ef;
 }
 
-.journey-table td {
-  vertical-align: top;
-  padding: 12px 14px;
+.phase-head,
+.row-head,
+.cell {
+  border-right: 1px solid #d8e2ef;
+  border-bottom: 1px solid #d8e2ef;
+}
+
+.phase-head:last-child,
+.cell:last-child {
+  border-right: none;
+}
+
+.phase-head {
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.phase-head.blank {
+  background: #edf3fc;
+  color: #3b4f6f;
+  font-weight: 700;
+}
+
+.phase-1 { background: linear-gradient(120deg, #1f7e93, #2f9bb0); }
+.phase-2 { background: linear-gradient(120deg, #3f8e43, #58a15b); }
+.phase-3 { background: linear-gradient(120deg, #d78f1f, #e7a73a); }
+.phase-4 { background: linear-gradient(120deg, #7f3a90, #9650a8); }
+
+.row-head {
+  background: #f2f6fc;
+  color: #253a57;
+  padding: 12px 10px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.row-head-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  background: linear-gradient(120deg, var(--brand), var(--accent));
+  flex: 0 0 auto;
+}
+
+.cell {
+  padding: 10px 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #314255;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.cell strong {
+  color: #20364f;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cell.phase-1-bg { background: #eaf6f9; }
+.cell.phase-2-bg { background: #eef8ef; }
+.cell.phase-3-bg { background: #fdf5e8; }
+.cell.phase-4-bg { background: #f7eef9; }
+
+.emotion-panel {
+  position: relative;
+  background: linear-gradient(90deg, #edf4fc, #e9f5e9 36%, #fff4e7 68%, #f7ecfb 100%);
+  padding: 12px 14px 14px;
+}
+
+.emotion-line {
+  width: 100%;
+  height: 50px;
+}
+
+.emotion-points {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.emotion-points div {
+  text-align: center;
+  color: #233a56;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.req-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.req-tags span {
+  border: 1px solid #d4dceb;
+  background: #f5f8fc;
+  color: #2d4260;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.evidence-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evidence-item {
+  border: 1px dashed #bdcbe0;
+  border-radius: 10px;
+  background: #f8fbff;
+  min-height: 110px;
+  padding: 10px;
+}
+
+.evidence-item h4 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 14px;
+}
+
+.evidence-item p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #5d6c80;
+}
+
+.compare-table,
+.contrib-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  border: 1px solid #d7e0ec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.compare-table th,
+.contrib-table th {
+  text-align: left;
+  background: #f1f6fc;
+  color: var(--brand-deep);
+  padding: 10px 12px;
+  border-bottom: 1px solid #d7e0ec;
+  font-size: 14px;
+}
+
+.compare-table td,
+.contrib-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f2;
   font-size: 14px;
   line-height: 1.6;
-  color: #314255;
-  background: rgba(255, 255, 255, 0.92);
-  border-bottom: 1px solid #dbe4ef;
+  color: #34495f;
+  vertical-align: top;
 }
 
-.journey-table tr:last-child td {
+.compare-table tr:last-child td,
+.contrib-table tr:last-child td {
   border-bottom: none;
 }
 
-.journey-stage {
-  font-weight: 700;
-  color: var(--brand-deep);
+.code-block {
+  margin-top: 14px;
+  border: 1px solid #d7e0ec;
+  border-radius: 12px;
+  background: #f8fbff;
+  padding: 14px;
+  overflow-x: auto;
 }
 
-.emotion-tag {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid transparent;
-}
-
-.emotion-tag.neutral {
-  color: #5f5f32;
-  border-color: #e2d8a4;
-  background: #f9f3d7;
-}
-
-.emotion-tag.stressed {
-  color: #7a3a3a;
-  border-color: #e3b1b1;
-  background: #fce6e6;
-}
-
-.emotion-tag.relief {
-  color: #265f58;
-  border-color: #acd7d2;
-  background: #e8f6f4;
-}
-
-.quick-link {
-  margin-top: 16px;
-  display: inline-block;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 10px 14px;
-  background: linear-gradient(130deg, var(--brand), var(--accent));
+.code-block pre {
+  margin: 0;
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  color: #29405b;
+  line-height: 1.6;
 }
 
 .scroll-fx {
@@ -388,6 +651,11 @@ body {
   transform: translateY(0);
 }
 
+@media (max-width: 1000px) {
+  .progress-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 860px) {
   .top-nav {
     flex-wrap: wrap;
@@ -399,11 +667,13 @@ body {
     justify-content: center;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-  }
+  .nav-links { justify-content: center; }
 
-  .persona-grid {
+  .grid,
+  .dual,
+  .persona-blocks,
+  .progress-grid,
+  .evidence-grid {
     grid-template-columns: 1fr;
   }
 
@@ -415,10 +685,6 @@ body {
 
   .persona-title {
     font-size: 24px;
-  }
-
-  .persona-blocks {
-    grid-template-columns: 1fr;
   }
 
   .hero p,
@@ -457,31 +723,75 @@ body {
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#team">Team</a>
-      <a href="#persona">Persona</a>
-      <a href="#journey">Journey Map</a>
+      <a href="#research">Motivation &amp; Research</a>
+      <a href="#requirements">Requirements</a>
+      <a href="#ideation">Ideation</a>
+      <a href="#technical">Technical</a>
+      <a href="#evaluation">Evaluation</a>
     </div>
   </nav>
 
   <header class="hero scroll-fx" id="about">
     <h1>CampusCompass</h1>
     <p>
-      Human-centered indoor navigation experience for campus spaces. This page introduces our team and design persona.
+      Process Portfolio (Initial Refinement): this site now follows the CPT208 portfolio structure and aligns with our current poster and prototype evidence.
     </p>
   </header>
 
   <section class="overview scroll-fx" id="overview">
     <h2>Project Overview</h2>
     <p>
-      CampusCompass is an interactive wayfinding prototype designed to help users quickly locate destinations in complex indoor environments.
-      The project combines spatial guidance, clear visual cues, and lightweight interaction patterns to reduce navigation stress and improve confidence,
-      especially for first-time visitors.
+      CampusCompass is a human-centered indoor navigation system for the EB building. The key problem is that room codes like EB204 only show the floor but not the horizontal location,
+      so new students and visitors often take the wrong entrance and lose significant time. Our solution is a point-of-entry kiosk that asks for the current entrance and target room,
+      computes the shortest path using Dijkstra's algorithm, and displays an easy 2D map with clear step-by-step guidance.
     </p>
-    <a href="./web_code/index.html" class="quick-link">Project Demo</a>
+    <div class="link-row">
+      <a href="./web_code/index.html" class="quick-link">High-Fi Prototype</a>
+      <a href="./web_code/doc/PROJECT.md" class="quick-link secondary">Project Document</a>
+      <a href="./web_code/doc/TECH_STACK.md" class="quick-link secondary">Tech Stack</a>
+    </div>
+    <div class="notice-card">
+      <p>
+        Portfolio status: this is a first complete structure pass. Items that still need upload materials (photos/videos/sketch scans/Figma link) are marked as <strong>TO UPLOAD</strong>.
+      </p>
+    </div>
   </section>
 
   <main class="content">
+    <section class="section-card scroll-fx" id="progress">
+      <div class="section-head">
+        <h2>Portfolio Checklist</h2>
+        <span class="status">Initial Version Ready</span>
+      </div>
+      <div class="progress-grid">
+        <article class="progress-item">
+          <h3>1. Motivation &amp; Research</h3>
+          <p>Why statement, gap findings, and stakeholder personas added.</p>
+        </article>
+        <article class="progress-item">
+          <h3>2. User Requirements</h3>
+          <p>Journey map and 3 must-have requirements documented.</p>
+        </article>
+        <article class="progress-item">
+          <h3>3. Ideation &amp; Alternatives</h3>
+          <p>Alternative comparison is filled; sketch and low-fi links pending upload.</p>
+        </article>
+        <article class="progress-item">
+          <h3>4. Technical Implementation</h3>
+          <p>Architecture summary, prototype link, and contributions table added.</p>
+        </article>
+        <article class="progress-item">
+          <h3>5. Evaluation &amp; Reflection</h3>
+          <p>Alpha results and reflection draft included for first submission pass.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="section-card scroll-fx" id="team">
-      <h2>Team</h2>
+      <div class="section-head">
+        <h2>Team</h2>
+        <span class="status">Complete</span>
+      </div>
       <div class="grid">
         <a href="Team/pingsongDeng.html" class="card-link scroll-fx">
           <article class="profile-card">
@@ -529,10 +839,57 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="persona">
-      <h2>Persona</h2>
+    <section class="section-card scroll-fx" id="research">
+      <div class="section-head">
+        <h2>1. Motivation &amp; Research</h2>
+        <span class="status">Mostly Ready</span>
+      </div>
+
+      <div class="block">
+        <h3>The Why</h3>
+        <p>
+          Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
+          to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
+          in their first weeks and external guests who visit only once. We observed that this problem is not caused by a lack of motivation to navigate, but by a mismatch between static signage
+          and the moment-to-moment decisions users need to make while moving. We therefore designed CampusCompass as a point-of-entry decision support tool: users declare where they entered,
+          enter a destination code, and immediately receive a shortest path and plain-language steps. This directly supports quick, confident movement under time pressure and lowers cognitive load.
+          The concept is intentionally lightweight, browser-based, and deployable on a kiosk screen, so it can be installed where confusion starts rather than requiring every user to install a
+          new app. The project reflects human-centered priorities: reducing anxiety, improving first-time success, and enabling independent navigation for a broader range of users.
+        </p>
+      </div>
+
+      <div class="dual" style="margin-top:14px;">
+        <article class="block">
+          <h3>The Gap: Academic Solutions</h3>
+          <ul>
+            <li><strong>Did well:</strong> clear shortest-path logic and graph-based modelling.</li>
+            <li><strong>Did well:</strong> strong technical metrics for accuracy and computation speed.</li>
+            <li><strong>Did well:</strong> multi-floor route handling through stairs/lifts.</li>
+            <li><strong>Missed:</strong> weak attention to first-time-user anxiety and confidence cues.</li>
+            <li><strong>Missed:</strong> limited communication design for non-technical users.</li>
+            <li><strong>Missed:</strong> poor transfer from algorithm output to practical on-site decisions.</li>
+          </ul>
+        </article>
+
+        <article class="block">
+          <h3>The Gap: Commercial Products</h3>
+          <ul>
+            <li><strong>Did well:</strong> polished UI and quick visual orientation.</li>
+            <li><strong>Did well:</strong> robust map rendering and broad place coverage.</li>
+            <li><strong>Did well:</strong> familiar interaction patterns and low learning cost.</li>
+            <li><strong>Missed:</strong> often require heavy setup, network, or app installation.</li>
+            <li><strong>Missed:</strong> weak custom fit for one confusing building context.</li>
+            <li><strong>Missed:</strong> less transparent route reasoning for stressed first-time visitors.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="small-note">
+        Next step: replace this summary with explicit 4 academic papers + 4 commercial tools table and citations.
+      </p>
+
+      <h3 id="persona" style="margin-top:16px; color: var(--brand-deep);">The Stakeholders</h3>
       <p>
-        CampusCompass currently focuses on two core user personas. These personas guide our UX decisions for wayfinding clarity, speed, and confidence.
+        Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
       </p>
 
       <div class="persona-grid">
@@ -541,25 +898,25 @@ body {
             <img class="persona-avatar" src="images/john-smith-real.jpg" alt="John Smith avatar">
             <div>
               <h3 class="persona-title">John Smith</h3>
-              <p class="persona-sub"><strong>Age:</strong> 18<br><strong>Role:</strong> New Student</p>
+              <p class="persona-sub"><strong>Age:</strong> 18<br><strong>Role:</strong> New Student (Primary)</p>
             </div>
           </div>
           <div class="persona-blocks">
             <section class="persona-block">
               <h4>Background</h4>
-              <p>John just started his first semester and is still learning campus building names and room-number patterns.</p>
+              <p>First semester student still learning room naming patterns and wing locations.</p>
             </section>
             <section class="persona-block">
               <h4>Goal</h4>
-              <p>Find classrooms, labs, and student services quickly between classes without being late.</p>
+              <p>Reach classrooms and labs on time between classes without detours.</p>
             </section>
             <section class="persona-block">
               <h4>Frustrations</h4>
-              <p>He gets confused by similar room numbers, unclear corridor signage, and multiple entrances.</p>
+              <p>Similar room numbers, unclear corridor signs, and multiple entrances.</p>
             </section>
             <section class="persona-block">
               <h4>Behaviour</h4>
-              <p>He checks routes before moving, follows landmark-based instructions, and prefers short, direct steps.</p>
+              <p>Prefers short, direct, and confidence-building route instructions.</p>
             </section>
           </div>
         </article>
@@ -569,25 +926,25 @@ body {
             <img class="persona-avatar" src="images/visiting-guest-real.jpg" alt="Visiting guest persona avatar">
             <div>
               <h3 class="persona-title">The Visiting Guest</h3>
-              <p class="persona-sub"><strong>Age:</strong> 42<br><strong>Role:</strong> Visiting Guest</p>
+              <p class="persona-sub"><strong>Age:</strong> 42<br><strong>Role:</strong> External Visitor (Primary)</p>
             </div>
           </div>
           <div class="persona-blocks">
             <section class="persona-block">
               <h4>Background</h4>
-              <p>An external visitor coming for a meeting or event with almost no prior knowledge of the campus layout.</p>
+              <p>Comes for meetings/events with little prior campus knowledge.</p>
             </section>
             <section class="persona-block">
               <h4>Goal</h4>
-              <p>Reach the destination independently and on time without asking for repeated face-to-face directions.</p>
+              <p>Reach destination independently and on time with minimal hesitation.</p>
             </section>
             <section class="persona-block">
               <h4>Frustrations</h4>
-              <p>Entrance names are unfamiliar, signage is inconsistent, and he worries about taking wrong turns.</p>
+              <p>Inconsistent signs and fear of wrong turns in unfamiliar corridors.</p>
             </section>
             <section class="persona-block">
               <h4>Behaviour</h4>
-              <p>He uses simple digital directions, confirms landmarks frequently, and avoids complex interaction flows.</p>
+              <p>Relies on simple, direct digital guidance and frequent confirmation.</p>
             </section>
           </div>
         </article>
@@ -601,57 +958,257 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="journey">
-      <h2>User Journey Map</h2>
-      <div class="journey-wrap" aria-label="User Journey Map Table">
-        <table class="journey-table">
-          <thead>
-            <tr>
-              <th>Stage</th>
-              <th>User Actions</th>
-              <th>User Thoughts</th>
-              <th>Emotion</th>
-              <th>Pain Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="journey-stage">1. Enter the Building</td>
-              <td>Walks through the main entrance and looks around.</td>
-              <td>"I need to go to Classroom EB102. Where is it?"</td>
-              <td><span class="emotion-tag stressed">Lost</span></td>
-              <td>No overview map at the entrance.</td>
-            </tr>
-            <tr>
-              <td class="journey-stage">2. Look for Signage</td>
-              <td>Looks left and right to find direction signs.</td>
-              <td>"Is there a navigation sign? Where is it?"</td>
-              <td><span class="emotion-tag stressed">Anxious</span></td>
-              <td>Signage location is not obvious.</td>
-            </tr>
-            <tr>
-              <td class="journey-stage">3. Read the Signboard</td>
-              <td>Walks closer and checks floor and room-number information.</td>
-              <td>"Which direction does this arrow point to?"</td>
-              <td><span class="emotion-tag stressed">Confused</span></td>
-              <td>Too much information with unclear hierarchy.</td>
-            </tr>
-            <tr>
-              <td class="journey-stage">4. Walk Along the Route</td>
-              <td>Follows the directions and moves toward the destination.</td>
-              <td>"Am I going the right way?"</td>
-              <td><span class="emotion-tag neutral">Uncertain</span></td>
-              <td>No confirmational signs along the route.</td>
-            </tr>
-            <tr>
-              <td class="journey-stage">5. Reach the Destination</td>
-              <td>Finds the classroom.</td>
-              <td>"Finally, I made it!"</td>
-              <td><span class="emotion-tag relief">Relieved</span></td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
+    <section class="section-card scroll-fx" id="requirements">
+      <div class="section-head">
+        <h2>2. User Requirements</h2>
+        <span class="status">Mostly Ready</span>
+      </div>
+
+      <p>User Journey Map (poster-style phase matrix):</p>
+      <div class="journey-map" aria-label="Poster Style User Journey Map">
+        <div class="journey-actor">
+          <strong>Actor:</strong> John (18), First-Year Student (New Student).
+          <strong> Scenario/Goal:</strong> Locate classroom EB204 in the complex EB building with zero prior architectural familiarity.
+        </div>
+        <div class="journey-grid-wrap">
+          <div class="journey-grid">
+            <div class="phase-head blank">Actor Journey</div>
+            <div class="phase-head phase-1">Phase 1: ENCOUNTER</div>
+            <div class="phase-head phase-2">Phase 2: INPUT</div>
+            <div class="phase-head phase-3">Phase 3: ROUTING</div>
+            <div class="phase-head phase-4">Phase 4: ARRIVAL</div>
+
+            <div class="row-head">
+              <div class="row-head-label"><span class="row-badge">A</span>Actions</div>
+            </div>
+            <div class="cell phase-1-bg"><strong>Enters EB lobby and feels disoriented.</strong>Scans static boards and hallway signs.</div>
+            <div class="cell phase-2-bg"><strong>Finds the kiosk.</strong>Types destination code "EB204" in the search interface.</div>
+            <div class="cell phase-3-bg"><strong>Reads route output.</strong>Follows map + step list through the building path.</div>
+            <div class="cell phase-4-bg"><strong>Arrives at target door.</strong>Checks room label and confirms destination.</div>
+
+            <div class="row-head">
+              <div class="row-head-label"><span class="row-badge">T</span>Thoughts</div>
+            </div>
+            <div class="cell phase-1-bg">"Which wing contains EB204? If I choose wrong now, I may be late."</div>
+            <div class="cell phase-2-bg">"Can this machine help me fast? I only need simple, clear guidance."</div>
+            <div class="cell phase-3-bg">"The path looks clear. I just need to follow these steps."</div>
+            <div class="cell phase-4-bg">"Made it on time. The route was much easier than guessing signs."</div>
+
+            <div class="row-head">
+              <div class="row-head-label"><span class="row-badge">E</span>Emotional Curve</div>
+            </div>
+            <div class="cell" style="grid-column: 2 / span 4; padding: 0;">
+              <div class="emotion-panel">
+                <svg class="emotion-line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M10,88 C120,104 210,112 300,98 C400,82 470,56 560,46 C650,36 730,38 820,26 C900,18 960,24 990,30"
+                    fill="none" stroke="#2f7f79" stroke-width="8" stroke-linecap="round"/>
+                </svg>
+                <div class="emotion-points">
+                  <div>Lowest<br>(Anxious / Disoriented)</div>
+                  <div>Rising<br>(Hopeful / Seeking Help)</div>
+                  <div>High<br>(Confident / Guided)</div>
+                  <div>Highest<br>(Relieved / On Time)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row-head">
+              <div class="row-head-label"><span class="row-badge">P</span>Pain Points</div>
+            </div>
+            <div class="cell phase-3-bg">Cluttered static signs and missing immediate "you are here" orientation.</div>
+            <div class="cell phase-3-bg">Search may fail if interface is noisy or input feedback is weak.</div>
+            <div class="cell phase-3-bg">Without guided steps, users still memorize too much and forget turns.</div>
+            <div class="cell phase-4-bg">(No major pain point after successful guidance.)</div>
+
+            <div class="row-head">
+              <div class="row-head-label"><span class="row-badge">O</span>Opportunities</div>
+            </div>
+            <div class="cell phase-1-bg">Place kiosk at point-of-entry for immediate interception of uncertainty.</div>
+            <div class="cell phase-2-bg">Keep a large centered input and tolerant fuzzy search to reduce mistakes.</div>
+            <div class="cell phase-3-bg">Use simple top-down map + concise action verbs for each next move.</div>
+            <div class="cell phase-4-bg">Provide a clear completion signal and a one-tap "new search" restart.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:16px; color: var(--brand-deep);">3 Must-Haves for a Playful System</h3>
+      <div class="req-tags">
+        <span>Instant visual feedback for each action</span>
+        <span>Simple step-by-step guidance with low mental load</span>
+        <span>Clear completion signal to reduce uncertainty</span>
+      </div>
+
+      <h3 style="margin-top:16px; color: var(--brand-deep);">Evidence of Life</h3>
+      <p>Upload 5 interview/observation photos or short clips here:</p>
+      <div class="evidence-grid">
+        <article class="evidence-item">
+          <h4>Evidence 1</h4>
+          <p>TO UPLOAD: interview photo/video with target user.</p>
+        </article>
+        <article class="evidence-item">
+          <h4>Evidence 2</h4>
+          <p>TO UPLOAD: site observation at EB entrance.</p>
+        </article>
+        <article class="evidence-item">
+          <h4>Evidence 3</h4>
+          <p>TO UPLOAD: signage pain point capture.</p>
+        </article>
+        <article class="evidence-item">
+          <h4>Evidence 4</h4>
+          <p>TO UPLOAD: user route confusion snapshot.</p>
+        </article>
+        <article class="evidence-item">
+          <h4>Evidence 5</h4>
+          <p>TO UPLOAD: follow-up validation record.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-card scroll-fx" id="ideation">
+      <div class="section-head">
+        <h2>3. Ideation &amp; Alternatives</h2>
+        <span class="status todo">Needs Material Upload</span>
+      </div>
+
+      <div class="dual">
+        <article class="block">
+          <h3>Crazy Eights</h3>
+          <p>
+            Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
+          </p>
+          <p class="small-note">TO UPLOAD: 8 sketch photos/scans.</p>
+        </article>
+
+        <article class="block">
+          <h3>Low-Fi Prototype</h3>
+          <p>
+            A clickable low-fi flow was used to validate the 3-stage interaction before coding.
+          </p>
+          <p class="small-note">TO UPLOAD: Figma link.</p>
+        </article>
+      </div>
+
+      <h3 style="margin-top:16px; color: var(--brand-deep);">Design Alternatives Comparison</h3>
+      <table class="compare-table" aria-label="Design Alternatives Table">
+        <thead>
+          <tr>
+            <th>Alternative</th>
+            <th>Strengths</th>
+            <th>Limitations</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2D Top-Down Map + Text Steps</td>
+            <td>Fast scanning, low visual noise, easy to explain in kiosk context.</td>
+            <td>Less spatial realism than 3D view.</td>
+            <td><strong>Chosen</strong> (better first-time task completion).</td>
+          </tr>
+          <tr>
+            <td>3D Isometric Navigation View</td>
+            <td>Stronger realism and visual attractiveness.</td>
+            <td>Higher cognitive load and slower decision speed for some users.</td>
+            <td>Not selected for alpha version.</td>
+          </tr>
+          <tr>
+            <td>Text-Only Direction List</td>
+            <td>Implementation is simple and lightweight.</td>
+            <td>No visual orientation support; hard at complex intersections.</td>
+            <td>Kept only as supportive layer, not primary mode.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-card scroll-fx" id="technical">
+      <div class="section-head">
+        <h2>4. Technical Implementation</h2>
+        <span class="status">Complete (Alpha)</span>
+      </div>
+
+      <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
+      <div class="code-block">
+        <pre>┌──────────────────────┐      ┌───────────────────────┐      ┌────────────────────┐
+│  HTML (structure)    │ ←──→ │  CSS (presentation)   │ ←──→ │  JavaScript        │
+│  semantic views      │      │  Grid, Flex, tokens   │      │  state + routing   │
+└──────────────────────┘      └───────────────────────┘      └──────────┬─────────┘
+                                                                        │
+                                                            ┌───────────▼───────────┐
+                                                            │  data.js              │
+                                                            │  layout + room graph  │
+                                                            └───────────────────────┘</pre>
+      </div>
+
+      <p style="margin-top:12px;">
+        High-Fi prototype: <a href="./web_code/index.html">CampusCompass Interactive Web App</a>
+      </p>
+
+      <h3 style="margin-top:14px; color: var(--brand-deep);">Individual Contributions</h3>
+      <table class="contrib-table" aria-label="Individual Contributions Table">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Primary Contributions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pingsong Deng</td>
+            <td>Frontend implementation, route UI integration, testing support.</td>
+          </tr>
+          <tr>
+            <td>Zichen Fan</td>
+            <td>Graph modelling and algorithm support, coding and debugging.</td>
+          </tr>
+          <tr>
+            <td>Ziyi Jia</td>
+            <td>UX flow design, content writing, process documentation.</td>
+          </tr>
+          <tr>
+            <td>Tianchen Niu</td>
+            <td>User research coordination, evaluation records, visual assets.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small-note">You can refine this table with exact task ownership and commit references later.</p>
+    </section>
+
+    <section class="section-card scroll-fx" id="evaluation">
+      <div class="section-head">
+        <h2>5. Evaluation &amp; Reflection</h2>
+        <span class="status">Draft Complete</span>
+      </div>
+
+      <div class="dual">
+        <article class="block">
+          <h3>Usability Testing (Alpha)</h3>
+          <ul>
+            <li>Participants: 3 real users.</li>
+            <li>Task success: 100%.</li>
+            <li>Average time saved: around 60% vs unaided navigation.</li>
+            <li>Interaction efficiency: users reached route view within 3 taps.</li>
+          </ul>
+        </article>
+
+        <article class="block">
+          <h3>Iterative Refinement</h3>
+          <ul>
+            <li><strong>Before:</strong> route information presentation had higher cognitive load for first-time users.</li>
+            <li><strong>After:</strong> final alpha version uses 2D top-down map + concise step list + completion cue.</li>
+            <li><strong>Impact:</strong> faster understanding, fewer hesitations at decision points.</li>
+          </ul>
+          <p class="small-note">TO UPLOAD: before/after screenshots.</p>
+        </article>
+      </div>
+
+      <div class="block" style="margin-top:14px;">
+        <h3>Final Reflection (Social / Ethical / AI)</h3>
+        <p>
+          CampusCompass aims to improve inclusion by reducing stress for new students and external visitors who lack spatial familiarity. The system is privacy-preserving in its current form
+          because it runs fully client-side without collecting personal data. For future deployment, any analytics should remain aggregated and clearly disclosed. In this project process,
+          AI was used as an assistant for ideation and communication support, while core problem framing, design decisions, implementation logic, and evaluation interpretation remained team-driven.
+        </p>
       </div>
     </section>
   </main>
