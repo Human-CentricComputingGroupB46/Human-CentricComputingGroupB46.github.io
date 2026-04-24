@@ -20,6 +20,9 @@
 
 No frameworks. No dependencies. No `package.json`. The entire stack is what a modern browser ships with.
 
+Refactor note:
+As of the latest structure cleanup, runtime JavaScript is no longer centered in one large `app.js`. The app is now split into a thin boot file plus focused modules for shared state, demo flow, map rendering, and design-mode editing.
+
 ---
 
 ## 2. Why this stack (and why *not* a framework)
@@ -57,21 +60,38 @@ A framework (React, Vue, Svelte) would add roughly 40–100 KB of runtime, a bui
 - **SVG-aware CSS**: rules like `.path { stroke: var(--orange); }` let SVG shapes pick up the same palette, keeping the kiosk visually coherent.
 
 ### 3.3 Vanilla JavaScript (behaviour)
-Split into two files:
+The runtime is now split by responsibility instead of being kept in one monolithic file:
 
 **`data.js` — declarative building model**
-- `LAYOUT` — wings, entrances, junctions, floor list
-- `ROOM_SLOTS` — per-wing room geometry
-- `buildGraph()` — derives `{ nodes, edges }` (adjacency list) from the declarative data
-- `allRoomCodes()` — used by autocomplete and input validation
+- Stores editable map constants and room / corridor / entrance datasets
 
-**`app.js` — controller + algorithm + renderer**
-- State bag (`state = { entrance, entranceNodeId, dest, graph }`)
-- View controller (`show(viewId)`) and per-view wirers
-- Input handling: on-screen keypad, physical keyboard, autocomplete suggestions, invalid-input feedback
-- `dijkstra(graph, startId, endId)` — textbook implementation with a sort-on-insert priority queue
-- `renderMap(path, destNode)` — builds the SVG procedurally
-- `renderSteps(path)` — walks the node sequence, emitting prose directions when floor or wing changes
+**`data-processing.js` — data helpers**
+- `buildGraph()` derives the adjacency-list graph from the declarative data
+- Provides floor lookup, room lookup, and coordinate helper functions
+
+**`scripts/state.js` — shared runtime state**
+- Holds the single source of truth for current entrance, destination, floor, route, map instances, and editor state
+
+**`scripts/demo-controller.js` — user-facing app flow**
+- App startup
+- Mode switching
+- Input handling and suggestions
+- Route calculation with `dijkstra(graph, startId, endId)`
+- Route summary and step narrative rendering
+
+**`scripts/map-renderer.js` — basemap + canvas overlay rendering**
+- Google Maps / Leaflet initialization
+- Projection and coordinate conversion
+- Drawing rooms, corridors, links, paths, and markers
+
+**`scripts/editor-controller.js` — design-mode editing tools**
+- Room and corridor selection
+- Drag / resize interactions
+- Link editing
+- Data export and persistence back to `data.js`
+
+**`app.js` — thin boot file**
+- Triggers initialization only
 
 ES2015+ features used throughout: `const`/`let`, arrow functions, template literals, destructuring, `Set`, object shorthand.
 
@@ -146,16 +166,22 @@ Trace what happens when a user at the *Main* entrance enters `EB204`:
 
 ```
 web_code/
-├── index.html          ← HTML shell + three <section class="view"> blocks
-├── styles.css          ← Design tokens, layout, components, SVG skins
-├── data.js             ← Declarative LAYOUT + ROOM_SLOTS, buildGraph()
-├── app.js              ← State, views, Dijkstra, SVG renderer, step generator
+├── index.html                    ← HTML shell and script loading order
+├── styles.css                    ← Design tokens, layout, and component styles
+├── data.js                       ← Editable navigation data
+├── data-processing.js            ← Graph and lookup helpers
+├── app.js                        ← Thin boot file
+├── scripts/
+│   ├── state.js                  ← Shared runtime state
+│   ├── demo-controller.js        ← Demo flow and routing logic
+│   ├── map-renderer.js           ← Map provider setup and canvas rendering
+│   └── editor-controller.js      ← Design-mode editing logic
 └── doc/
-    ├── PROJECT.md      ← Requirements, interaction, goals, risks, specification
-    └── TECH_STACK.md   ← This document
+    ├── PROJECT.md                ← Requirements, interaction, goals, risks, specification
+    └── TECH_STACK.md             ← This document
 ```
 
-Read order for a new contributor: `PROJECT.md` → `TECH_STACK.md` → `data.js` → `app.js` → `styles.css`.
+Read order for a new contributor: `PROJECT.md` → `TECH_STACK.md` → `app.js` → `scripts/demo-controller.js` → `data-processing.js` → `scripts/map-renderer.js` → `scripts/editor-controller.js` → `data.js`.
 
 ---
 
