@@ -1643,24 +1643,24 @@ body {
           <div class="gap-head">
             <span class="gap-kicker">Paper 1</span>
           </div>
-          <h5>Learn, Earn, and Game on</h5>
-          <p class="meta">Tarigan et al., 2025</p>
+          <h5>A Generic Approach toward Indoor Navigation and Pathfinding with Robust Marker Tracking</h5>
+          <p class="meta">Khan et al., 2019</p>
 
           <div class="dual">
             <div class="col positive">
               <h6>What it did well</h6>
               <ul>
-                <li>Makes rewards transferable across contexts.</li>
-                <li>Strengthens user motivation through progression.</li>
-                <li>Builds a clear reward loop beyond simple points.</li>
+                <li>Keeps deployment low-cost using only ceiling markers and smartphones, while remaining easy to scale.</li>
+                <li>Enables efficient navigation with automatic shortest-path generation across spaces.</li>
+                <li>Improves first-time use through combined visual and audio guidance.</li>
               </ul>
             </div>
             <div class="col negative">
               <h6>What it missed</h6>
               <ul>
-                <li>System too complex for lightweight deployment.</li>
-                <li>Over-relies on gamification metaphor.</li>
-                <li>Weak long-term engagement strategy.</li>
+                <li>Relies on visible markers and stable lighting, limiting reliability.</li>
+                <li>Requires continuous camera use, adding user effort.</li>
+                <li>Lacks low-friction options (e.g., kiosks) and confidence support for stressed users.</li>
               </ul>
             </div>
           </div>
@@ -1668,26 +1668,79 @@ body {
 
         <article class="gap-card scroll-fx">
           <div class="gap-head">
-            <span class="gap-kicker">Product 1</span>
+            <span class="gap-kicker">Paper 2</span>
           </div>
-          <h5>Google Maps</h5>
-          <p class="meta">Established benchmark for familiar wayfinding UX</p>
+          <h5>INSUS: Indoor Navigation System Using Unity and Smartphone for User Ambulation Assistance</h5>
+          <p class="meta">Fajrianti et al., 2023</p>
 
           <div class="dual">
             <div class="col positive">
               <h6>What it did well</h6>
               <ul>
-                <li>Highly familiar interface.</li>
-                <li>Fast route generation.</li>
-                <li>Strong visual orientation.</li>
+                <li>Makes navigation intuitive by using AR arrows to guide users along routes.</li>
+                <li>Reduces infrastructure needs by relying on smartphone sensors and QR-based initialization instead of dedicated hardware.</li>
+                <li>Validated in real environments, with prototypes tested in two university buildings and positive user feedback.</li>
               </ul>
             </div>
             <div class="col negative">
               <h6>What it missed</h6>
               <ul>
-                <li>Weak indoor accuracy.</li>
-                <li>Requires mobile setup.</li>
-                <li>Not optimized for buildings.</li>
+                <li>SLAM drift can reduce accuracy, sometimes requiring users to rescan QR codes.</li>
+                <li>Performance is sensitive to how the phone is held and oriented during use.</li>
+                <li>Unity-based 3D system is relatively heavy compared to lightweight, browser-based solutions.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Paper 3</span>
+          </div>
+          <h5>Generating Comfortable Navigable Space for 3D Indoor Navigation Considering Users’ Dimensions</h5>
+          <p class="meta">Zhen et al., 2020</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Supports inclusive and accessibility-aware routing decisions for diverse users.</li>
+                <li>Models indoor spaces, obstacles, and functions in a more human-centered 3D representation.</li>
+                <li>Shortest-path routing by incorporating user comfort and body dimensions into navigation planning.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Focuses more on spatial modeling than on a practical, user-facing navigation interface.</li>
+                <li>Relies on simplified geometric assumptions, which may reduce real-world precision.</li>
+                <li>Does not address key usability needs like fast destination input or beginner-friendly guidance.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Paper 4</span>
+          </div>
+          <h5>NavCog3 in the Wild: Large-Scale Blind Indoor Navigation Assistant with Semantic Features</h5>
+          <p class="meta">Sato et al., 2019</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Demonstrates robust large-scale real-world deployment with strong in-the-wild validation.</li>
+                <li>Enhances navigation using semantic cues like doors, landmarks, and nearby points of interest.</li>
+                <li>Provides strong accessibility support with detailed turn-by-turn guidance for blind users.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Depends on beacon infrastructure and venue-specific installation, limiting portability.</li>
+                <li>Primarily designed for blind navigation rather than general visitor or kiosk-based use.</li>
+                <li>Requires relatively high deployment and maintenance complexity compared to lightweight solutions.</li>
               </ul>
             </div>
           </div>
@@ -1762,22 +1815,22 @@ body {
             <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Clarity</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Low-stress / Comfort</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 70%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Exploration</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 25%;"></div></div>
@@ -1849,22 +1902,22 @@ body {
             <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Professional Image</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Independence</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 85%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Comfort</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 50%;"></div></div>
