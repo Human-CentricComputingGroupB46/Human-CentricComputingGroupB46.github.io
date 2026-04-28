@@ -1434,59 +1434,176 @@ body {
       </p>
 
       <div class="persona-grid">
+        <!-- Persona 1: John Smith -->
         <article class="persona-card scroll-fx">
-          <div class="persona-head">
-            <img class="persona-avatar" src="images/john-smith-real.jpg" alt="John Smith avatar">
-            <div>
-              <h3 class="persona-title">John Smith</h3>
-              <p class="persona-sub"><strong>Age:</strong> 18<br><strong>Role:</strong> New Student (Primary)</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+            <!-- Left Column -->
+            <div style="flex: 1 1 200px; display: flex; flex-direction: column;">
+              <div style="display: flex; gap: 12px; align-items: start; margin-bottom: 16px;">
+                <img class="persona-avatar" src="images/john-smith-real.jpg" alt="John Smith avatar" style="width: 75px; height: 75px; border-radius: 8px;">
+                <div>
+                  <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">John Smith</h3>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>XJTLU Student</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 20<br><strong>Tech:</strong> High</p>
+                </div>
+              </div>
+              <div style="background: white; border: 1px solid rgba(216, 224, 236, 0.9); border-left: 4px solid var(--sky); border-radius: 6px; padding: 12px; font-style: italic; font-size: 13px; color: #2d3748; margin-bottom: 20px;">
+                "I have a terrible sense of direction. I just want a tool that tells me exactly how to get to my class without making me decipher a maze."
+              </div>
+              <div>
+                <h4 style="margin: 0 0 10px; font-size: 14px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Personality</h4>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Introvert</span><span>Extrovert</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 75%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Thinking</span><span>Feeling</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 85%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Sensing</span><span>Intuition</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 20%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="persona-blocks">
-            <section class="persona-block">
-              <h4>Background</h4>
-              <p>First semester student still learning room naming patterns and wing locations.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Goal</h4>
-              <p>Reach classrooms and labs on time between classes without detours.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Frustrations</h4>
-              <p>Similar room numbers, unclear corridor signs, and multiple entrances.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Behaviour</h4>
-              <p>Prefers short, direct, and confidence-building route instructions.</p>
-            </section>
+
+            <!-- Middle Column -->
+            <div style="flex: 2 1 350px;">
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Bio</h4>
+                <div style="background: rgba(255, 255, 255, 0.84); border: 1px solid rgba(216, 224, 236, 0.9); border-radius: 8px; padding: 12px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  John is a sophomore at XJTLU. Despite being on campus for a while, he naturally struggles with a weak sense of direction. The symmetrical and internally disconnected layout of buildings like the EB building often confuses him, making it hard to navigate efficiently between classes, leading to unnecessary anxiety.
+                </div>
+              </div>
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Goals</h4>
+                <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  <li style="margin-bottom: 4px;">Find classrooms and labs quickly without wandering around.</li>
+                  <li style="margin-bottom: 4px;">Arrive on time between back-to-back classes.</li>
+                  <li style="margin-bottom: 4px;">Receive clear, step-by-step guidance rather than reading complex maps.</li>
+                </ul>
+              </div>
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Frustrations</h4>
+                <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  <li style="margin-bottom: 4px;">Symmetrical building layouts cause severe loss of spatial orientation.</li>
+                  <li style="margin-bottom: 4px;">Similar room codes across different buildings (e.g., EB204 vs ES204).</li>
+                  <li style="margin-bottom: 4px;">Weak indoor GPS signal renders his standard map apps useless.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div style="flex: 1 1 200px;">
+              <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Clarity</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Low-stress / Comfort</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 70%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Exploration</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 25%;"></div></div>
+              </div>
+            </div>
           </div>
         </article>
 
+        <!-- Persona 2: Mark Chen -->
         <article class="persona-card scroll-fx">
-          <div class="persona-head">
-            <img class="persona-avatar" src="images/visiting-guest-real.jpg" alt="Visiting guest persona avatar">
-            <div>
-              <h3 class="persona-title">The Visiting Guest</h3>
-              <p class="persona-sub"><strong>Age:</strong> 42<br><strong>Role:</strong> External Visitor (Secondary)</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+            <!-- Left Column -->
+            <div style="flex: 1 1 200px; display: flex; flex-direction: column;">
+              <div style="display: flex; gap: 12px; align-items: start; margin-bottom: 16px;">
+                <!-- Reusing visiting guest image for Mark Chen if new image is not uploaded -->
+                <img class="persona-avatar" src="images/visiting-guest-real.jpg" alt="Mark Chen avatar" style="width: 75px; height: 75px; border-radius: 8px;">
+                <div>
+                  <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">Mark Chen</h3>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>External Visitor</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 42<br><strong>Tech:</strong> Medium</p>
+                </div>
+              </div>
+              <div style="background: white; border: 1px solid rgba(216, 224, 236, 0.9); border-left: 4px solid var(--sky); border-radius: 6px; padding: 12px; font-style: italic; font-size: 13px; color: #2d3748; margin-bottom: 20px;">
+                "I don't have time to decipher building names. I just need a straightforward path to the meeting room."
+              </div>
+              <div>
+                <h4 style="margin: 0 0 10px; font-size: 14px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Personality</h4>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Introvert</span><span>Extrovert</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 80%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Thinking</span><span>Feeling</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 70%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #4a5568;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Sensing</span><span>Intuition</span></div>
+                  <div style="height: 4px; background: #e2e8f0; border-radius: 2px; position: relative;"><div style="position: absolute; left: 20%; top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--sky);"></div></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="persona-blocks">
-            <section class="persona-block">
-              <h4>Background</h4>
-              <p>Comes for meetings/events with little prior campus knowledge.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Goal</h4>
-              <p>Reach destination independently and on time with minimal hesitation.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Frustrations</h4>
-              <p>Inconsistent signs and fear of wrong turns in unfamiliar corridors.</p>
-            </section>
-            <section class="persona-block">
-              <h4>Behaviour</h4>
-              <p>Relies on simple, direct digital guidance and frequent confirmation.</p>
-            </section>
+
+            <!-- Middle Column -->
+            <div style="flex: 2 1 350px;">
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Bio</h4>
+                <div style="background: rgba(255, 255, 255, 0.84); border: 1px solid rgba(216, 224, 236, 0.9); border-radius: 8px; padding: 12px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  An external visitor coming to the university for formal meetings, seminars, or industry events. He has almost no prior knowledge of the campus layout. Usually arriving under time pressure and dressed formally, he prefers navigating independently rather than asking strangers for directions.
+                </div>
+              </div>
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Goals</h4>
+                <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  <li style="margin-bottom: 4px;">Reach the specific meeting room destination completely independently.</li>
+                  <li style="margin-bottom: 4px;">Arrive on time to maintain a professional appearance.</li>
+                  <li style="margin-bottom: 4px;">Quickly understand where he is relative to his target upon entering a building.</li>
+                </ul>
+              </div>
+              <div style="margin-bottom: 18px;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Frustrations</h4>
+                <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
+                  <li style="margin-bottom: 4px;">Unfamiliar entrance naming conventions (e.g., "North Wing" vs "South Wing").</li>
+                  <li style="margin-bottom: 4px;">Inconsistent and fragmented signage across different parts of the campus.</li>
+                  <li style="margin-bottom: 4px;">Worrying about taking wrong turns, which could make him late for important events.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div style="flex: 1 1 200px;">
+              <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Professional Image</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Independence</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 85%;"></div></div>
+              </div>
+              
+              <div style="margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Comfort</span></div>
+                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 50%;"></div></div>
+              </div>
+            </div>
           </div>
         </article>
       </div>
