@@ -2003,7 +2003,7 @@ body {
           <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
         </article>
 
-        <article class="block">
+        <!-- <article class="block">
           <h3>Low-Fi Prototype</h3>
           <p>
             A clickable low-fi flow was used to validate the 3-stage interaction before coding.
@@ -2011,7 +2011,7 @@ body {
           <p class="small-note">
             <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
           </p>
-        </article>
+        </article> -->
       </div>
 
       <h3 style="margin-top:16px; color: var(--brand-deep);">Design Alternatives Comparison</h3>
@@ -2046,17 +2046,9 @@ body {
         </tbody>
       </table>
 
-      <div style="display: grid; gap: 14px; margin-top: 16px;">
-        <article class="block">
-          <h3>Low-Fi Prototype</h3>
-          <p>
-            A clickable low-fi flow was used to validate the 3-stage interaction before coding.
-          </p>
-          <p class="small-note">
-            Material slot: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer" style="color: var(--sky); text-decoration: none; font-weight: bold;">View clickable Figma link</a>
-          </p>
-        </article>
-      </div>
+      <p style="margin-top:24px;">
+        Low-Fi prototype: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer">View clickable Figma link</a>
+      </p>
     </section>
 
     <section class="section-card scroll-fx" id="technical">
@@ -2066,35 +2058,57 @@ body {
       </div>
 
       <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
-      <div class="architecture-flow" aria-label="CampusCompass system data flow">
-        <article class="flow-step">
-          <div class="flow-icon">1</div>
-          <h4>User Input</h4>
-          <p>Users choose the entrance and enter a destination room number.</p>
+      
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-top: 24px; text-align: center;">
+        <!-- Step 1 -->
+        <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+          <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
+          <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures destination classroom, current entry point, and optional floor.</p>
         </article>
-        <article class="flow-step">
-          <div class="flow-icon">2</div>
-          <h4>Room Data</h4>
-          <p>Static room, corridor, lift, and stair data define the EB building graph.</p>
+
+        <!-- Arrow 1 -->
+        <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
+
+        <!-- Step 2 -->
+        <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+          <img src="images/arch-frontend.svg" alt="Frontend UI" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
+          <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Frontend UI</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Interactive HTML/CSS/JS interface built for touch-kiosk resolution.</p>
         </article>
-        <article class="flow-step">
-          <div class="flow-icon">3</div>
-          <h4>Pathfinding</h4>
-          <p>Dijkstra routing calculates the shortest walkable route.</p>
+
+        <!-- Arrow 2 -->
+        <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
+
+        <!-- Step 3 -->
+        <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+          <img src="images/arch-routing.svg" alt="Routing Logic" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
+          <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Routing Logic</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Lightweight shortest-path algorithm mapping the predefined EB hallway needs.</p>
         </article>
-        <article class="flow-step">
-          <div class="flow-icon">4</div>
-          <h4>Map Rendering</h4>
-          <p>The selected path is drawn over the calibrated floor map.</p>
+
+        <!-- Arrow 3 -->
+        <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
+
+        <!-- Step 4 -->
+        <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+          <img src="images/arch-data.svg" alt="Data Management" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
+          <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Data Management</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores route graph, room data, landmark nodes for real-time instruction updates.</p>
         </article>
-        <article class="flow-step">
-          <div class="flow-icon">5</div>
-          <h4>Guidance Output</h4>
-          <p>The interface shows visual route cues and concise step-by-step instructions.</p>
+
+        <!-- Arrow 4 -->
+        <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
+
+        <!-- Step 5 -->
+        <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+          <img src="images/arch-deployment.svg" alt="Deployment" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
+          <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Free-tier cloud hosting (GitHub Pages) allowing seamless remote updates.</p>
         </article>
       </div>
 
-      <p style="margin-top:12px;">
+      <p style="margin-top:24px;">
         High-Fi prototype: <a href="./web_code/index.html">CampusCompass Interactive Web App</a>
       </p>
 
@@ -2125,7 +2139,6 @@ body {
           </tr>
         </tbody>
       </table>
-      <p class="small-note">You can refine this table with exact task ownership and commit references later.</p>
     </section>
 
     <section class="section-card scroll-fx" id="evaluation">
