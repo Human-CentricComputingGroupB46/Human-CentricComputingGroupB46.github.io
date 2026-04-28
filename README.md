@@ -16,6 +16,90 @@ python3 -m http.server 4173
 
 然后在浏览器里打开上面的地址。
 
+## Process Portfolio 提交检查清单
+
+这个清单用于对照 CPT208 Process Portfolio 要求查缺补漏。建议每次补完材料后更新勾选状态，并在括号里记录对应页面位置、图片文件名或链接。
+
+### 1. Motivation & Research
+
+- [x] The Why：说明为什么选择 Active track，并围绕 EB 室内导航问题展开。
+- [ ] The Why 字数复核：控制在约 200 words，并避免过长或过短。
+- [ ] The Gap：补齐 4 篇 academic papers。
+  - [ ] 每篇 paper 写 3 个 did well。
+  - [ ] 每篇 paper 写 3 个 missed。
+  - [ ] 每篇 paper 提供 citation/reference。
+- [ ] The Gap：补齐 4 个 commercial products。
+  - [ ] 每个 product 写 3 个 did well。
+  - [ ] 每个 product 写 3 个 missed。
+  - [ ] 每个 product 提供名称、链接或来源。
+- [x] Stakeholders：已有 new students / visitors / staff 等用户分类。
+- [x] Primary persona：已有新生 persona。
+- [ ] Secondary persona：补一个真正的 secondary stakeholder persona，例如 receptionist、facility staff、teacher 或 admin。
+
+### 2. User Requirements
+
+- [x] User Journey Map：已有当前导航痛点、actions、thoughts、emotion、pain points、opportunities。
+- [x] Requirements List：已有 3 个 playful must-haves。
+- [ ] Evidence of Life：补齐 5 个真实照片或短视频。
+  - [ ] Evidence 1：目标用户采访照片/短视频。
+  - [ ] Evidence 2：EB 入口或现场观察照片/短视频。
+  - [ ] Evidence 3：标识系统或痛点捕捉。
+  - [ ] Evidence 4：用户路线困惑或观察记录。
+  - [ ] Evidence 5：后续验证或小组调研记录。
+- [ ] 每个 Evidence 配一句 insight：说明这张图证明了什么用户问题。
+
+### 3. Ideation & Alternatives
+
+- [ ] Crazy Eights：上传 8 张快速手绘草图照片或扫描图。
+- [x] Design Alternatives：已有 2D map、3D/isometric、text-only 三种方案对比。
+- [ ] Design Alternatives：补充选择依据，例如用户反馈、测试表现或实现约束。
+- [ ] Low-Fi Prototype：补 clickable Figma prototype 链接。
+- [ ] Low-Fi Prototype：补一句说明它验证了哪些交互流程。
+
+### 4. Technical Implementation
+
+- [x] System Architecture：已有用户输入、房间数据、路径计算、地图渲染、指导输出的数据流。
+- [x] High-Fi Prototype：已有 web app 链接。
+- [ ] High-Fi Prototype：补一张正确路线生成后的产品截图，最好放在 portfolio 首屏或 technical section。
+- [x] Individual Contributions：已有 4 名成员的贡献表。
+- [ ] Individual Contributions：细化到每个人具体产出，例如 code module、UI design、content、testing、data collection、documentation。
+- [ ] Individual Contributions：如有条件，补 commit、文件路径或证据链接。
+
+### 5. Evaluation & Reflection
+
+- [x] Usability Testing：已有 alpha 测试的概括结果。
+- [ ] Usability Testing：补 3 位真实用户的 demographics。
+  - [ ] 年级/身份，例如 first-year student、visitor、staff。
+  - [ ] 是否熟悉 EB。
+  - [ ] 是否属于目标用户。
+- [ ] Usability Testing：补测试任务说明。
+  - [ ] 起点入口。
+  - [ ] 目标房间。
+  - [ ] 成功标准。
+  - [ ] 记录方式。
+- [ ] Usability Testing：补结果数据表。
+  - [ ] task success。
+  - [ ] completion time。
+  - [ ] taps/clicks。
+  - [ ] error/hesitation。
+  - [ ] user comments。
+- [ ] Iterative Refinement：补 before/after screenshots。
+- [x] Iterative Refinement：已有根据用户反馈改进的信息呈现说明。
+- [x] Final Reflection：已有 social / ethical / AI 反思。
+- [ ] Final Reflection：补更具体的 AI use disclosure，例如 AI 用于 ideation、writing support、code support、image support 的哪些环节，以及团队如何人工检查。
+
+### 6. Frontend 展示体验
+
+- [x] 首屏：已有产品名、slogan、overview、prototype 按钮和产品预览。
+- [ ] 首屏：用真实 high-fi 路线截图替换当前抽象 mockup。
+- [ ] Research：把 4 papers + 4 products 做成更清晰的 comparison table。
+- [ ] Evidence：把 5 个 evidence slots 替换成 gallery cards。
+- [ ] Ideation：把 Crazy Eights 做成 8-card sketch grid。
+- [ ] Evaluation：把测试结果做成 data table + before/after screenshot comparison。
+- [ ] References：增加 references / bibliography section，统一放 papers 和 product links。
+- [ ] Mobile：优化 journey map，避免手机端只能横向滚动。
+- [ ] Navigation：可选增加 active section highlight。
+
 ## 重构后的 JavaScript 架构
 
 现在页面的脚本职责按“从外到内”的方式分成了几层：
