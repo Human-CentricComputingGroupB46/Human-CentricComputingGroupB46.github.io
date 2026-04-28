@@ -9,9 +9,10 @@
   --bg: #eef2f7;
   --ink: #1f2a37;
   --muted: #5a6676;
-  --brand: #2b4c7e;
-  --brand-deep: #243b63;
+  --brand: #0b2340;
+  --brand-deep: #071d36;
   --accent: #2f7f79;
+  --orange: #f7941e;
   --line: #c9d3e1;
   --card: #ffffff;
   --mint: #edf6f4;
@@ -26,8 +27,9 @@ body {
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 10% 8%, #e4eaf2 0, #e4eaf2 16%, transparent 16.5%),
-    radial-gradient(circle at 84% 76%, #e5f0ee 0, #e5f0ee 14%, transparent 14.5%),
+    linear-gradient(180deg, rgba(7, 29, 54, 0.08) 0, transparent 230px),
+    radial-gradient(circle at 8% 6%, #d9e7f5 0, #d9e7f5 13%, transparent 13.5%),
+    radial-gradient(circle at 88% 26%, #dff2ec 0, #dff2ec 14%, transparent 14.5%),
     var(--bg);
 }
 
@@ -51,6 +53,13 @@ body {
   position: sticky;
   top: 10px;
   z-index: 20;
+}
+
+.top-nav a:focus-visible,
+.quick-link:focus-visible,
+.card-link:focus-visible {
+  outline: 3px solid rgba(247, 148, 30, 0.45);
+  outline-offset: 3px;
 }
 
 .brand {
@@ -96,23 +105,317 @@ body {
 
 .hero {
   margin-top: 28px;
-  text-align: center;
+  background: linear-gradient(135deg, var(--brand-deep), #123b62 58%, #1f6f68);
+  border-radius: 24px;
+  padding: 34px;
+  color: #fff;
+  text-align: left;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  gap: 24px;
+  align-items: center;
+  box-shadow: 0 24px 58px rgba(7, 29, 54, 0.22);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: auto -110px -140px auto;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: rgba(247, 148, 30, 0.18);
+}
+
+.hero-copy,
+.product-preview {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #ffd18d;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(38px, 8vw, 82px);
+  font-size: clamp(38px, 6vw, 66px);
   line-height: 1;
-  color: var(--brand-deep);
-  letter-spacing: 0.5px;
+  color: #ffffff;
+  letter-spacing: 0;
 }
 
 .hero p {
-  margin: 14px auto 0;
-  max-width: 900px;
-  color: var(--muted);
+  margin: 18px 0 0;
+  max-width: 610px;
+  color: rgba(255, 255, 255, 0.82);
   font-size: 18px;
   line-height: 1.6;
+}
+
+.hero-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-actions .quick-link {
+  background: var(--orange);
+  color: #071d36;
+  box-shadow: 0 14px 30px rgba(247, 148, 30, 0.22);
+}
+
+.hero-actions .quick-link.secondary {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.hero-stats {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 560px;
+}
+
+.stat-card {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.stat-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.stat-card span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.product-preview {
+  width: 100%;
+  max-width: 440px;
+  justify-self: end;
+  background: #f6f8fc;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 22px 42px rgba(2, 13, 26, 0.35);
+}
+
+.preview-topbar {
+  height: 58px;
+  background: #071d36;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+.preview-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.preview-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--orange);
+  display: grid;
+  place-items: center;
+  color: #071d36;
+}
+
+.preview-chip {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #dce7f5;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.preview-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 14px;
+}
+
+.preview-map,
+.preview-panel {
+  background: #fff;
+  border: 1px solid #d2ddec;
+  border-radius: 12px;
+}
+
+.preview-map {
+  min-height: 238px;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(180, 202, 227, 0.24) 1px, transparent 1px),
+    linear-gradient(rgba(180, 202, 227, 0.24) 1px, transparent 1px),
+    #edf3fb;
+  background-size: 52px 52px;
+}
+
+.preview-floor {
+  position: absolute;
+  inset: 30px 28px 34px 34px;
+  border: 2px solid #9fb5d0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.preview-corridor {
+  position: absolute;
+  background: rgba(117, 163, 211, 0.48);
+  border-radius: 10px;
+}
+
+.preview-corridor.main { left: 70px; right: 60px; top: 112px; height: 18px; }
+.preview-corridor.side { left: 70px; top: 112px; bottom: 54px; width: 18px; }
+.preview-corridor.east { right: 78px; top: 112px; bottom: 52px; width: 18px; }
+
+.preview-callout {
+  position: absolute;
+  width: 128px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #a9b9ce;
+  border-radius: 10px;
+  color: #1b2b42;
+  box-shadow: 0 8px 16px rgba(43, 76, 126, 0.08);
+}
+
+.preview-callout strong {
+  display: block;
+  color: var(--brand-deep);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.preview-callout span {
+  display: block;
+  margin-top: 3px;
+  color: #65758b;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.callout-start { left: 28px; top: 24px; }
+.callout-route { left: calc(50% - 64px); top: 142px; }
+.callout-end { right: 24px; bottom: 22px; }
+
+.preview-route {
+  position: absolute;
+  left: 78px;
+  top: 120px;
+  width: calc(100% - 164px);
+  height: 68px;
+  border-left: 7px solid var(--orange);
+  border-bottom: 7px solid var(--orange);
+  border-radius: 0 0 0 20px;
+}
+
+.preview-pin {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 0 0 4px var(--orange), 0 10px 18px rgba(7, 29, 54, 0.18);
+  background: var(--orange);
+}
+
+.preview-pin.start { left: 62px; top: 100px; }
+.preview-pin.end {
+  right: 62px;
+  bottom: 34px;
+  background: #23845f;
+  box-shadow: 0 0 0 4px #23845f, 0 10px 18px rgba(7, 29, 54, 0.18);
+}
+
+.preview-panel {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.preview-panel h3 {
+  margin: 0 0 8px;
+  color: var(--brand-deep);
+  font-size: 16px;
+}
+
+.preview-entrances,
+.preview-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.preview-entrances span,
+.preview-keys span {
+  border: 1px solid #d3ddeb;
+  border-radius: 9px;
+  padding: 8px 0;
+  text-align: center;
+  color: var(--brand-deep);
+  font-weight: 800;
+  background: #f5f7fb;
+}
+
+.preview-entrances span:first-child {
+  color: #fff;
+  background: var(--brand-deep);
+}
+
+.preview-input {
+  margin: 0;
+  border: 2px solid var(--orange);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--brand-deep);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.preview-route-btn {
+  margin-top: 0;
+  border-radius: 10px;
+  background: var(--orange);
+  color: var(--brand-deep);
+  padding: 11px;
+  text-align: center;
+  font-weight: 900;
 }
 
 .overview,
@@ -187,6 +490,14 @@ body {
   display: grid;
   gap: 18px;
 }
+
+#progress { order: 1; }
+#research { order: 2; }
+#requirements { order: 3; }
+#ideation { order: 4; }
+#technical { order: 5; }
+#evaluation { order: 6; }
+#team { order: 7; }
 
 .section-card { padding: 24px; }
 
@@ -640,9 +951,65 @@ body {
   line-height: 1.6;
 }
 
+.architecture-flow {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.flow-step {
+  position: relative;
+  border: 1px solid #d3deed;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff, #f5f8fc);
+  padding: 14px;
+  min-height: 118px;
+}
+
+.flow-step::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 18px;
+  height: 2px;
+  background: var(--orange);
+}
+
+.flow-step:last-child::after {
+  display: none;
+}
+
+.flow-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(247, 148, 30, 0.14);
+  color: var(--orange);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.flow-step h4 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 16px;
+}
+
+.flow-step p {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #526378;
+}
+
 .scroll-fx {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.72s ease, transform 0.72s ease;
 }
 
@@ -654,6 +1021,10 @@ body {
 @media (max-width: 1000px) {
   .progress-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero { grid-template-columns: 1fr; }
+  .preview-body { grid-template-columns: 1fr; }
+  .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow-step::after { display: none; }
 }
 
 @media (max-width: 860px) {
@@ -697,6 +1068,22 @@ body {
   .section-card h2 {
     font-size: 28px;
   }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .product-preview {
+    display: none;
+  }
+
+  .architecture-flow {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -722,20 +1109,87 @@ body {
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#team">Team</a>
-      <a href="#research">Motivation &amp; Research</a>
-      <a href="#requirements">Requirements</a>
+      <a href="#research">Research</a>
+      <a href="#requirements">Users</a>
       <a href="#ideation">Ideation</a>
-      <a href="#technical">Technical</a>
+      <a href="#technical">Build</a>
       <a href="#evaluation">Evaluation</a>
+      <a href="#team">Team</a>
     </div>
   </nav>
 
   <header class="hero scroll-fx" id="about">
-    <h1>CampusCompass</h1>
-    <p>
-      Process Portfolio (Initial Refinement): this site now follows the CPT208 portfolio structure and aligns with our current poster and prototype evidence.
-    </p>
+    <div class="hero-copy">
+      <p class="eyebrow">Active Track / Indoor Navigation</p>
+      <h1>CampusCompass</h1>
+      <p>
+        A browser-based EB building navigation kiosk that turns room codes into clear routes, reducing hesitation for new students and visiting guests.
+      </p>
+      <div class="hero-actions">
+        <a href="./web_code/index.html" class="quick-link">Open High-Fi Prototype</a>
+        <a href="#evaluation" class="quick-link secondary">View Evaluation</a>
+      </div>
+      <div class="hero-stats" aria-label="Project highlights">
+        <div class="stat-card">
+          <strong>3</strong>
+          <span>tested users in alpha evaluation</span>
+        </div>
+        <div class="stat-card">
+          <strong>2</strong>
+          <span>mapped EB floors for route guidance</span>
+        </div>
+        <div class="stat-card">
+          <strong>60%</strong>
+          <span>estimated time saved in user testing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-preview" aria-label="CampusCompass product interface preview">
+      <div class="preview-topbar">
+        <div class="preview-brand">
+          <span class="preview-logo">◎</span>
+          <span>CampusCompass</span>
+        </div>
+        <span class="preview-chip">DEMO MODE</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-map">
+          <div class="preview-floor"></div>
+          <div class="preview-corridor main"></div>
+          <div class="preview-corridor side"></div>
+          <div class="preview-corridor east"></div>
+          <div class="preview-callout callout-start">
+            <strong>Start: NW entrance</strong>
+            <span>Current position confirmed</span>
+          </div>
+          <div class="preview-callout callout-route">
+            <strong>Route generated</strong>
+            <span>Shortest path highlighted</span>
+          </div>
+          <div class="preview-callout callout-end">
+            <strong>Destination: EB106</strong>
+            <span>Arrival point marked</span>
+          </div>
+          <div class="preview-route"></div>
+          <div class="preview-pin start" title="You are here"></div>
+          <div class="preview-pin end" title="Destination"></div>
+        </div>
+        <div class="preview-panel">
+          <h3>Room number</h3>
+          <div class="preview-entrances">
+            <span>NW</span><span>NE</span><span>SW</span>
+          </div>
+          <div class="preview-input">EB106</div>
+          <div class="preview-keys">
+            <span>1</span><span>2</span><span>3</span>
+            <span>4</span><span>5</span><span>6</span>
+            <span>7</span><span>8</span><span>9</span>
+          </div>
+          <div class="preview-route-btn">Route</div>
+        </div>
+      </div>
+    </div>
   </header>
 
   <section class="overview scroll-fx" id="overview">
@@ -750,18 +1204,13 @@ body {
       <a href="./web_code/doc/PROJECT.md" class="quick-link secondary">Project Document</a>
       <a href="./web_code/doc/TECH_STACK.md" class="quick-link secondary">Tech Stack</a>
     </div>
-    <div class="notice-card">
-      <p>
-        Portfolio status: this is a first complete structure pass. Items that still need upload materials (photos/videos/sketch scans/Figma link) are marked as <strong>TO UPLOAD</strong>.
-      </p>
-    </div>
   </section>
 
   <main class="content">
     <section class="section-card scroll-fx" id="progress">
       <div class="section-head">
-        <h2>Portfolio Checklist</h2>
-        <span class="status">Initial Version Ready</span>
+        <h2>Portfolio Roadmap</h2>
+        <span class="status">Process Overview</span>
       </div>
       <div class="progress-grid">
         <article class="progress-item">
@@ -774,7 +1223,7 @@ body {
         </article>
         <article class="progress-item">
           <h3>3. Ideation &amp; Alternatives</h3>
-          <p>Alternative comparison is filled; sketch and low-fi links pending upload.</p>
+          <p>Alternative comparison, low-fi flow, and sketch evidence frame the design choices.</p>
         </article>
         <article class="progress-item">
           <h3>4. Technical Implementation</h3>
@@ -782,7 +1231,7 @@ body {
         </article>
         <article class="progress-item">
           <h3>5. Evaluation &amp; Reflection</h3>
-          <p>Alpha results and reflection draft included for first submission pass.</p>
+          <p>Alpha results and reflection connect user feedback to design implications.</p>
         </article>
       </div>
     </section>
@@ -842,7 +1291,7 @@ body {
     <section class="section-card scroll-fx" id="research">
       <div class="section-head">
         <h2>1. Motivation &amp; Research</h2>
-        <span class="status">Mostly Ready</span>
+        <span class="status">Problem Framing</span>
       </div>
 
       <div class="block">
@@ -961,7 +1410,7 @@ body {
     <section class="section-card scroll-fx" id="requirements">
       <div class="section-head">
         <h2>2. User Requirements</h2>
-        <span class="status">Mostly Ready</span>
+        <span class="status">User Insight</span>
       </div>
 
       <p>User Journey Map (poster-style phase matrix):</p>
@@ -1039,27 +1488,27 @@ body {
       </div>
 
       <h3 style="margin-top:16px; color: var(--brand-deep);">Evidence of Life</h3>
-      <p>Upload 5 interview/observation photos or short clips here:</p>
+      <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
       <div class="evidence-grid">
         <article class="evidence-item">
           <h4>Evidence 1</h4>
-          <p>TO UPLOAD: interview photo/video with target user.</p>
+          <p>Interview record with a target user.</p>
         </article>
         <article class="evidence-item">
           <h4>Evidence 2</h4>
-          <p>TO UPLOAD: site observation at EB entrance.</p>
+          <p>Site observation at an EB entrance.</p>
         </article>
         <article class="evidence-item">
           <h4>Evidence 3</h4>
-          <p>TO UPLOAD: signage pain point capture.</p>
+          <p>Signage pain point capture.</p>
         </article>
         <article class="evidence-item">
           <h4>Evidence 4</h4>
-          <p>TO UPLOAD: user route confusion snapshot.</p>
+          <p>User route confusion snapshot.</p>
         </article>
         <article class="evidence-item">
           <h4>Evidence 5</h4>
-          <p>TO UPLOAD: follow-up validation record.</p>
+          <p>Follow-up validation record.</p>
         </article>
       </div>
     </section>
@@ -1067,7 +1516,7 @@ body {
     <section class="section-card scroll-fx" id="ideation">
       <div class="section-head">
         <h2>3. Ideation &amp; Alternatives</h2>
-        <span class="status todo">Needs Material Upload</span>
+        <span class="status">Design Exploration</span>
       </div>
 
       <div class="dual">
@@ -1076,7 +1525,7 @@ body {
           <p>
             Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
           </p>
-          <p class="small-note">TO UPLOAD: 8 sketch photos/scans.</p>
+          <p class="small-note">Material slot: 8 sketch photos/scans.</p>
         </article>
 
         <article class="block">
@@ -1084,7 +1533,7 @@ body {
           <p>
             A clickable low-fi flow was used to validate the 3-stage interaction before coding.
           </p>
-          <p class="small-note">TO UPLOAD: Figma link.</p>
+          <p class="small-note">Material slot: clickable Figma link.</p>
         </article>
       </div>
 
@@ -1128,16 +1577,32 @@ body {
       </div>
 
       <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
-      <div class="code-block">
-        <pre>┌──────────────────────┐      ┌───────────────────────┐      ┌────────────────────┐
-│  HTML (structure)    │ ←──→ │  CSS (presentation)   │ ←──→ │  JavaScript        │
-│  semantic views      │      │  Grid, Flex, tokens   │      │  state + routing   │
-└──────────────────────┘      └───────────────────────┘      └──────────┬─────────┘
-                                                                        │
-                                                            ┌───────────▼───────────┐
-                                                            │  data.js              │
-                                                            │  layout + room graph  │
-                                                            └───────────────────────┘</pre>
+      <div class="architecture-flow" aria-label="CampusCompass system data flow">
+        <article class="flow-step">
+          <div class="flow-icon">1</div>
+          <h4>User Input</h4>
+          <p>Users choose the entrance and enter a destination room number.</p>
+        </article>
+        <article class="flow-step">
+          <div class="flow-icon">2</div>
+          <h4>Room Data</h4>
+          <p>Static room, corridor, lift, and stair data define the EB building graph.</p>
+        </article>
+        <article class="flow-step">
+          <div class="flow-icon">3</div>
+          <h4>Pathfinding</h4>
+          <p>Dijkstra routing calculates the shortest walkable route.</p>
+        </article>
+        <article class="flow-step">
+          <div class="flow-icon">4</div>
+          <h4>Map Rendering</h4>
+          <p>The selected path is drawn over the calibrated floor map.</p>
+        </article>
+        <article class="flow-step">
+          <div class="flow-icon">5</div>
+          <h4>Guidance Output</h4>
+          <p>The interface shows visual route cues and concise step-by-step instructions.</p>
+        </article>
       </div>
 
       <p style="margin-top:12px;">
@@ -1177,7 +1642,7 @@ body {
     <section class="section-card scroll-fx" id="evaluation">
       <div class="section-head">
         <h2>5. Evaluation &amp; Reflection</h2>
-        <span class="status">Draft Complete</span>
+        <span class="status">Alpha Findings</span>
       </div>
 
       <div class="dual">
@@ -1198,7 +1663,7 @@ body {
             <li><strong>After:</strong> final alpha version uses 2D top-down map + concise step list + completion cue.</li>
             <li><strong>Impact:</strong> faster understanding, fewer hesitations at decision points.</li>
           </ul>
-          <p class="small-note">TO UPLOAD: before/after screenshots.</p>
+          <p class="small-note">Material slot: before/after screenshots.</p>
         </article>
       </div>
 
