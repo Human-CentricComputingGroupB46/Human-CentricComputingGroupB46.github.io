@@ -781,7 +781,8 @@ body {
 .gap-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /*grid-template-columns: repeat(2, minmax(0, 1fr));*/
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
@@ -1421,11 +1422,11 @@ body {
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#requirements">Users</a>
-      <a href="#ideation">Ideation</a>
-      <a href="#technical">Prototype</a>
-      <a href="#evaluation">Evaluation</a>
+      <a href="#research">Motivation & Research</a>
+      <a href="#requirements">User Requirements</a>
+      <a href="#ideation">Ideation & Alternatives</a>
+      <a href="#technical">Technical Implementation</a>
+      <a href="#evaluation">Evaluation & Reflection</a>
       <a href="#team">Team</a>
     </div>
   </nav>
@@ -1638,6 +1639,7 @@ body {
       </div>
 
       <h2>The Gap</h2>
+      <h2>Academic paper</h2>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -1745,6 +1747,117 @@ body {
             </div>
           </div>
         </article>
+
+        <h2>Commercial Products</h2>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 1</span>
+          </div>
+          <h5>Google Maps Indoor Maps</h5>
+          <p class="meta">Google, indoor venue mapping and navigation platform</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Very familiar interface with almost no learning cost for users.</li>
+                <li>Supports floor switching and clear visual orientation in large venues.</li>
+                <li>Works across devices with strong map rendering and search performance.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Indoor support is limited to selected venues, not every campus building.</li>
+                <li>Room-level accuracy can be weak for precise indoor wayfinding tasks.</li>
+                <li>Not tailored to custom campus entrances, routes, or naming logic.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 2</span>
+          </div>
+          <h5>Apple Maps Indoor Maps</h5>
+          <p class="meta">Apple, indoor maps for supported malls and airports</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Clean interface presents directions in a simple, low-stress way.</li>
+                <li>Supports indoor floor browsing for some airports and shopping centers.</li>
+                <li>Fits naturally into Apple’s broader walking and navigation ecosystem.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Indoor venue coverage is limited and inconsistent across locations.</li>
+                <li>Strongly tied to Apple devices rather than universal browser access.</li>
+                <li>Cannot be easily customized for one specific campus building scenario.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 3</span>
+          </div>
+          <h5>IndoorAtlas Wayfinding</h5>
+          <p class="meta">IndoorAtlas, enterprise indoor positioning and navigation solution</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Provides accurate indoor positioning for complex buildings and large venues.</li>
+                <li>Supports offline navigation and customizable wayfinding experiences for organizations.</li>
+                <li>Can integrate AR guidance and detailed indoor spatial data.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Requires setup, calibration, and SDK integration before real deployment.</li>
+                <li>Feels heavier than a lightweight browser-based campus navigation tool.</li>
+                <li>Infrastructure and platform complexity may exceed small project needs.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 4</span>
+          </div>
+          <h5>MapsIndoors</h5>
+          <p class="meta">MapsPeople, indoor mapping and turn-by-turn wayfinding platform</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Supports web, mobile, and kiosk navigation across indoor spaces.</li>
+                <li>Includes accessibility routing and outdoor-to-indoor wayfinding support.</li>
+                <li>Offers strong customization for campuses, offices, and public venues.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>More like an enterprise platform than a simple student tool.</li>
+                <li>Needs map data management and ongoing content maintenance work.</li>
+                <li>Feature set may be excessive for one building navigation problem.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
       </div>
 
       <h3 id="persona" style="margin-top:16px; color: var(--brand-deep);">The Stakeholders</h3>
