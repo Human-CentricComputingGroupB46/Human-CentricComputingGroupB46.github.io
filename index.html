@@ -194,6 +194,15 @@ body {
   line-height: 1.65;
 }
 
+.hero-line {
+  display: block;
+  margin-top: 8px;
+  color: #ffd18d;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
 .hero-actions {
   margin-top: 24px;
   display: flex;
@@ -620,6 +629,61 @@ body {
 
 .progress-item h3::first-letter {
   color: var(--orange);
+}
+
+.insight-strip {
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.insight-card {
+  border: 1px solid rgba(213, 224, 238, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ffffff, #f4f9fb);
+  padding: 14px;
+  box-shadow: 0 10px 20px rgba(36, 59, 99, 0.055);
+}
+
+.insight-card strong {
+  display: block;
+  color: var(--brand-deep);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.insight-card span {
+  display: block;
+  margin-top: 8px;
+  color: #526378;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.quote-card {
+  margin: 16px 0;
+  border-left: 5px solid var(--orange);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fff8ed, #ffffff 62%, #edf6f4);
+  padding: 18px 20px;
+  box-shadow: 0 12px 24px rgba(36, 59, 99, 0.06);
+}
+
+.quote-card p {
+  margin: 0;
+  color: #263b55;
+  font-size: 19px;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+.quote-card span {
+  display: block;
+  margin-top: 8px;
+  color: #65758b;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .progress-item h3 {
@@ -1110,6 +1174,39 @@ body {
   color: #526378;
 }
 
+.before-after {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.comparison-panel {
+  border: 1px solid rgba(216, 224, 236, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ffffff, #f7fafc);
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(36, 59, 99, 0.055);
+}
+
+.comparison-panel.after {
+  background: linear-gradient(135deg, #ffffff, #edf6f4);
+  border-color: rgba(47, 127, 121, 0.24);
+}
+
+.comparison-panel h4 {
+  margin: 0 0 10px;
+  color: var(--brand-deep);
+  font-size: 18px;
+}
+
+.comparison-panel ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #37495f;
+  line-height: 1.65;
+}
+
 .scroll-fx {
   opacity: 1;
   transform: none;
@@ -1124,6 +1221,7 @@ body {
 @media (max-width: 1000px) {
   .progress-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .insight-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero { grid-template-columns: 1fr; }
   .preview-body { grid-template-columns: 1fr; }
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1148,6 +1246,11 @@ body {
   .persona-blocks,
   .progress-grid,
   .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insight-strip,
+  .before-after {
     grid-template-columns: 1fr;
   }
 
@@ -1221,13 +1324,14 @@ body {
     <div class="hero-copy">
       <p class="eyebrow">Active Track / Indoor Navigation</p>
       <h1>CampusCompass</h1>
+      <span class="hero-line">Room codes show the floor. We show the way.</span>
       <p>
-        A browser-based EB building navigation kiosk that turns room codes into clear routes, reducing hesitation for new students and visiting guests.
+        A browser-based EB building navigation kiosk that turns confusing room codes into entrance-aware routes for new students and visiting guests.
       </p>
       <div class="hero-overview">
         <h2>Project Overview</h2>
         <p>
-          CampusCompass addresses a common EB building problem: room codes such as EB204 reveal the floor but not the wing or route. Users choose their entrance, enter a target room, and receive a short path with map-based guidance and concise steps.
+          CampusCompass addresses a common EB building problem: room codes such as EB204 reveal the floor but not the wing, closest entrance, or turning decisions. Users choose their entrance, enter a target room, and receive map-based guidance with concise steps.
         </p>
       </div>
       <div class="hero-actions">
@@ -1306,23 +1410,23 @@ body {
       </div>
       <div class="progress-grid">
         <article class="progress-item">
-          <h3>1. Motivation &amp; Research</h3>
-          <p>Why statement, gap findings, and stakeholder personas added.</p>
+          <h3>1. Mapping the Problem</h3>
+          <p>Motivation, gap findings, and stakeholder personas explain why EB wayfinding matters.</p>
         </article>
         <article class="progress-item">
-          <h3>2. User Requirements</h3>
+          <h3>2. Wayfinding Needs</h3>
           <p>Journey map and 3 must-have requirements documented.</p>
         </article>
         <article class="progress-item">
-          <h3>3. Ideation &amp; Alternatives</h3>
+          <h3>3. Route Options</h3>
           <p>Alternative comparison, low-fi flow, and sketch evidence frame the design choices.</p>
         </article>
         <article class="progress-item">
-          <h3>4. Technical Implementation</h3>
-          <p>Architecture summary, prototype link, and contributions table added.</p>
+          <h3>4. How the Compass Works</h3>
+          <p>Architecture summary, prototype link, and contributions table show implementation.</p>
         </article>
         <article class="progress-item">
-          <h3>5. Evaluation &amp; Reflection</h3>
+          <h3>5. Did Users Find the Way?</h3>
           <p>Alpha results and reflection connect user feedback to design implications.</p>
         </article>
       </div>
@@ -1382,8 +1486,32 @@ body {
 
     <section class="section-card scroll-fx" id="research">
       <div class="section-head">
-        <h2>1. Motivation &amp; Research</h2>
+        <h2>1. Mapping the Problem</h2>
         <span class="status">Problem Framing</span>
+      </div>
+
+      <div class="quote-card">
+        <p>"I know EB204 is on the second floor, but I still do not know which entrance or corridor gets me there fastest."</p>
+        <span>Representative pain point from first-time EB navigation</span>
+      </div>
+
+      <div class="insight-strip" aria-label="Research highlights">
+        <article class="insight-card">
+          <strong>2</strong>
+          <span>EB floors mapped for route guidance.</span>
+        </article>
+        <article class="insight-card">
+          <strong>3</strong>
+          <span>real users tested during alpha evaluation.</span>
+        </article>
+        <article class="insight-card">
+          <strong>3 taps</strong>
+          <span>from entrance selection to route view.</span>
+        </article>
+        <article class="insight-card">
+          <strong>60%</strong>
+          <span>estimated time saved compared with unaided navigation.</span>
+        </article>
       </div>
 
       <div class="block">
@@ -1618,7 +1746,7 @@ body {
 
     <section class="section-card scroll-fx" id="requirements">
       <div class="section-head">
-        <h2>2. User Requirements</h2>
+        <h2>2. Wayfinding Needs</h2>
         <span class="status">User Insight</span>
       </div>
 
@@ -1724,7 +1852,7 @@ body {
 
     <section class="section-card scroll-fx" id="ideation">
       <div class="section-head">
-        <h2>3. Ideation &amp; Alternatives</h2>
+        <h2>3. Route Options</h2>
         <span class="status">Design Exploration</span>
       </div>
 
@@ -1783,7 +1911,7 @@ body {
 
     <section class="section-card scroll-fx" id="technical">
       <div class="section-head">
-        <h2>4. Technical Implementation</h2>
+        <h2>4. How the Compass Works</h2>
         <span class="status">Complete (Alpha)</span>
       </div>
 
@@ -1852,7 +1980,7 @@ body {
 
     <section class="section-card scroll-fx" id="evaluation">
       <div class="section-head">
-        <h2>5. Evaluation &amp; Reflection</h2>
+        <h2>5. Did Users Find the Way?</h2>
         <span class="status">Alpha Findings</span>
       </div>
 
@@ -1875,6 +2003,25 @@ body {
             <li><strong>Impact:</strong> faster understanding, fewer hesitations at decision points.</li>
           </ul>
           <p class="small-note">Material slot: before/after screenshots.</p>
+        </article>
+      </div>
+
+      <div class="before-after" aria-label="Iterative refinement before and after comparison">
+        <article class="comparison-panel">
+          <h4>Before Alpha Refinement</h4>
+          <ul>
+            <li>Route information felt visually dense for first-time users.</li>
+            <li>Users still had to mentally translate map output into next actions.</li>
+            <li>Completion feedback was not prominent enough.</li>
+          </ul>
+        </article>
+        <article class="comparison-panel after">
+          <h4>After Alpha Refinement</h4>
+          <ul>
+            <li>2D top-down route display became the primary guidance layer.</li>
+            <li>Concise step list reduced memory load at decision points.</li>
+            <li>Clear route and completion cues made users feel more confident.</li>
+          </ul>
         </article>
       </div>
 
