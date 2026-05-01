@@ -781,7 +781,8 @@ body {
 .gap-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /*grid-template-columns: repeat(2, minmax(0, 1fr));*/
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
@@ -1128,6 +1129,112 @@ body {
   font-weight: 700;
 }
 
+.requirements-insights {
+  margin-top: 16px;
+  border: 1px solid rgba(215, 224, 236, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f9fb 100%);
+  box-shadow: 0 12px 24px rgba(36, 59, 99, 0.06);
+  overflow: hidden;
+}
+
+.requirements-insights-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(215, 224, 236, 0.9);
+  background: linear-gradient(135deg, #eaf6f4, #eef4fb);
+}
+
+.requirements-insights-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 22px;
+}
+
+.requirements-insights-head p {
+  margin: 6px 0 0;
+  color: #587088;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.requirements-insights-body {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.requirements-panel {
+  border: 1px solid rgba(216, 224, 236, 0.92);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px;
+}
+
+.requirements-panel h4 {
+  margin: 0 0 8px;
+  color: var(--brand-deep);
+  font-size: 18px;
+}
+
+.requirements-panel p {
+  margin: 0;
+  color: #3f5167;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.requirements-panel + .requirements-panel {
+  margin-top: 0;
+}
+
+.requirements-findings {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+.requirements-findings article {
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff, #f8fbff);
+  padding: 12px 12px 12px 14px;
+}
+
+.requirements-findings h5 {
+  margin: 0 0 6px;
+  color: #24415e;
+  font-size: 15px;
+}
+
+.requirements-findings p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.requirements-chart-notes {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+.requirements-chart-notes article {
+  border: 1px solid rgba(212, 220, 235, 0.9);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8fbff, #f1f8f4);
+  padding: 12px 14px;
+}
+
+.requirements-chart-notes h5 {
+  margin: 0 0 6px;
+  color: #24415e;
+  font-size: 15px;
+}
+
+.requirements-chart-notes p {
+  margin: 0;
+}
+
 .evidence-grid {
   margin-top: 14px;
   display: grid;
@@ -1421,11 +1528,11 @@ body {
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#requirements">Users</a>
-      <a href="#ideation">Ideation</a>
-      <a href="#technical">Prototype</a>
-      <a href="#evaluation">Evaluation</a>
+      <a href="#research">Motivation & Research</a>
+      <a href="#requirements">User Requirements</a>
+      <a href="#ideation">Ideation & Alternatives</a>
+      <a href="#technical">Technical Implementation</a>
+      <a href="#evaluation">Evaluation & Reflection</a>
       <a href="#team">Team</a>
     </div>
   </nav>
@@ -1638,29 +1745,30 @@ body {
       </div>
 
       <h2>The Gap</h2>
+      <h2>Academic paper</h2>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
             <span class="gap-kicker">Paper 1</span>
           </div>
-          <h5>Learn, Earn, and Game on</h5>
-          <p class="meta">Tarigan et al., 2025</p>
+          <h5>A Generic Approach toward Indoor Navigation and Pathfinding with Robust Marker Tracking</h5>
+          <p class="meta">Khan et al., 2019</p>
 
           <div class="dual">
             <div class="col positive">
               <h6>What it did well</h6>
               <ul>
-                <li>Makes rewards transferable across contexts.</li>
-                <li>Strengthens user motivation through progression.</li>
-                <li>Builds a clear reward loop beyond simple points.</li>
+                <li>Keeps deployment low-cost using only ceiling markers and smartphones, while remaining easy to scale.</li>
+                <li>Enables efficient navigation with automatic shortest-path generation across spaces.</li>
+                <li>Improves first-time use through combined visual and audio guidance.</li>
               </ul>
             </div>
             <div class="col negative">
               <h6>What it missed</h6>
               <ul>
-                <li>System too complex for lightweight deployment.</li>
-                <li>Over-relies on gamification metaphor.</li>
-                <li>Weak long-term engagement strategy.</li>
+                <li>Relies on visible markers and stable lighting, limiting reliability.</li>
+                <li>Requires continuous camera use, adding user effort.</li>
+                <li>Lacks low-friction options (e.g., kiosks) and confidence support for stressed users.</li>
               </ul>
             </div>
           </div>
@@ -1668,30 +1776,194 @@ body {
 
         <article class="gap-card scroll-fx">
           <div class="gap-head">
-            <span class="gap-kicker">Product 1</span>
+            <span class="gap-kicker">Paper 2</span>
           </div>
-          <h5>Google Maps</h5>
-          <p class="meta">Established benchmark for familiar wayfinding UX</p>
+          <h5>INSUS: Indoor Navigation System Using Unity and Smartphone for User Ambulation Assistance</h5>
+          <p class="meta">Fajrianti et al., 2023</p>
 
           <div class="dual">
             <div class="col positive">
               <h6>What it did well</h6>
               <ul>
-                <li>Highly familiar interface.</li>
-                <li>Fast route generation.</li>
-                <li>Strong visual orientation.</li>
+                <li>Makes navigation intuitive by using AR arrows to guide users along routes.</li>
+                <li>Reduces infrastructure needs by relying on smartphone sensors and QR-based initialization instead of dedicated hardware.</li>
+                <li>Validated in real environments, with prototypes tested in two university buildings and positive user feedback.</li>
               </ul>
             </div>
             <div class="col negative">
               <h6>What it missed</h6>
               <ul>
-                <li>Weak indoor accuracy.</li>
-                <li>Requires mobile setup.</li>
-                <li>Not optimized for buildings.</li>
+                <li>SLAM drift can reduce accuracy, sometimes requiring users to rescan QR codes.</li>
+                <li>Performance is sensitive to how the phone is held and oriented during use.</li>
+                <li>Unity-based 3D system is relatively heavy compared to lightweight, browser-based solutions.</li>
               </ul>
             </div>
           </div>
         </article>
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Paper 3</span>
+          </div>
+          <h5>Generating Comfortable Navigable Space for 3D Indoor Navigation Considering Users’ Dimensions</h5>
+          <p class="meta">Zhen et al., 2020</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Supports inclusive and accessibility-aware routing decisions for diverse users.</li>
+                <li>Models indoor spaces, obstacles, and functions in a more human-centered 3D representation.</li>
+                <li>Shortest-path routing by incorporating user comfort and body dimensions into navigation planning.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Focuses more on spatial modeling than on a practical, user-facing navigation interface.</li>
+                <li>Relies on simplified geometric assumptions, which may reduce real-world precision.</li>
+                <li>Does not address key usability needs like fast destination input or beginner-friendly guidance.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Paper 4</span>
+          </div>
+          <h5>NavCog3 in the Wild: Large-Scale Blind Indoor Navigation Assistant with Semantic Features</h5>
+          <p class="meta">Sato et al., 2019</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Demonstrates robust large-scale real-world deployment with strong in-the-wild validation.</li>
+                <li>Enhances navigation using semantic cues like doors, landmarks, and nearby points of interest.</li>
+                <li>Provides strong accessibility support with detailed turn-by-turn guidance for blind users.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Depends on beacon infrastructure and venue-specific installation, limiting portability.</li>
+                <li>Primarily designed for blind navigation rather than general visitor or kiosk-based use.</li>
+                <li>Requires relatively high deployment and maintenance complexity compared to lightweight solutions.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <h2>Commercial Products</h2>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 1</span>
+          </div>
+          <h5>Google Maps Indoor Maps</h5>
+          <p class="meta">Google, indoor venue mapping and navigation platform</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Very familiar interface with almost no learning cost for users.</li>
+                <li>Supports floor switching and clear visual orientation in large venues.</li>
+                <li>Works across devices with strong map rendering and search performance.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Indoor support is limited to selected venues, not every campus building.</li>
+                <li>Room-level accuracy can be weak for precise indoor wayfinding tasks.</li>
+                <li>Not tailored to custom campus entrances, routes, or naming logic.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 2</span>
+          </div>
+          <h5>Apple Maps Indoor Maps</h5>
+          <p class="meta">Apple, indoor maps for supported malls and airports</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Clean interface presents directions in a simple, low-stress way.</li>
+                <li>Supports indoor floor browsing for some airports and shopping centers.</li>
+                <li>Fits naturally into Apple’s broader walking and navigation ecosystem.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Indoor venue coverage is limited and inconsistent across locations.</li>
+                <li>Strongly tied to Apple devices rather than universal browser access.</li>
+                <li>Cannot be easily customized for one specific campus building scenario.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 3</span>
+          </div>
+          <h5>IndoorAtlas Wayfinding</h5>
+          <p class="meta">IndoorAtlas, enterprise indoor positioning and navigation solution</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Provides accurate indoor positioning for complex buildings and large venues.</li>
+                <li>Supports offline navigation and customizable wayfinding experiences for organizations.</li>
+                <li>Can integrate AR guidance and detailed indoor spatial data.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>Requires setup, calibration, and SDK integration before real deployment.</li>
+                <li>Feels heavier than a lightweight browser-based campus navigation tool.</li>
+                <li>Infrastructure and platform complexity may exceed small project needs.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="gap-card scroll-fx">
+          <div class="gap-head">
+            <span class="gap-kicker">Product 4</span>
+          </div>
+          <h5>MapsIndoors</h5>
+          <p class="meta">MapsPeople, indoor mapping and turn-by-turn wayfinding platform</p>
+
+          <div class="dual">
+            <div class="col positive">
+              <h6>What it did well</h6>
+              <ul>
+                <li>Supports web, mobile, and kiosk navigation across indoor spaces.</li>
+                <li>Includes accessibility routing and outdoor-to-indoor wayfinding support.</li>
+                <li>Offers strong customization for campuses, offices, and public venues.</li>
+              </ul>
+            </div>
+            <div class="col negative">
+              <h6>What it missed</h6>
+              <ul>
+                <li>More like an enterprise platform than a simple student tool.</li>
+                <li>Needs map data management and ongoing content maintenance work.</li>
+                <li>Feature set may be excessive for one building navigation problem.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
       </div>
 
       <h3 id="persona" style="margin-top:16px; color: var(--brand-deep);">The Stakeholders</h3>
@@ -1762,22 +2034,22 @@ body {
             <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Clarity</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Low-stress / Comfort</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 70%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Exploration</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 25%;"></div></div>
@@ -1849,22 +2121,22 @@ body {
             <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Efficiency</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 95%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Professional Image</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 90%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Independence</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 85%;"></div></div>
               </div>
-              
+
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Comfort</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 50%;"></div></div>
@@ -1952,6 +2224,93 @@ body {
             <div class="cell phase-3-bg">Use simple top-down map + concise action verbs for each next move.</div>
             <div class="cell phase-4-bg">Provide a clear completion signal and a one-tap "new search" restart.</div>
           </div>
+        </div>
+      </div>
+
+      <div class="requirements-insights">
+        <div class="requirements-insights-head">
+          <h3>Early Research Turned Pain Points into Design Needs</h3>
+          <p>Questionnaire findings were translated into concrete wayfinding requirements for CampusCompass.</p>
+        </div>
+        <div class="requirements-insights-body">
+          <article class="requirements-panel">
+            <h4>1. Data Collection &amp; Target Users</h4>
+            <p>
+              We collected survey responses from 50 participants through a questionnaire. The sample included 20 first- and second-year students, 20 third- and fourth-year students, and 10 external visitors. This mix captured both routine classroom-finding problems and first-time navigation difficulties in unfamiliar campus buildings.
+            </p>
+          </article>
+
+          <article class="requirements-panel">
+            <h4>2. Questionnaire Evidence</h4>
+            <p>
+              The questionnaire showed that classroom-finding problems were frequent, repeated, and tied to specific building conditions rather than isolated mistakes. We used comparison across response groups and a pain point-to-mechanism mapping matrix to identify which problems appeared most often and which wayfinding supports were most needed.
+            </p>
+            <div class="requirements-findings">
+              <article>
+                <h5>For confusing building numbers</h5>
+                <p>
+                  20 participants said unclear building numbering led them to the wrong classroom. The strongest matching mechanism is building-specific destination input with clearer room parsing. This suggests students need the system to reduce ambiguity before moving. This supports searchable destination input and route generation based on explicit building context.
+                </p>
+              </article>
+              <article>
+                <h5>For unclear floor markings</h5>
+                <p>
+                  12 participants reported difficulty because floor labels were not clear enough. The most relevant mechanism is floor-aware route guidance with explicit level transitions. This indicates students need confirmation of when to go upstairs, downstairs, or stay on the same level. Therefore, route output should include strong floor cues and step-by-step instructions.
+                </p>
+              </article>
+              <article>
+                <h5>For non-continuous classroom numbering</h5>
+                <p>
+                  32 participants identified discontinuous room numbering as a major source of confusion, making it the most common pain point. The strongest mechanism is guided route breakdown instead of expecting users to infer the layout themselves. This suggests students need direct instructions rather than spatial guesswork. As a result, the design should prioritize concise action-based guidance and a simple top-down route view.
+                </p>
+              </article>
+              <article>
+                <h5>For losing direction during indoor-outdoor transitions</h5>
+                <p>
+                  24 participants said they lost orientation when moving between outside and inside spaces. The strongest mechanism is point-of-entry orientation through an immediately visible electronic sign. This is reinforced by 24 participants saying they would use the system at first sight in an unfamiliar place, while 21 said they would use it after spending too long searching. This supports placing the system at building entrances and designing it for instant use under time pressure.
+                </p>
+              </article>
+            </div>
+            <p style="margin-top:10px;">
+              The severity of the problem was also clear. Only 8 participants found a classroom within five minutes in their worst experience, 16 took 5 to 10 minutes, 17 spent more than 10 minutes, and 9 skipped class because they could not find the room. In addition, 38 participants had been late because of classroom-finding difficulties. These findings show that the system must reduce hesitation, save time, and restore confidence at key decision points.
+            </p>
+          </article>
+
+          <article class="requirements-panel">
+            <h4>3. Requirement Analysis</h4>
+            <p>
+              A stacked bar chart helps transform questionnaire findings into concrete design requirements by mapping each pain point to the navigation mechanism most needed to address it. This makes the analysis meaningful not only descriptively, but also as a design translation tool that connects observed frustrations to specific interface features.
+            </p>
+            <div class="requirements-chart-notes">
+              <article>
+                <h5>For confusing building numbers</h5>
+                <p>
+                  The strongest corresponding feature is structured destination search. This indicates that students need the system to interpret room targets more clearly than static signs do. This supports searchable room input, building-aware matching, and reduced ambiguity in destination selection.
+                </p>
+              </article>
+              <article>
+                <h5>For unclear floor markings</h5>
+                <p>
+                  The strongest corresponding feature is floor-specific route guidance. This reflects that students need explicit confirmation of vertical movement, not just a final room number. Therefore, the system should clearly communicate floor transitions as part of the route.
+                </p>
+              </article>
+              <article>
+                <h5>For non-continuous classroom numbering</h5>
+                <p>
+                  The strongest feature is step-by-step route instruction supported by a simplified visual path. This indicates that students need direct navigation help instead of relying on room-number patterns that seem inconsistent. As a result, the interface should lower cognitive load through short action-based instructions and a legible route display.
+                </p>
+              </article>
+              <article>
+                <h5>For losing direction during indoor-outdoor transitions</h5>
+                <p>
+                  The strongest feature is entrance-based orientation. This suggests that students need support at the moment they enter the building, when uncertainty is highest. This supports a requirement for a point-of-entry electronic sign, a clear "you are here" starting point, and immediate route generation from the chosen entrance.
+                </p>
+              </article>
+            </div>
+            <p style="margin-top:10px;">
+              These mechanisms are not decorative additions. They are direct responses to observed user problems. At a system level, this means the final design must be quick to access, easy to understand, building-specific, and capable of guiding users from uncertainty to confident movement with minimal effort.
+            </p>
+          </article>
         </div>
       </div>
 
