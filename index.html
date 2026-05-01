@@ -1129,6 +1129,49 @@ body {
   font-weight: 700;
 }
 
+.must-have-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.must-have-card {
+  border: 1px solid rgba(215, 224, 236, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f9fc 100%);
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
+  padding: 14px;
+}
+
+.must-have-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #eaf6f4, #eef4fb);
+  color: #2a645f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.must-have-card h4 {
+  margin: 10px 0 8px;
+  color: var(--brand-deep);
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.must-have-card p {
+  margin: 0;
+  color: #41536a;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
 .requirements-insights {
   margin-top: 16px;
   border: 1px solid rgba(215, 224, 236, 0.95);
@@ -1460,6 +1503,7 @@ body {
   .grid,
   .dual,
   .gap-grid,
+  .must-have-grid,
   .persona-blocks,
   .progress-grid,
   .evidence-grid {
@@ -2247,25 +2291,25 @@ body {
             </p>
             <div class="requirements-findings">
               <article>
-                <h5>For confusing building numbers</h5>
+                <h5>Problem: Confusing building numbers</h5>
                 <p>
                   20 participants said unclear building numbering led them to the wrong classroom. The strongest matching mechanism is building-specific destination input with clearer room parsing. This suggests students need the system to reduce ambiguity before moving. This supports searchable destination input and route generation based on explicit building context.
                 </p>
               </article>
               <article>
-                <h5>For unclear floor markings</h5>
+                <h5>Problem: Unclear floor markings</h5>
                 <p>
                   12 participants reported difficulty because floor labels were not clear enough. The most relevant mechanism is floor-aware route guidance with explicit level transitions. This indicates students need confirmation of when to go upstairs, downstairs, or stay on the same level. Therefore, route output should include strong floor cues and step-by-step instructions.
                 </p>
               </article>
               <article>
-                <h5>For non-continuous classroom numbering</h5>
+                <h5>Problem: Non-continuous classroom numbering</h5>
                 <p>
                   32 participants identified discontinuous room numbering as a major source of confusion, making it the most common pain point. The strongest mechanism is guided route breakdown instead of expecting users to infer the layout themselves. This suggests students need direct instructions rather than spatial guesswork. As a result, the design should prioritize concise action-based guidance and a simple top-down route view.
                 </p>
               </article>
               <article>
-                <h5>For losing direction during indoor-outdoor transitions</h5>
+                <h5>Problem: Losing direction during indoor-outdoor transitions</h5>
                 <p>
                   24 participants said they lost orientation when moving between outside and inside spaces. The strongest mechanism is point-of-entry orientation through an immediately visible electronic sign. This is reinforced by 24 participants saying they would use the system at first sight in an unfamiliar place, while 21 said they would use it after spending too long searching. This supports placing the system at building entrances and designing it for instant use under time pressure.
                 </p>
@@ -2283,25 +2327,25 @@ body {
             </p>
             <div class="requirements-chart-notes">
               <article>
-                <h5>For confusing building numbers</h5>
+                <h5>Requirement Focus: Structured destination search</h5>
                 <p>
                   The strongest corresponding feature is structured destination search. This indicates that students need the system to interpret room targets more clearly than static signs do. This supports searchable room input, building-aware matching, and reduced ambiguity in destination selection.
                 </p>
               </article>
               <article>
-                <h5>For unclear floor markings</h5>
+                <h5>Requirement Focus: Floor-specific route guidance</h5>
                 <p>
                   The strongest corresponding feature is floor-specific route guidance. This reflects that students need explicit confirmation of vertical movement, not just a final room number. Therefore, the system should clearly communicate floor transitions as part of the route.
                 </p>
               </article>
               <article>
-                <h5>For non-continuous classroom numbering</h5>
+                <h5>Requirement Focus: Step-by-step route instruction</h5>
                 <p>
                   The strongest feature is step-by-step route instruction supported by a simplified visual path. This indicates that students need direct navigation help instead of relying on room-number patterns that seem inconsistent. As a result, the interface should lower cognitive load through short action-based instructions and a legible route display.
                 </p>
               </article>
               <article>
-                <h5>For losing direction during indoor-outdoor transitions</h5>
+                <h5>Requirement Focus: Entrance-based orientation</h5>
                 <p>
                   The strongest feature is entrance-based orientation. This suggests that students need support at the moment they enter the building, when uncertainty is highest. This supports a requirement for a point-of-entry electronic sign, a clear "you are here" starting point, and immediate route generation from the chosen entrance.
                 </p>
@@ -2315,10 +2359,28 @@ body {
       </div>
 
       <h3 style="margin-top:16px; color: var(--brand-deep);">3 Must-Haves for a Playful System</h3>
-      <div class="req-tags">
-        <span>Instant visual feedback for each action</span>
-        <span>Simple step-by-step guidance with low mental load</span>
-        <span>Clear completion signal to reduce uncertainty</span>
+      <div class="must-have-grid">
+        <article class="must-have-card">
+          <span class="must-have-label">Must-have 1</span>
+          <h4>Instant Visual Feedback</h4>
+          <p>
+            The system must provide immediate visual feedback after each user action, such as destination input or route generation. This helps students confirm that the interaction is working correctly and reduces hesitation during time-sensitive classroom search.
+          </p>
+        </article>
+        <article class="must-have-card">
+          <span class="must-have-label">Must-have 2</span>
+          <h4>Step-by-Step Route Guidance</h4>
+          <p>
+            The system must present navigation as short, sequential steps supported by a simple route view. This allows students to follow the path with low mental load and reduces confusion caused by complex building layouts or discontinuous room numbering.
+          </p>
+        </article>
+        <article class="must-have-card">
+          <span class="must-have-label">Must-have 3</span>
+          <h4>Clear Completion Signal</h4>
+          <p>
+            The system must clearly indicate when the user has reached the correct destination and how to restart a new search if needed. This gives students confidence that the task is complete and prevents lingering uncertainty at the end of the journey.
+          </p>
+        </article>
       </div>
 
       <h3 style="margin-top:16px; color: var(--brand-deep);">Evidence of Life</h3>
