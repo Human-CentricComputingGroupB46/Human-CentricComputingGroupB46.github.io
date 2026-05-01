@@ -1,0 +1,59 @@
+/* ============================================================
+   Design Mode Styles
+   ============================================================ */
+
+.design-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 280px;
+  background: rgba(26, 26, 46, 0.95);
+  color: #fff;
+  padding: 16px 24px;
+  z-index: 100;
+  border-top: 2px solid #e67e22;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.design-header h3 {
+  font-size: 14px;
+  color: #e67e22;
+  margin-bottom: 4px;
+}
+
+.design-header p {
+  font-size: 12px;
+  color: #95a5a6;
+  margin-bottom: 10px;
+}
+
+.design-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.design-btn {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.design-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.design-info {
+  font-size: 12px;
+  color: #95a5a6;
+}
+
+.design-info p {
+  margin: 0;
+}
