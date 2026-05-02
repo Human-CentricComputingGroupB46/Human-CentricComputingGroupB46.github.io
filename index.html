@@ -1278,6 +1278,33 @@ body {
   margin: 0;
 }
 
+.decision-rationale {
+  margin-top: 16px;
+  border: 1px solid rgba(202, 215, 233, 0.96);
+  border-left: 6px solid var(--orange);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff8ed 0%, #ffffff 45%, #edf6f4 100%);
+  box-shadow: 0 14px 30px rgba(36, 59, 99, 0.08);
+  padding: 18px 20px;
+}
+
+.decision-rationale h4 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 22px;
+}
+
+.decision-rationale p {
+  margin: 10px 0 0;
+  color: #3d4f66;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.decision-rationale p strong {
+  color: #243b63;
+}
+
 .evidence-grid {
   margin-top: 14px;
   display: grid;
@@ -2466,6 +2493,16 @@ body {
           </tr>
         </tbody>
       </table>
+
+      <div class="decision-rationale">
+        <h4>Why 2D Top-Down Map + Text Steps was chosen</h4>
+        <p>
+          <strong>Overall evaluation:</strong> This option offered the strongest balance of clarity, speed, and first-time usability for a public kiosk wayfinding context.
+        </p>
+        <p>
+          Compared to the 3D isometric view, it retained clearer route readability and introduced less cognitive load during fast decision-making. Compared to the text-only list, it offered more visual orientation support while remaining simpler and easier to interpret than a more spatially realistic interface. For these reasons, it was chosen as the most effective solution for helping students complete classroom-finding tasks quickly and confidently.
+        </p>
+      </div>
 
       <p style="margin-top:24px;">
         Low-Fi prototype: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer">View clickable Figma link</a>
