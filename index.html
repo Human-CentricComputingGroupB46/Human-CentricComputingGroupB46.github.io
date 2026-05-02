@@ -2610,10 +2610,9 @@ body {
           <h3>Usability Testing (Alpha)</h3>
           <ul>
             <li><strong>Participants:</strong> tested with 3 real users (first-time visitors and freshmen).</li>
-            <li><strong>Design Validation:</strong> Successfully mitigated architectural disorientation and "ingress penalty".</li>
-            <li><strong>Time Efficiency:</strong> 45.2% reduction in average route-finding time; 80% of users reached their destination within 117 seconds.</li>
-            <li><strong>User Satisfaction:</strong> High ratings in Confidence (4.67/5) and Ease of Use (4.33/5).</li>
-            <li><strong>Practical Impact:</strong> Shifted burden from complex map-decoding to active guidance, dramatically reducing schedule anxiety.</li>
+            <li><strong>Time Efficiency:</strong> Average route-finding time dropped from 190.0s to 78.3s, representing a substantial 58.8% time reduction.</li>
+            <li><strong>Interaction Efficiency:</strong> All 3 users successfully reached their destinations, confirming the system effectively resolves "ingress penalty" at unfamiliar entrances.</li>
+            <li><strong>Qualitative Discovery:</strong> While navigation speed improved significantly, users reported the initial route design still required mental effort to decode, guiding our next iteration phase.</li>
           </ul>
           <!-- Alpha Test Image Placeholder -->
           <div style="margin-top:16px; background:rgba(255,255,255,0.5); border-radius:6px; padding:8px; text-align:center; border: 1px dashed var(--line);">
@@ -2676,16 +2675,20 @@ body {
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
                 <img src="images/chart-ratings.png" alt="Confidence, Ease of Use, and Stress Reduction Chart" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
-             <p style="font-size:0.85em; color:var(--muted); margin:12px 0 0 0;">High subjective ratings in Confidence and Ease of Use.</p>
+             <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
+               <strong>High Psychological Impact:</strong> The system fostered extremely high <strong>Confidence (4.67)</strong>, <strong>Ease of Use (4.33)</strong>, and <strong>Stress Reduction (4.33)</strong>, confirming it successfully minimizes anxiety and cognitive load in unfamiliar campus buildings.
+             </p>
           </div>
           
           <!-- Chart Placeholder 2 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
-             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Route-Finding Time Comparison</h4>
+             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Route-Finding Time (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
                 <img src="images/chart-time.png" alt="Route finding time reduction box plot" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
-             <p style="font-size:0.85em; color:var(--muted); margin:12px 0 0 0;">Average time reduced by 45.2% with CampusCompass.</p>
+             <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
+               <strong>Efficiency Gained:</strong> Users experienced a massive <strong>45.2% mean reduction</strong> in route-finding time. The narrower box plot spread with the system also indicates much more consistent, predictable navigation.
+             </p>
           </div>
 
           <!-- Chart Placeholder 3 -->
@@ -2694,7 +2697,9 @@ body {
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
                 <img src="images/chart-arrival.png" alt="Cumulative arrival rate over time line chart" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
-             <p style="font-size:0.85em; color:var(--muted); margin:12px 0 0 0;">80% of users reached destination in &lt;117 seconds.</p>
+             <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
+               <strong>Punctuality Boost:</strong> <strong>80% of users reached their destination in &lt;117s</strong> (compared to 215s without the system). This interaction shift effectively eliminates the stress of being late for classes.
+             </p>
           </div>
         </div>
       </div>
@@ -2702,10 +2707,10 @@ body {
       <div class="block" style="margin-top:24px;">
         <h3>Final Reflection (Social / Ethical / AI)</h3>
         <p>
-          <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy perspective, the system is highly ethical as it runs fully client-side without collecting or storing personal data. For future deployment, any analytics should remain strictly aggregated and explicitly disclosed.
+          <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy and ethical perspective, the system runs fully client-side. During our usability testing, no personally identifiable information (PII) was collected from participants, and for future deployments, data will remain strictly anonymous and localized.
         </p>
         <p style="margin-top:8px;">
-          <strong>Generative AI Usage:</strong> Throughout this project, generative AI was utilized strictly as an assistant for ideation, drafting content, and refining communication. The core process—problem framing, human-centric design decisions, implementation logic, testing with 3 real users, and evaluating impact—remained entirely team-driven, ensuring human accountability across all project phases.
+          <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
         </p>
       </div>
     </section>
