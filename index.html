@@ -608,6 +608,12 @@ body {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
+.menu-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .progress-item {
   border: none;
   border-radius: 16px;
@@ -683,9 +689,123 @@ body {
 
 .progress-item p {
   margin: 8px 0 0;
+  padding-right: 40px;
   font-size: 13px;
   color: #4c5b70;
   line-height: 1.6;
+}
+
+.home-section,
+.detail-stage,
+.detail-section {
+  display: none;
+}
+
+body[data-route="home"] .home-section {
+  display: block;
+}
+
+body[data-route="team"] #team.detail-section,
+body[data-route="research"] #research.detail-section,
+body[data-route="requirements"] #requirements.detail-section,
+body[data-route="ideation"] #ideation.detail-section,
+body[data-route="technical"] #technical.detail-section,
+body[data-route="evaluation"] #evaluation.detail-section {
+  display: block;
+}
+
+body[data-route="team"] .detail-stage,
+body[data-route="research"] .detail-stage,
+body[data-route="requirements"] .detail-stage,
+body[data-route="ideation"] .detail-stage,
+body[data-route="technical"] .detail-stage,
+body[data-route="evaluation"] .detail-stage {
+  display: block;
+}
+
+body[data-route="team"] .hero,
+body[data-route="research"] .hero,
+body[data-route="requirements"] .hero,
+body[data-route="ideation"] .hero,
+body[data-route="technical"] .hero,
+body[data-route="evaluation"] .hero {
+  display: none;
+}
+
+.detail-stage {
+  margin-top: 96px;
+}
+
+.detail-stage-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(194, 207, 225, 0.92);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(47, 127, 121, 0.14), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f4f9fb 48%, #eef6f4 100%);
+  box-shadow: 0 20px 44px rgba(15, 36, 69, 0.1);
+  padding: 28px;
+}
+
+.detail-stage-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(11, 35, 64, 0.07);
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-stage-card h2 {
+  margin: 14px 0 10px;
+  color: var(--brand-deep);
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.08;
+}
+
+.detail-stage-card p {
+  max-width: 760px;
+  color: #4a5b70;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.detail-stage-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-chip {
+  text-decoration: none;
+  color: #25405d;
+  font-weight: 700;
+  border: 1px solid rgba(210, 219, 231, 0.95);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 9px 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.detail-chip:hover,
+.detail-chip:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(247, 148, 30, 0.34);
+  box-shadow: 0 10px 18px rgba(36, 59, 99, 0.1);
+}
+
+.detail-chip.is-back {
+  background: linear-gradient(135deg, #0b2340, #1f5a6b);
+  color: #ffffff;
+  border-color: transparent;
 }
 
 .grid {
@@ -1544,6 +1664,14 @@ body {
     padding: 24px;
   }
 
+  .detail-stage {
+    margin-top: 88px;
+  }
+
+  .detail-stage-card {
+    padding: 22px 18px;
+  }
+
   .hero-stats { grid-template-columns: 1fr; }
 
   .product-preview {
@@ -1556,10 +1684,10 @@ body {
 }
 </style>
 </head>
-<body>
+<body data-route="home">
 <div class="page">
   <nav class="top-nav scroll-fx" aria-label="Top Navigation">
-    <a href="#about" class="brand">
+    <a href="#home" class="brand">
       <svg class="brand-icon" viewBox="0 0 120 120" aria-hidden="true">
         <defs>
           <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
@@ -1577,7 +1705,7 @@ body {
       <span class="brand-name">Campus<span>Compass</span></span>
     </a>
     <div class="nav-links">
-      <a href="#about">About</a>
+      <a href="#home">About</a>
       <a href="#research">Motivation & Research</a>
       <a href="#requirements">User Requirements</a>
       <a href="#ideation">Ideation & Alternatives</a>
@@ -1600,7 +1728,7 @@ body {
   </header>
 
   <main class="content">
-    <section class="section-card scroll-fx" id="intro-summary">
+    <section class="section-card scroll-fx home-section" id="intro-summary">
       <div class="section-head">
         <h2>Project Overview</h2>
         <span class="status">Intro</span>
@@ -1631,36 +1759,63 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="progress">
+    <section class="section-card scroll-fx home-section" id="progress">
       <div class="section-head">
-        <h2>Portfolio Roadmap</h2>
-        <span class="status">Process Overview</span>
+        <h2>Portfolio Menu</h2>
+        <span class="status">Open a Section</span>
       </div>
       <div class="progress-grid">
-        <article class="progress-item">
-          <h3>1. Motivation &amp; Research</h3>
-          <p>Motivation, gap findings, and stakeholder personas explain why EB wayfinding matters.</p>
-        </article>
-        <article class="progress-item">
-          <h3>2. User Requirements</h3>
-          <p>Journey map and 3 must-have requirements documented.</p>
-        </article>
-        <article class="progress-item">
-          <h3>3. Ideation &amp; Alternatives</h3>
-          <p>Alternative comparison, low-fi flow, and sketch evidence frame the design choices.</p>
-        </article>
-        <article class="progress-item">
-          <h3>4. Technical Implementation</h3>
-          <p>Architecture summary, prototype link, and contributions table show implementation.</p>
-        </article>
-        <article class="progress-item">
-          <h3>5. Evaluation &amp; Reflection</h3>
-          <p>Alpha results and reflection connect user feedback to design implications.</p>
-        </article>
+        <a class="menu-card-link" href="#research">
+          <article class="progress-item">
+            <h3>1. Motivation &amp; Research</h3>
+            <p>Motivation, gap findings, and stakeholder personas explain why EB wayfinding matters.</p>
+          </article>
+        </a>
+        <a class="menu-card-link" href="#requirements">
+          <article class="progress-item">
+            <h3>2. User Requirements</h3>
+            <p>Journey map and 3 must-have requirements documented.</p>
+          </article>
+        </a>
+        <a class="menu-card-link" href="#ideation">
+          <article class="progress-item">
+            <h3>3. Ideation &amp; Alternatives</h3>
+            <p>Alternative comparison, low-fi flow, and sketch evidence frame the design choices.</p>
+          </article>
+        </a>
+        <a class="menu-card-link" href="#technical">
+          <article class="progress-item">
+            <h3>4. Technical Implementation</h3>
+            <p>Architecture summary, prototype link, and contributions table show implementation.</p>
+          </article>
+        </a>
+        <a class="menu-card-link" href="#evaluation">
+          <article class="progress-item">
+            <h3>5. Evaluation &amp; Reflection</h3>
+            <p>Alpha results and reflection connect user feedback to design implications.</p>
+          </article>
+        </a>
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="team">
+    <section class="detail-stage scroll-fx" id="detail-stage" aria-live="polite">
+      <div class="detail-stage-card">
+        <span class="detail-stage-eyebrow">Section View</span>
+        <h2 id="detail-title">Portfolio Section</h2>
+        <p id="detail-description">Open a section from the menu to view its full content in a dedicated reading layout.</p>
+        <div class="detail-stage-actions">
+          <a href="#home" class="detail-chip is-back">Back to About</a>
+          <a href="#research" class="detail-chip">Research</a>
+          <a href="#requirements" class="detail-chip">Requirements</a>
+          <a href="#ideation" class="detail-chip">Ideation</a>
+          <a href="#technical" class="detail-chip">Technical</a>
+          <a href="#evaluation" class="detail-chip">Evaluation</a>
+          <a href="#team" class="detail-chip">Team</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card scroll-fx detail-section" id="team">
       <div class="section-head">
         <h2>Team</h2>
         <span class="status">Complete</span>
@@ -1712,7 +1867,7 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="research">
+    <section class="section-card scroll-fx detail-section" id="research">
       <div class="section-head">
         <h2>1. Motivation &amp; Research</h2>
         <span class="status">Problem Framing</span>
@@ -2165,7 +2320,7 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="requirements">
+    <section class="section-card scroll-fx detail-section" id="requirements">
       <div class="section-head">
         <h2>2. User Requirements</h2>
         <span class="status">User Insight</span>
@@ -2376,7 +2531,7 @@ body {
       </div>
     </section>
 
-    <section class="section-card scroll-fx" id="ideation">
+    <section class="section-card scroll-fx detail-section" id="ideation">
       <div class="section-head">
         <h2>3. Ideation &amp; Alternatives</h2>
         <span class="status">Design Exploration</span>
@@ -2449,7 +2604,7 @@ body {
       </p>
     </section>
 
-    <section class="section-card scroll-fx" id="technical">
+    <section class="section-card scroll-fx detail-section" id="technical">
       <div class="section-head">
         <h2>4. Technical Implementation</h2>
         <span class="status">Complete (Alpha)</span>
@@ -2539,7 +2694,7 @@ body {
       </table>
     </section>
 
-    <section class="section-card scroll-fx" id="evaluation">
+    <section class="section-card scroll-fx detail-section" id="evaluation">
       <div class="section-head">
         <h2>5. Evaluation &amp; Reflection</h2>
         <span class="status">Alpha Findings</span>
@@ -2579,9 +2734,9 @@ body {
              <img src="images/before-evaluation.png" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
-            <li>Route information felt visually dense for first-time users.</li>
-            <li>Users still had to mentally translate map output into next actions.</li>
-            <li>Completion feedback was not prominent enough.</li>
+            <li>Users had to select their target classroom only through the touchscreen panel.</li>
+            <li>This interaction was slower when users already knew the room code.</li>
+            <li>First-time users could feel uncertain while browsing for the correct classroom.</li>
           </ul>
         </article>
         <article class="comparison-panel after">
@@ -2591,9 +2746,9 @@ body {
              <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
-            <li>2D top-down route display became the primary guidance layer.</li>
-            <li>Concise step list reduced memory load at decision points.</li>
-            <li>Clear route and completion cues made users feel more confident.</li>
+            <li>An input box was added so users could enter the classroom code directly.</li>
+            <li>This made destination selection faster and more efficient for time-sensitive users.</li>
+            <li>Clearer input flow improved confidence and reduced unnecessary interaction steps.</li>
           </ul>
         </article>
       </div>
@@ -2668,6 +2823,73 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 document.querySelectorAll('.scroll-fx').forEach(el => observer.observe(el));
+
+const routeMeta = {
+  home: {
+    title: "CampusCompass",
+    description: "Return to the About view to access the hero section and portfolio menu."
+  },
+  research: {
+    title: "1. Motivation & Research",
+    description: "This view presents the problem framing, research gap, and stakeholder evidence that shaped the project direction."
+  },
+  requirements: {
+    title: "2. User Requirements",
+    description: "This view translates early research and questionnaire findings into concrete design requirements for the wayfinding system."
+  },
+  ideation: {
+    title: "3. Ideation & Alternatives",
+    description: "This view compares alternative interaction approaches and explains how the final design direction was selected."
+  },
+  technical: {
+    title: "4. Technical Implementation",
+    description: "This view documents the system structure, implementation logic, and production responsibilities behind CampusCompass."
+  },
+  evaluation: {
+    title: "5. Evaluation & Reflection",
+    description: "This view summarizes testing outcomes, interface refinements, and the broader implications of the final prototype."
+  },
+  team: {
+    title: "Team",
+    description: "This view introduces the project members and their roles within the CampusCompass development process."
+  }
+};
+
+const body = document.body;
+const detailTitle = document.getElementById('detail-title');
+const detailDescription = document.getElementById('detail-description');
+
+function normalizeRoute(hash) {
+  const cleaned = hash.replace('#', '').trim().toLowerCase();
+  if (!cleaned || cleaned === 'about' || cleaned === 'home') return 'home';
+  return routeMeta[cleaned] ? cleaned : 'home';
+}
+
+function setRoute(route) {
+  body.setAttribute('data-route', route);
+
+  if (route === 'home') {
+    document.title = 'CampusCompass Process Portfolio';
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  } else {
+    const meta = routeMeta[route];
+    detailTitle.textContent = meta.title;
+    detailDescription.textContent = meta.description;
+    document.title = `${meta.title} | CampusCompass`;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+}
+
+function syncRouteFromHash() {
+  const route = normalizeRoute(window.location.hash);
+  if (route === 'home' && window.location.hash !== '#home') {
+    history.replaceState(null, '', '#home');
+  }
+  setRoute(route);
+}
+
+window.addEventListener('hashchange', syncRouteFromHash);
+syncRouteFromHash();
 </script>
 </body>
 </html>
