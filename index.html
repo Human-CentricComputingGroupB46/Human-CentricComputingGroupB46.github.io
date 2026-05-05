@@ -1407,21 +1407,51 @@ body[data-route="evaluation"] .hero {
 .evidence-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .evidence-item {
-  border: 1px dashed rgba(189, 203, 224, 0.95);
-  border-radius: 10px;
-  background:
-    linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #fff8ed 100%);
-  min-height: 110px;
-  padding: 10px;
+  border: 1px solid rgba(189, 203, 224, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #fff8ed 100%);
+  overflow: hidden;
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .evidence-item:nth-child(even) {
   background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #edf6f4 100%);
+}
+
+.evidence-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(247, 148, 30, 0.34);
+  box-shadow: 0 18px 30px rgba(36, 59, 99, 0.12);
+}
+
+.evidence-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, #dde7f3, #f4f8fc);
+}
+
+.evidence-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.38s ease, filter 0.38s ease;
+}
+
+.evidence-item:hover .evidence-media img {
+  transform: scale(1.05);
+  filter: saturate(1.05);
+}
+
+.evidence-body {
+  padding: 12px 12px 14px;
 }
 
 .evidence-item h4 {
@@ -2509,24 +2539,49 @@ body[data-route="evaluation"] .hero {
       <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
       <div class="evidence-grid">
         <article class="evidence-item">
-          <h4>Evidence 1</h4>
-          <p>Interview record with a target user.</p>
+          <div class="evidence-media">
+            <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 1</h4>
+            <p>Interview record with a target user.</p>
+          </div>
         </article>
         <article class="evidence-item">
-          <h4>Evidence 2</h4>
-          <p>Site observation at an EB entrance.</p>
+          <div class="evidence-media">
+            <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 2</h4>
+            <p>Site observation at an EB entrance.</p>
+          </div>
         </article>
         <article class="evidence-item">
-          <h4>Evidence 3</h4>
-          <p>Signage pain point capture.</p>
+          <div class="evidence-media">
+            <img src="images/evidence-3-placeholder.jpg" alt="Signage pain point capture">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 3</h4>
+            <p>Signage pain point capture.</p>
+          </div>
         </article>
         <article class="evidence-item">
-          <h4>Evidence 4</h4>
-          <p>User route confusion snapshot.</p>
+          <div class="evidence-media">
+            <img src="images/evidence-4-placeholder.jpg" alt="User route confusion snapshot">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 4</h4>
+            <p>User route confusion snapshot.</p>
+          </div>
         </article>
         <article class="evidence-item">
-          <h4>Evidence 5</h4>
-          <p>Follow-up validation record.</p>
+          <div class="evidence-media">
+            <img src="images/evidence-5-placeholder.jpg" alt="Follow-up validation record">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 5</h4>
+            <p>Follow-up validation record.</p>
+          </div>
         </article>
       </div>
     </section>
