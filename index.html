@@ -49,13 +49,16 @@ body {
 }
 
 .top-nav {
-  margin: 12px auto 0;
+  margin: 0;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(126, 146, 174, 0.35);
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(15, 36, 69, 0.08);
+  border-bottom: 1px solid rgba(126, 146, 174, 0.35);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  box-shadow: 0 8px 30px rgba(15, 36, 69, 0.08);
   backdrop-filter: blur(7px);
-  padding: 10px 14px;
+  padding: 14px 4vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,7 +67,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  width: min(1180px, calc(100vw - 28px));
+  width: 100vw;
   z-index: 20;
 }
 
@@ -83,6 +86,10 @@ body {
   color: var(--brand-deep);
   font-weight: 800;
   font-size: 22px;
+}
+
+.brand .brand-name span {
+  color: #f4c264;
 }
 
 .brand-icon {
@@ -196,6 +203,31 @@ body {
   font-size: 15px;
   letter-spacing: 0.03em;
   z-index: 1;
+}
+
+@keyframes scrollBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0) rotate(45deg); }
+  40% { transform: translateX(-50%) translateY(-15px) rotate(45deg); }
+  60% { transform: translateX(-50%) translateY(-7px) rotate(45deg); }
+}
+
+.scroll-down-arrow {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-right: 3px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.65);
+  transform: translateX(-50%) rotate(45deg);
+  z-index: 2;
+  animation: scrollBounce 2s infinite ease-in-out;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.scroll-down-arrow:hover {
+  border-color: rgba(255, 255, 255, 1);
 }
 
 .intro-overview {
@@ -1595,7 +1627,7 @@ body {
         <path d="M40 30 L47 54 L40 47 L33 54 Z" fill="#2b4c7e"/>
         <path d="M40 78 L47 54 L40 61 L33 54 Z" fill="#2f7f79"/>
       </svg>
-      CampusCompass
+      <span class="brand-name">Campus<span>Compass</span></span>
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
@@ -1617,6 +1649,7 @@ body {
       </p>
     </div>
     <div class="hero-eyebrow">Active Track / Indoor Navigation</div>
+    <div class="scroll-down-arrow" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})" aria-label="Scroll down"></div>
   </header>
 
   <main class="content">
