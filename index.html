@@ -99,6 +99,9 @@ body {
   flex-wrap: nowrap;
   justify-content: flex-end;
   overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 4px;
+  margin: -10px -4px;
 }
 
 .nav-links a {
@@ -746,7 +749,7 @@ body[data-route="evaluation"] .hero {
     radial-gradient(circle at bottom left, rgba(47, 127, 121, 0.14), transparent 34%),
     linear-gradient(135deg, #ffffff 0%, #f4f9fb 48%, #eef6f4 100%);
   box-shadow: 0 20px 44px rgba(15, 36, 69, 0.1);
-  padding: 28px;
+  padding: 24px 28px 20px;
 }
 
 .detail-stage-eyebrow {
@@ -771,17 +774,15 @@ body[data-route="evaluation"] .hero {
 }
 
 .detail-stage-card p {
-  max-width: 760px;
+  max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
+  margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
   color: #4a5b70;
   font-size: 16px;
   line-height: 1.7;
 }
 
 .detail-stage-actions {
-  margin-top: 18px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: none;
 }
 
 .detail-chip {
@@ -1961,10 +1962,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="team">
-      <div class="section-head">
-        <h2>Team</h2>
-        <span class="status">Complete</span>
-      </div>
       <div class="grid">
         <a href="Team/pingsongDeng.html" class="card-link scroll-fx">
           <article class="profile-card">
@@ -2013,11 +2010,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="research">
-      <div class="section-head">
-        <h2>1. Motivation &amp; Research</h2>
-        <span class="status">Problem Framing</span>
-      </div>
-
       <div class="quote-card">
         <p>"I know EB204 is on the second floor, but I still do not know which entrance or corridor gets me there fastest."</p>
         <span>Representative pain point from first-time EB navigation</span>
@@ -2055,8 +2047,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
 
-      <h2>The Gap</h2>
-      <h2>Academic paper</h2>
+      <h3 style="margin: 0; color: var(--brand-deep);">The Gap</h3>
+      <h3 style="margin-top: 16px; color: var(--brand-deep);">Academic paper</h3>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2466,11 +2458,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="requirements">
-      <div class="section-head">
-        <h2>2. User Requirements</h2>
-        <span class="status">User Insight</span>
-      </div>
-
       <p>User Journey Map (poster-style phase matrix):</p>
       <div class="journey-map" aria-label="Poster Style User Journey Map">
         <div class="journey-actor">
@@ -2702,11 +2689,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="ideation">
-      <div class="section-head">
-        <h2>3. Ideation &amp; Alternatives</h2>
-        <span class="status">Design Exploration</span>
-      </div>
-
       <div style="display: grid; gap: 14px;">
         <article class="block">
           <h3>Crazy Eights</h3>
@@ -2775,11 +2757,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="technical">
-      <div class="section-head">
-        <h2>4. Technical Implementation</h2>
-        <span class="status">Complete (Alpha)</span>
-      </div>
-
       <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
       
       <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-top: 24px; text-align: center;">
@@ -2865,11 +2842,6 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="evaluation">
-      <div class="section-head">
-        <h2>5. Evaluation &amp; Reflection</h2>
-        <span class="status">Alpha Findings</span>
-      </div>
-
       <div class="dual">
         <article class="block">
           <h3>Usability Testing (Alpha)</h3>
