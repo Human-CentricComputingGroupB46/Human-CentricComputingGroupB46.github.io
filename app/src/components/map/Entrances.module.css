@@ -1,0 +1,13 @@
+.pulse {
+  animation: entrancePulse 1.6s ease-out infinite;
+  transform-origin: center;
+}
+
+@keyframes entrancePulse {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
