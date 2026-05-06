@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CampusCompass - EB Floors 1 and 2</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">◎</div>
+    <div>
+      <h1>CampusCompass</h1>
+      <p>EB Building · Floors 1 and 2 Navigation</p>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <button id="mode-switch" class="mode-switch" type="button">Open Design</button>
+    <div id="mode-badge" class="mode-badge" hidden>Demo mode</div>
+    <div class="clock" id="clock">--:--</div>
+  </div>
+</header>
+
+<main id="app" class="kiosk-shell">
+  <section class="map-panel" aria-label="EB indoor map">
+    <div class="map-header">
+      <div>
+        <p id="floor-eyebrow" class="eyebrow">EB Floor 1</p>
+        <h2 id="floor-title">First-floor route map</h2>
+      </div>
+      <div class="map-header-tools">
+        <div id="floor-picker" class="floor-picker" aria-label="Choose floor"></div>
+        <div class="orientation-note">
+          <b>Orientation</b>
+          <span>Top = North · Bottom = South · Left = West · Right = East</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <div class="map-stack">
+        <div id="map" class="geo-map" role="img" aria-label="EB indoor geo map"></div>
+        <canvas id="map-overlay" class="map-overlay" aria-hidden="true"></canvas>
+        <div id="map-hit-area" class="map-hit-area" aria-hidden="true"></div>
+      </div>
+      <div class="legend">
+        <span><i class="sw-you"></i> You are here</span>
+        <span><i class="sw-dest"></i> Destination</span>
+        <span><i class="sw-path"></i> Route</span>
+        <span><i class="sw-block"></i> Inaccessible</span>
+      </div>
+      <p id="map-source-note" class="map-source-note">Loading map provider...</p>
+    </div>
+
+    <div class="route-card" aria-live="polite">
+      <div>
+        <p class="eyebrow">Route</p>
+        <h3 id="route-title">Choose an entrance, then enter a room.</h3>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="stat-dist">--</b><span>metres</span></div>
+        <div class="stat"><b id="stat-time">--</b><span>sec walk</span></div>
+      </div>
+      <ol id="steps"></ol>
+    </div>
+  </section>
+
+  <aside class="input-panel" aria-label="Destination input panel">
+    <div class="youarehere">
+      <span class="dot"></span>
+      <span>You are here: <b id="entrance-label">North-West Entrance</b></span>
+    </div>
+
+    <div class="entrance-picker" aria-label="Choose entrance">
+      <button class="entrance-option active" data-entrance="NW">NW</button>
+      <button class="entrance-option" data-entrance="NE">NE</button>
+      <button class="entrance-option" data-entrance="SW">SW</button>
+    </div>
+
+    <label class="input-label" for="room-input">Room number</label>
+    <div class="search-row">
+      <input id="room-input" type="text" inputmode="none" placeholder="EB" autocomplete="off" />
+      <button id="go-btn" class="primary-btn">Go</button>
+    </div>
+    <div id="message" class="message">Floor 1 is calibrated. Floor 2 is now an approximate overlay traced from the floor-plan photo.</div>
+    <div id="suggestions" class="suggestions"></div>
+
+    <div class="keypad">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button data-k="clear" class="warn">Clear</button><button data-k="0">0</button><button data-k="back" class="warn">⌫</button>
+      <button data-k="enter" class="go">Route</button>
+    </div>
+
+    <section class="editor-panel" aria-label="Room editing tools">
+      <div class="editor-toolbar">
+        <button id="toggle-edit-mode" class="secondary-btn" type="button">Enable Layout Editing</button>
+        <button id="delete-selected" class="secondary-btn danger-btn" type="button" disabled>Delete Selected</button>
+        <button id="save-room-data" class="secondary-btn" type="button" disabled>Save to data.js</button>
+        <button id="copy-room-data" class="secondary-btn" type="button" disabled>Copy layout data</button>
+        <button id="reset-room-data" class="secondary-btn" type="button" disabled>Reset Unsaved</button>
+      </div>
+      <fieldset class="editor-layer-filter" aria-label="Layer visibility filter">
+        <legend>Visible layers</legend>
+        <label><input type="checkbox" data-layer="rooms" checked /> Rooms</label>
+        <label><input type="checkbox" data-layer="corridors" checked /> Corridors</label>
+        <label><input type="checkbox" data-layer="entrances" checked /> Entrances</label>
+        <label><input type="checkbox" data-layer="services" checked /> Services</label>
+        <label><input type="checkbox" data-layer="edges" checked /> Edges</label>
+        <label><input type="checkbox" data-layer="zones" checked /> Zones</label>
+      </fieldset>
+      <div class="editor-tools" role="group" aria-label="Editing tool selection">
+        <button id="room-edit-tool" class="secondary-btn" type="button">Move / Resize Layout</button>
+        <button id="add-room-tool" class="secondary-btn" type="button">Add Room</button>
+        <button id="link-edit-tool" class="secondary-btn" type="button">Edit Links</button>
+      </div>
+      <div class="editor-room-form" aria-label="New room draft">
+        <label class="editor-field">
+          <span>Room code</span>
+          <input id="new-room-code" type="text" value="EB150" maxlength="10" autocomplete="off" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Width</span>
+          <input id="new-room-width" type="number" value="88" min="24" max="260" step="1" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Height</span>
+          <input id="new-room-height" type="number" value="56" min="24" max="260" step="1" />
+        </label>
+        <label class="editor-field">
+          <span>Zone</span>
+          <select id="new-room-zone">
+            <option value="north">north</option>
+            <option value="east">east</option>
+            <option value="south">south</option>
+            <option value="west">west</option>
+            <option value="center">center</option>
+          </select>
+        </label>
+        <label class="editor-field editor-field-full">
+          <span>Note</span>
+          <input id="new-room-note" type="text" value="" maxlength="80" placeholder="Optional secondary label" autocomplete="off" />
+        </label>
+      </div>
+      <p id="editor-message" class="editor-message">Layout editing is off.</p>
+      <div id="selected-room-size-form" class="editor-size-form" aria-label="Selected room size" hidden>
+        <label class="editor-field editor-field-small">
+          <span>Selected width</span>
+          <input id="selected-room-width" type="number" min="24" step="1" inputmode="numeric" />
+        </label>
+        <label class="editor-field editor-field-small">
+          <span>Selected height</span>
+          <input id="selected-room-height" type="number" min="24" step="1" inputmode="numeric" />
+        </label>
+        <div id="selected-room-size-hint" class="editor-size-hint">Select a room or corridor in Move / Resize Layout to edit its size.</div>
+      </div>
+      <div id="editor-selection" class="editor-selection">Selected room: --</div>
+      <div id="editor-neighbors" class="editor-neighbors">Neighbors: --</div>
+      <textarea id="editor-export" class="editor-export" readonly spellcheck="false" aria-label="Generated layout data blocks"></textarea>
+    </section>
+
+    <button id="clear-route" class="link-btn">Clear route</button>
+  </aside>
+</main>
+
+<footer class="footer">
+  CPT208 Group D-2 · EB indoor navigation prototype
+</footer>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1DSPinHkJQaz-duQIkXpaISPXvFQszg&v=weekly"></script>
+<script src="data.js"></script>
+<script src="data-processing.js"></script>
+<script src="scripts/state.js"></script>
+<script src="scripts/map-renderer.js"></script>
+<script src="scripts/editor-controller.js"></script>
+<script src="scripts/demo-controller.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
