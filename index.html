@@ -2840,32 +2840,28 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="evaluation">
-      <div class="dual">
-        <article class="block">
-          <h3>Usability Testing (Alpha)</h3>
-          <ul>
-            <li><strong>Participants:</strong> tested with 3 real users (first-time visitors and freshmen).</li>
-            <li><strong>Time Efficiency:</strong> Average route-finding time dropped from 190.0s to 78.3s, representing a substantial 58.8% time reduction.</li>
-            <li><strong>Interaction Efficiency:</strong> All 3 users successfully reached their destinations, confirming the system effectively resolves "ingress penalty" at unfamiliar entrances.</li>
-            <li><strong>Qualitative Discovery:</strong> While navigation speed improved significantly, users reported the initial route design still required mental effort to decode, guiding our next iteration phase.</li>
-          </ul>
-          <!-- Alpha Test Image Placeholder -->
-          <div style="margin-top:16px; background:rgba(255,255,255,0.5); border-radius:6px; padding:8px; text-align:center; border: 1px dashed var(--line);">
-             <img src="images/alpha-test-findings.png" alt="Alpha Testing Qualitative Findings" style="max-width:100%; height:auto; border-radius:4px; max-height:180px; object-fit: contain;">
-             <p style="font-size:0.85em; color:var(--muted); margin:8px 0 0 0;">Qualitative findings & observation highlights from 3 early users.</p>
+      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Usability Testing (Alpha)</h3>
+      <article class="block" style="margin-bottom: 24px;">
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1 1 55%;">
+            <ul>
+              <li><strong>Participants:</strong> tested with 3 real users (first-time visitors and freshmen).</li>
+              <li><strong>Time Efficiency:</strong> Average route-finding time dropped from 190.0s to 78.3s, representing a substantial 58.8% time reduction.</li>
+              <li><strong>Interaction Efficiency:</strong> All 3 users successfully reached their destinations, confirming the system effectively resolves "ingress penalty" at unfamiliar entrances.</li>
+              <li><strong>Qualitative Discovery:</strong> While navigation speed improved significantly, users reported the initial route design still required mental effort to decode, guiding our next iteration phase.</li>
+            </ul>
           </div>
-        </article>
+          <div style="flex: 1 1 40%; min-width: 250px;">
+            <!-- Alpha Test Image Placeholder -->
+            <div style="background:rgba(255,255,255,0.5); border-radius:6px; padding:8px; text-align:center; border: 1px dashed var(--line);">
+               <img src="images/alpha-test-findings.png" alt="Alpha Testing Qualitative Findings" style="max-width:100%; height:auto; border-radius:4px; max-height:180px; object-fit: contain;">
+               <p style="font-size:0.85em; color:var(--muted); margin:8px 0 0 0;">Qualitative findings & observation highlights from 3 early users.</p>
+            </div>
+          </div>
+        </div>
+      </article>
 
-        <article class="block">
-          <h3>Iterative Refinement</h3>
-          <ul>
-            <li><strong>Before:</strong> Route information had a higher cognitive load and felt visually dense for first-time users. Users mentally translated complex map output into next actions.</li>
-            <li><strong>After:</strong> Switched to a 2D top-down map as the primary guidance layer, adding a concise step list and prominent completion cues.</li>
-            <li><strong>Feedback Impact:</strong> Faster understanding, significantly fewer hesitations at decision points, and boosted user confidence.</li>
-          </ul>
-        </article>
-      </div>
-
+      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Iterative Refinement</h3>
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
         <article class="comparison-panel">
           <h4>Before: High Cognitive Load</h4>
