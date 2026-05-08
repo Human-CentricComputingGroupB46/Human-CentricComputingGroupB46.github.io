@@ -2327,6 +2327,239 @@ body[data-route="evaluation"] .hero {
   color: #4a5568 !important;
   margin: 0 !important;
 }
+
+/* --- CONTENT PAGE COLOR CONSOLIDATION --- */
+.content {
+  --content-ink: #071d36;
+  --content-text: #3f4d60;
+  --content-muted: #5a6676;
+  --content-line: #d6e0ec;
+  --content-surface: #ffffff;
+  --content-soft: #f5f8fc;
+  --content-soft-blue: #eaf1f8;
+  --content-soft-teal: #edf6f4;
+  --content-accent: #2f7f79;
+  --content-accent-2: #2b4c7e;
+  --content-warm-muted: #d8c28e;
+}
+
+.content .section-card {
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  background:
+    radial-gradient(circle at top right, rgba(43, 76, 126, 0.08), transparent 30%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 54%, #edf3f8 100%) !important;
+  box-shadow: 0 18px 38px rgba(15, 36, 69, 0.07);
+}
+
+.detail-stage-card {
+  border: 1px solid rgba(194, 207, 225, 0.92) !important;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(47, 127, 121, 0.14), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f4f9fb 48%, #eef6f4 100%) !important;
+  box-shadow: 0 20px 44px rgba(15, 36, 69, 0.1) !important;
+}
+
+.content .status,
+.content .status.todo,
+.content .detail-stage-eyebrow,
+.content .gap-kicker,
+.content .must-have-label,
+.content .req-tags span,
+.content .persona-tags span,
+.content .ai-process-tag {
+  border: 1px solid rgba(205, 216, 231, 0.85) !important;
+  background: var(--content-soft-blue) !important;
+  color: var(--content-accent-2) !important;
+  box-shadow: none !important;
+}
+
+.content .quick-link {
+  background: linear-gradient(135deg, #0b2340, #2b4c7e) !important;
+  color: #ffffff !important;
+}
+
+.content .quick-link.secondary {
+  background: var(--content-soft) !important;
+  color: var(--content-accent-2) !important;
+  border: 1px solid rgba(205, 216, 231, 0.85) !important;
+}
+
+.content .subsection-title::before,
+.content .requirements-findings article,
+.content .decision-rationale,
+.content .quote-card {
+  border-color: var(--content-accent) !important;
+}
+
+.content .subsection-title::before {
+  background: var(--orange) !important;
+}
+
+.content .quote-card,
+.content .decision-rationale,
+.content .requirements-chart-notes article,
+.content .requirements-findings article {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fbfd 58%, #edf3f8 100%) !important;
+}
+
+.content .insight-card,
+.content .profile-card,
+.content .persona-card,
+.content .journey-map,
+.content .must-have-card,
+.content .requirements-insights,
+.content .references-panel,
+.content .evidence-item,
+.content .compare-table,
+.content .contrib-table,
+.content .eval-table-wrap,
+.content .comparison-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%) !important;
+  border-color: rgba(205, 216, 231, 0.9) !important;
+}
+
+.content .gap-card .col,
+.content .gap-card .col.positive,
+.content .gap-card .col.negative,
+.content .persona-block,
+.content .requirements-panel,
+.content .references-group,
+.content .code-block,
+.content .comparison-media,
+.content .comparison-panel.after,
+.content .eval-table tbody td,
+.content .eval-table tbody tr:nth-child(even) td {
+  background: #f8fafc !important;
+}
+
+.content .journey-actor,
+.content .requirements-insights-head,
+.content .references-head,
+.content .compare-table th,
+.content .contrib-table th,
+.content .eval-table thead th {
+  background: linear-gradient(135deg, #eaf1f8 0%, #f1f6fa 100%) !important;
+  color: var(--content-ink) !important;
+}
+
+.content .phase-1 { background: linear-gradient(120deg, #24415e, #2b5f72) !important; }
+.content .phase-2 { background: linear-gradient(120deg, #2b5f72, #2f7f79) !important; }
+.content .phase-3 { background: linear-gradient(120deg, #2b4c7e, #42688f) !important; }
+.content .phase-4 { background: linear-gradient(120deg, #3d5876, #557086) !important; }
+
+.content .cell.phase-1-bg,
+.content .cell.phase-2-bg,
+.content .cell.phase-3-bg,
+.content .cell.phase-4-bg,
+.content .emotion-panel {
+  background: #f4f7fb !important;
+}
+
+.content .row-badge,
+.content .flow-step::after {
+  background: linear-gradient(120deg, var(--content-accent-2), var(--content-accent)) !important;
+}
+
+.content .flow-icon,
+.content .flow-step:nth-child(2) .flow-icon,
+.content .flow-step:nth-child(3) .flow-icon,
+.content .flow-step:nth-child(4) .flow-icon,
+.content .flow-step:nth-child(5) .flow-icon {
+  background: var(--content-soft-blue) !important;
+  color: var(--content-accent-2) !important;
+}
+
+.content .ai-process-panel,
+.content .feedback-quotes-panel {
+  background:
+    radial-gradient(circle at top right, rgba(43, 76, 126, 0.07), transparent 30%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%) !important;
+  border-color: rgba(205, 216, 231, 0.92) !important;
+  box-shadow: 0 18px 34px rgba(15, 36, 69, 0.07) !important;
+}
+
+.content .ai-process-panel::before,
+.content .feedback-quotes-panel::after,
+.content .eval-table-wrap::after {
+  animation: none !important;
+  background: transparent !important;
+}
+
+.content .ai-step-card::after {
+  background: linear-gradient(90deg, var(--content-accent-2), var(--content-accent)) !important;
+  opacity: 0.72 !important;
+}
+
+.content .ai-step-no {
+  background: linear-gradient(135deg, #eaf1f8 0%, #f4f7fb 100%) !important;
+  border-color: rgba(169, 185, 206, 0.82) !important;
+  color: var(--content-ink) !important;
+  box-shadow: 0 8px 18px rgba(15, 36, 69, 0.08) !important;
+  animation: none !important;
+}
+
+.content .ai-step-kicker {
+  color: #49627c !important;
+}
+
+.content .ai-step-kicker::before,
+.content .feedback-quotes-head::before {
+  background: var(--content-accent) !important;
+  box-shadow: 0 0 0 5px rgba(47, 127, 121, 0.12) !important;
+}
+
+.content .feedback-quote {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border-color: rgba(205, 216, 231, 0.92) !important;
+}
+
+.content .feedback-quote::before {
+  background: linear-gradient(180deg, var(--content-accent-2), var(--content-accent)) !important;
+}
+
+.content .feedback-quote:hover,
+.content .eval-table tbody tr:hover td {
+  background: #f4f7fb !important;
+}
+
+.content [style*="color: #4a90e2"] {
+  color: var(--content-accent-2) !important;
+}
+
+.content [style*="background:#edf6f4"] {
+  background: var(--content-soft-blue) !important;
+  color: var(--content-accent-2) !important;
+}
+
+.content .gap-card .col.positive h6,
+.content .gap-card .col.negative h6,
+.content .evidence-item:hover {
+  color: var(--content-accent-2) !important;
+  border-color: rgba(47, 127, 121, 0.32) !important;
+}
+
+.content [style*="color: var(--sky)"],
+.content [style*="color:#2f7f79"],
+.content [style*="color: #2f7f79"] {
+  color: var(--content-accent-2) !important;
+}
+
+.content [style*="background: var(--sky)"],
+.content [style*="background:#edf6f4"],
+.content [style*="background: #edf6f4"] {
+  background: var(--content-soft-blue) !important;
+  color: var(--content-accent-2) !important;
+}
+
+.content [style*="border-left: 4px solid var(--sky)"] {
+  border-left-color: var(--content-accent) !important;
+}
+
+.content img[style*="border: 2px solid #000"] {
+  border-color: rgba(43, 76, 126, 0.56) !important;
+  background: var(--content-soft-blue) !important;
+}
 </style>
 </head>
 <body data-route="home">
