@@ -1,0 +1,140 @@
+.panel {
+  padding: 16px 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  background: #1e293b;
+  overflow-y: auto;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.header {
+  margin-bottom: 14px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #e67e22;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+}
+
+/* Inspector */
+.inspector {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.props {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.propRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.propLabel {
+  color: #64748b;
+}
+
+.propValue {
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+}
+
+.propActions {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.smallBtn {
+  width: 32px;
+  height: 28px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.12s;
+}
+
+.smallBtn:hover {
+  color: #e2e8f0;
+  background: rgba(230, 126, 34, 0.15);
+  border-color: rgba(230, 126, 34, 0.3);
+}
+
+.noSelect {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Actions */
+.actions {
+  margin-bottom: 12px;
+}
+
+.actionRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.12s;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btnDanger {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.btnDanger:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.status {
+  margin: 8px 0 0;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.5);
+}
