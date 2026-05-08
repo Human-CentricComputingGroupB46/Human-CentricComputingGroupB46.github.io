@@ -1999,6 +1999,79 @@ body[data-route="evaluation"] .hero {
   line-height: 1.7;
 }
 
+.feedback-details {
+  margin-top: 14px;
+  border: 1px solid rgba(205, 216, 231, 0.95);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+  box-shadow: 0 12px 28px rgba(36, 59, 99, 0.055);
+  overflow: hidden;
+}
+
+.feedback-details summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  position: relative;
+  padding: 16px 58px 16px 18px;
+  color: var(--brand-deep);
+  font-weight: 800;
+  font-size: 15px;
+  background: linear-gradient(135deg, #eaf1f8 0%, #f1f6fa 100%);
+}
+
+.feedback-details summary::marker {
+  content: "";
+}
+
+.feedback-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.feedback-details summary::before {
+  content: "";
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--brand-deep);
+  border-bottom: 2px solid var(--brand-deep);
+  transform: translateY(-65%) rotate(45deg);
+  transition: transform 0.2s ease;
+  z-index: 1;
+}
+
+.feedback-details summary::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(169, 185, 206, 0.82);
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translateY(-50%);
+}
+
+.feedback-details[open] summary::before {
+  transform: translateY(-35%) rotate(225deg);
+}
+
+.feedback-detail-body {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.feedback-detail-body .eval-table-wrap {
+  margin-top: 0;
+}
+
 .eval-table-wrap {
   margin-top: 14px;
   position: relative;
@@ -2042,21 +2115,20 @@ body[data-route="evaluation"] .hero {
 
 .eval-table thead th {
   text-align: left;
-  padding: 14px;
-  background: linear-gradient(135deg, #e9f1fb 0%, #edf6f4 100%);
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #eaf1fb 0%, #edf6f4 100%);
   color: var(--brand-deep);
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-bottom: 1px solid #d8e2ef;
+  border-bottom: 1px solid #d7e0ec;
 }
 
 .eval-table tbody td {
-  padding: 16px 14px;
+  padding: 10px 12px;
   vertical-align: top;
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.6;
   color: #34495f;
   background: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid #e2e8f2;
@@ -2523,6 +2595,62 @@ body[data-route="evaluation"] .hero {
   background: #f4f7fb !important;
 }
 
+.content .feedback-quotes-panel {
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  padding: 24px !important;
+  box-shadow: 0 8px 24px rgba(15, 36, 69, 0.04) !important;
+}
+
+.content .feedback-quotes-panel::after,
+.content .feedback-quotes-head::before,
+.content .feedback-quote::before {
+  content: none !important;
+  display: none !important;
+}
+
+.content .feedback-quotes-head {
+  display: block;
+  margin: 0 0 12px;
+  color: var(--brand-deep);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.content .feedback-quotes-intro {
+  margin: 0 0 16px;
+  max-width: none;
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.content .feedback-quote {
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 8px 24px rgba(15, 36, 69, 0.04) !important;
+}
+
+.content .feedback-quote-label {
+  color: var(--brand-deep);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.content .feedback-quote p,
+.content .feedback-quotes-note {
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.content .decision-rationale {
+  border-color: rgba(205, 216, 231, 0.9) !important;
+  border-left-color: var(--content-accent-2) !important;
+}
+
 .content [style*="color: #4a90e2"] {
   color: var(--content-accent-2) !important;
 }
@@ -2771,7 +2899,8 @@ body[data-route="evaluation"] .hero {
           Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
           to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
           in their first weeks and external guests who visit only once. We observed that this problem is not caused by a lack of motivation to navigate, but by a mismatch between static signage
-          and the moment-to-moment decisions users need to make while moving. We therefore designed CampusCompass as a point-of-entry decision support tool: users declare where they entered,
+          and the moment-to-moment decisions users need to make while moving. A student rushing from a previous class may not have time to compare corridor signs, ask staff, or recover from a
+          wrong turn before the next lesson starts. We therefore designed CampusCompass as a point-of-entry decision support tool: users declare where they entered,
           enter a destination code, and immediately receive a shortest path and plain-language steps. This directly supports quick, confident movement under time pressure and lowers cognitive load.
           The concept is intentionally lightweight, browser-based, and deployable on a kiosk screen, so it can be installed where confusion starts rather than requiring every user to install a
           new app. The project reflects human-centered priorities: reducing anxiety, improving first-time success, and enabling independent navigation for a broader range of users.
@@ -3363,9 +3492,9 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="must-have-card">
           <span class="must-have-label">Must-have 3</span>
-          <h4>Clear Completion Signal</h4>
+          <h4>Clear, <strong>Playful</strong> Completion Signal</h4>
           <p>
-            The system must clearly indicate when the user has reached the correct destination and how to restart a new search if needed. This gives students confidence that the task is complete and prevents lingering uncertainty at the end of the journey.
+            The system must clearly indicate when the user has reached the correct destination through a small <strong>playful</strong> celebration, such as a friendly checkmark animation, and show how to restart a new search if needed. This gives students confidence that the task is complete and prevents lingering uncertainty at the end of the journey.
           </p>
         </article>
       </div>
@@ -3780,6 +3909,9 @@ body[data-route="evaluation"] .hero {
           </p>
         </div>
 
+        <details class="feedback-details">
+          <summary>Expand for Detailed Feedback</summary>
+          <div class="feedback-detail-body">
         <div class="eval-table-wrap">
           <table class="eval-table task-table" aria-label="Usability task summary">
             <colgroup>
@@ -3858,6 +3990,9 @@ body[data-route="evaluation"] .hero {
           </table>
         </div>
 
+          </div>
+        </details>
+
         <div class="feedback-quotes-panel scroll-fx" aria-label="Anonymous feedback quotes">
           <div class="feedback-quotes-head">Anonymous Feedback Quotes</div>
           <p class="feedback-quotes-intro">
@@ -3892,6 +4027,9 @@ body[data-route="evaluation"] .hero {
         </p>
         <p style="margin-top:8px;">
           <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
+        </p>
+        <p style="margin-top:8px;">
+          <strong>Reflection on AI Impact:</strong> As shown in Section 4.3, AI acted as a structured assistant during the CampusCompass workflow rather than as an autonomous designer. It helped us compare wording options, diagnose implementation errors, and refine documentation, but every suggestion was checked against our user research, accessibility goals, and kiosk context before adoption. This process also made us more aware of the ethical risk of over-reliance: if AI output is accepted too quickly, it can flatten local evidence, hide design assumptions, or make a project appear more certain than the testing actually supports. Our final approach was therefore to treat AI as a review and drafting layer, while keeping responsibility for design judgment, evidence interpretation, and final decisions with the human team.
         </p>
       </div>
 
