@@ -2711,13 +2711,13 @@ body[data-route="evaluation"] .hero {
       <span class="brand-name">Campus<span>Compass</span></span>
     </a>
     <div class="nav-links">
-      <a href="#home">About</a>
+      <a href="#home">Home</a>
       <a href="#research">Motivation & Research</a>
       <a href="#requirements">User Requirements</a>
       <a href="#ideation">Ideation & Alternatives</a>
       <a href="#technical">Technical Implementation</a>
       <a href="#evaluation">Evaluation & Reflection</a>
-      <a href="#team">Team</a>
+      
     </div>
   </nav>
 
@@ -2729,7 +2729,7 @@ body[data-route="evaluation"] .hero {
         A browser-based EB building navigation kiosk that turns confusing room codes into entrance-aware routes for new students and visiting guests.
       </p>
     </div>
-    <div class="hero-eyebrow">Active Track / Indoor Navigation</div>
+    <div class="hero-eyebrow">Indoor Navigation</div>
     <div class="scroll-down-arrow" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})" aria-label="Scroll down"></div>
   </header>
 
@@ -2809,7 +2809,7 @@ body[data-route="evaluation"] .hero {
         <h2 id="detail-title">Portfolio Section</h2>
         <p id="detail-description">Open a section from the menu to view its full content in a dedicated reading layout.</p>
         <div class="detail-stage-actions">
-          <a href="#home" class="detail-chip is-back">Back to About</a>
+          <a href="#home" class="detail-chip is-back">Back to Home</a>
           <a href="#research" class="detail-chip">Research</a>
           <a href="#requirements" class="detail-chip">Requirements</a>
           <a href="#ideation" class="detail-chip">Ideation</a>
@@ -2820,53 +2820,7 @@ body[data-route="evaluation"] .hero {
       </div>
     </section>
 
-    <section class="section-card scroll-fx detail-section" id="team">
-      <div class="grid">
-        <a href="Team/pingsongDeng.html" class="card-link scroll-fx">
-          <article class="profile-card">
-            <img src="images/pingsong.jpg" alt="Pingsong Deng">
-            <div>
-              <h3>Pingsong Deng</h3>
-              <p>Role: Member</p>
-              <p>Email: pingsong.deng23@student.xjtlu.edu.cn</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="Team/zichenFan.html" class="card-link scroll-fx">
-          <article class="profile-card">
-            <img src="images/zichen.jpg" alt="Zichen Fan">
-            <div>
-              <h3>Zichen Fan</h3>
-              <p>Role: Member</p>
-              <p>Email: zichen.fan23@student.xjtlu.edu.cn</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="Team/ziyiJia.html" class="card-link scroll-fx">
-          <article class="profile-card">
-            <img src="images/ziyi.jpg" alt="Ziyi Jia">
-            <div>
-              <h3>Ziyi Jia</h3>
-              <p>Role: Member</p>
-              <p>Email: ziyi.jia23@student.xjtlu.edu.cn</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="Team/tianchenNiu.html" class="card-link scroll-fx">
-          <article class="profile-card">
-            <img src="images/tianchen.jpg" alt="Tianchen Niu">
-            <div>
-              <h3>Tianchen Niu</h3>
-              <p>Role: Member</p>
-              <p>Email: tianchen.niu23@student.xjtlu.edu.cn</p>
-            </div>
-          </article>
-        </a>
-      </div>
-    </section>
+    
 
     <section class="section-card scroll-fx detail-section" id="research">
       <div class="quote-card">
@@ -4074,6 +4028,59 @@ body[data-route="evaluation"] .hero {
       </div>
 
     </section>
+
+    <section class="section-card scroll-fx home-section" id="team">
+      <div class="section-head">
+        <h2>Team</h2>
+        <span class="status">Project Team</span>
+      </div>
+      <div class="grid">
+        <a href="Team/pingsongDeng.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/pingsong.jpg" alt="Pingsong Deng">
+            <div>
+              <h3>Pingsong Deng</h3>
+              <p>Role: Member</p>
+              <p>Email: pingsong.deng23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="Team/zichenFan.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/zichen.jpg" alt="Zichen Fan">
+            <div>
+              <h3>Zichen Fan</h3>
+              <p>Role: Member</p>
+              <p>Email: zichen.fan23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="Team/ziyiJia.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/ziyi.jpg" alt="Ziyi Jia">
+            <div>
+              <h3>Ziyi Jia</h3>
+              <p>Role: Member</p>
+              <p>Email: ziyi.jia23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+
+        <a href="Team/tianchenNiu.html" class="card-link scroll-fx">
+          <article class="profile-card">
+            <img src="images/tianchen.jpg" alt="Tianchen Niu">
+            <div>
+              <h3>Tianchen Niu</h3>
+              <p>Role: Member</p>
+              <p>Email: tianchen.niu23@student.xjtlu.edu.cn</p>
+            </div>
+          </article>
+        </a>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -4092,7 +4099,7 @@ document.querySelectorAll('.scroll-fx').forEach(el => observer.observe(el));
 const routeMeta = {
   home: {
     title: "CampusCompass",
-    description: "Return to the About view to access the hero section and portfolio menu."
+    description: "Return to the Home view to access the hero section and portfolio menu."
   },
   research: {
     title: "1. Motivation & Research",
