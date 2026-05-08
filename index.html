@@ -102,6 +102,9 @@ body {
   overflow-y: hidden;
   padding: 10px 4px;
   margin: -10px -4px;
+  overflow-y: hidden;
+  padding: 10px 4px;
+  margin: -10px -4px;
 }
 
 .nav-links a {
@@ -750,6 +753,7 @@ body[data-route="evaluation"] .hero {
     linear-gradient(135deg, #ffffff 0%, #f4f9fb 48%, #eef6f4 100%);
   box-shadow: 0 20px 44px rgba(15, 36, 69, 0.1);
   padding: 24px 28px 20px;
+  padding: 24px 28px 20px;
 }
 
 .detail-stage-eyebrow {
@@ -776,12 +780,15 @@ body[data-route="evaluation"] .hero {
 .detail-stage-card p {
   max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
   margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
+  max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
+  margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
   color: #4a5b70;
   font-size: 16px;
   line-height: 1.7;
 }
 
 .detail-stage-actions {
+  display: none;
   display: none;
 }
 
@@ -1467,9 +1474,73 @@ body[data-route="evaluation"] .hero {
   margin-bottom: 0;
 }
 
+.references-panel {
+  margin-top: 24px;
+  border: 1px solid rgba(215, 224, 236, 0.95);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f9fc 100%);
+  box-shadow: 0 14px 28px rgba(36, 59, 99, 0.065);
+  overflow: hidden;
+}
+
+.references-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(215, 224, 236, 0.9);
+  background: linear-gradient(135deg, #eef4fb, #edf6f4);
+}
+
+.references-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 22px;
+}
+
+.references-head p {
+  margin: 6px 0 0;
+  color: #597086;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.references-body {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.references-group {
+  border: 1px solid rgba(216, 224, 236, 0.92);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 14px;
+}
+
+.references-group h4 {
+  margin: 0 0 10px;
+  color: var(--brand-deep);
+  font-size: 18px;
+}
+
+.references-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #3d4f66;
+}
+
+.references-list li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.references-list li:last-child {
+  margin-bottom: 0;
+}
+
 .evidence-grid {
   margin-top: 14px;
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
@@ -1481,10 +1552,46 @@ body[data-route="evaluation"] .hero {
   overflow: hidden;
   box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  border: 1px solid rgba(189, 203, 224, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #fff8ed 100%);
+  overflow: hidden;
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .evidence-item:nth-child(even) {
   background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #edf6f4 100%);
+}
+
+.evidence-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(247, 148, 30, 0.34);
+  box-shadow: 0 18px 30px rgba(36, 59, 99, 0.12);
+}
+
+.evidence-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, #dde7f3, #f4f8fc);
+}
+
+.evidence-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.38s ease, filter 0.38s ease;
+}
+
+.evidence-item:hover .evidence-media img {
+  transform: scale(1.05);
+  filter: saturate(1.05);
+}
+
+.evidence-body {
+  padding: 12px 12px 14px;
 }
 
 .evidence-item:hover {
@@ -1873,8 +1980,39 @@ body[data-route="evaluation"] .hero {
 
 .comparison-panel h4 {
   margin: 0 0 8px;
+  margin: 0 0 8px;
   color: var(--brand-deep);
   font-size: 18px;
+}
+
+.comparison-media {
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(245, 248, 252, 0.96));
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid rgba(201, 211, 225, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.comparison-panel.after .comparison-media {
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(237, 246, 244, 0.96));
+}
+
+.comparison-media img {
+  width: 100%;
+  height: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.comparison-copy {
+  display: grid;
+  gap: 10px;
+  align-content: center;
 }
 
 .comparison-media {
@@ -1910,7 +2048,13 @@ body[data-route="evaluation"] .hero {
 .comparison-panel ul {
   margin: 0;
   padding-left: 18px;
+  padding-left: 18px;
   color: #37495f;
+  line-height: 1.6;
+}
+
+.comparison-panel li + li {
+  margin-top: 8px;
   line-height: 1.6;
 }
 
@@ -1936,6 +2080,7 @@ body[data-route="evaluation"] .hero {
   .hero { grid-template-columns: 1fr; }
   .preview-body { grid-template-columns: 1fr; }
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ai-process-grid { grid-template-columns: 1fr; }
   .ai-process-grid { grid-template-columns: 1fr; }
   .flow-step::after { display: none; }
 }
@@ -2131,6 +2276,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
       <div class="intro-actions">
+        <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
+<a href="#evaluation" class="quick-link secondary">View Evaluation</a>
         <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
 <a href="#evaluation" class="quick-link secondary">View Evaluation</a>
       </div>
@@ -2897,8 +3044,22 @@ body[data-route="evaluation"] .hero {
             <h4>Evidence 1</h4>
             <p>Interview record with a target user.</p>
           </div>
+          <div class="evidence-media">
+            <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 1</h4>
+            <p>Interview record with a target user.</p>
+          </div>
         </article>
         <article class="evidence-item">
+          <div class="evidence-media">
+            <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 2</h4>
+            <p>Discuss how to develop interactive features with potential users.</p>
+          </div>
           <div class="evidence-media">
             <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
           </div>
@@ -2915,6 +3076,13 @@ body[data-route="evaluation"] .hero {
             <h4>Evidence 3</h4>
             <p>On-site survey of the EB building structure and classroom layout.</p>
           </div>
+          <div class="evidence-media">
+            <img src="images/evidence-3-placeholder.jpg" alt="On-site survey of the EB building structure and classroom layout">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 3</h4>
+            <p>On-site survey of the EB building structure and classroom layout.</p>
+          </div>
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
@@ -2924,8 +3092,22 @@ body[data-route="evaluation"] .hero {
             <h4>Evidence 4</h4>
             <p>Participants signed consent forms before research and usability testing.</p>
           </div>
+          <div class="evidence-media">
+            <img src="images/evidence-4-placeholder.jpg" alt="Participants signed consent forms before research and usability testing">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 4</h4>
+            <p>Participants signed consent forms before research and usability testing.</p>
+          </div>
         </article>
         <article class="evidence-item">
+          <div class="evidence-media">
+            <img src="images/evidence-5-placeholder.jpg" alt="Usability testing experiment in progress">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 5</h4>
+            <p>Usability testing experiment in progress.</p>
+          </div>
           <div class="evidence-media">
             <img src="images/evidence-5-placeholder.jpg" alt="Usability testing experiment in progress">
           </div>
@@ -2953,6 +3135,7 @@ body[data-route="evaluation"] .hero {
             A clickable low-fi flow was used to validate the 3-stage interaction before coding.
           </p>
           <p class="small-note">
+            <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
             <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
           </p>
         </article> -->
@@ -3108,6 +3291,18 @@ body[data-route="evaluation"] .hero {
           <span class="ai-process-tag">Human-guided workflow</span>
         </div>
 
+
+      <div class="ai-process-panel scroll-fx" aria-label="AI development process">
+        <div class="ai-process-head">
+          <div>
+            <h3>AI Assistant Development Process</h3>
+            <p>
+              This section explains how AI was used as an assistive tool throughout the CampusCompass project. It supported drafting, troubleshooting, and refinement, while all final design judgments, user research decisions, and evaluation conclusions remained human-led.
+            </p>
+          </div>
+          <span class="ai-process-tag">Human-guided workflow</span>
+        </div>
+
         <div class="ai-process-grid">
           <article class="ai-step-card scroll-fx">
             <div class="ai-step-meta">
@@ -3219,6 +3414,7 @@ body[data-route="evaluation"] .hero {
           <!-- Please replace the src with actual before screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
             <img src="images/before-evaluation.jpg" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
+            <img src="images/before-evaluation.jpg" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
             <li>Users had to select their target classroom only through the touchscreen panel.</li>
@@ -3230,6 +3426,7 @@ body[data-route="evaluation"] .hero {
           <h4>After: Active Guidance</h4>
           <!-- Please replace the src with actual after screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
+            <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
             <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
@@ -3295,6 +3492,47 @@ body[data-route="evaluation"] .hero {
           <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
         </p>
       </div>
+
+
+      <div class="references-panel misplaced-reference">
+        <div class="references-head">
+          <h3>References and AI Acknowledgements</h3>
+          <p>Sources used across the process portfolio, including academic research, project tools, and AI assistance disclosure.</p>
+        </div>
+        <div class="references-body">
+          <article class="references-group">
+            <h4>Academic Papers</h4>
+            <ol class="references-list">
+              <li>Khan, D., Ullah, S., &amp; Nabi, S. (2019). A Generic Approach toward Indoor Navigation and Pathfinding with Robust Marker Tracking. <em>Remote Sensing, 11</em>(24), 3052.</li>
+              <li>Fajrianti, E. D., Funabiki, N., Sukaridhoto, S., Panduman, Y. Y. F., Dezheng, K., Shihao, F., &amp; Pradhana, A. A. S. (2023). INSUS: Indoor Navigation System Using Unity and Smartphone for User Ambulation Assistance. <em>Information, 14</em>(7), 359.</li>
+              <li>Zhen, W., Yang, L., Kwan, M. P., Zuo, Z., Qian, H., &amp; Zhou, S. (2020). Generating Comfortable Navigable Space for 3D Indoor Navigation Considering Users’ Dimensions. <em>Sensors, 20</em>(17), 4964.</li>
+              <li>Sato, D., Oh, U., Guerreiro, J., Ahmetovic, D., Naito, K., Takagi, H., Kitani, K. M., &amp; Asakawa, C. (2019). NavCog3 in the Wild: Large-Scale Blind Indoor Navigation Assistant with Semantic Features. <em>ACM Transactions on Accessible Computing, 12</em>(3), Article 14.</li>
+              <li>Kunhoth, J., Karkar, A., Al-Maadeed, S., &amp; Al-Ali, A. (2020). Indoor positioning and wayfinding systems: a survey. <em>Human-centric Computing and Information Sciences, 10</em>, 18.</li>
+              <li>Kim, M., Wang, X., Han, S., et al. (2015). Implementing an augmented reality-enabled wayfinding system through studying user experience and requirements in complex environments. <em>Visualization in Engineering, 3</em>, 14.</li>
+            </ol>
+          </article>
+
+          <article class="references-group">
+            <h4>Commercial Product References</h4>
+            <ul class="references-list">
+              <li>Figma: Used for low-fidelity prototyping, interface exploration, and design communication.</li>
+              <li>Questionnaire Star: Used for questionnaire distribution, response collection, and early user research analysis.</li>
+              <li>GitHub Pages: Used for web deployment, portfolio hosting, and iterative project publishing.</li>
+              <li>Visual Studio Code: Used for frontend coding, file editing, and interface implementation.</li>
+            </ul>
+          </article>
+
+          <article class="references-group">
+            <h4>AI Tool Disclosure</h4>
+            <ul class="references-list">
+              <li>Gemini: Used as an assistive tool for ideation brainstorming, wording refinement, and documentation support.</li>
+              <li>Claude: Used as an assistive tool for content polishing, structure suggestions, and writing improvement.</li>
+              <li>Codex: Used as an assistive tool for code editing, interface refinement, and implementation support.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
 
 
       <div class="references-panel misplaced-reference">

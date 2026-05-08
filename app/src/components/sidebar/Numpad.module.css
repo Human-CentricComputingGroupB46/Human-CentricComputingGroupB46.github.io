@@ -1,0 +1,180 @@
+.section {
+  padding: 0 18px 18px;
+}
+
+/* Display */
+.display {
+  margin-bottom: 8px;
+}
+
+.displayLabel {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.displayRow {
+  display: flex;
+  gap: 8px;
+}
+
+.inputBox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.prefix {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.digits {
+  color: #e2e8f0;
+}
+
+.cursor {
+  color: #e67e22;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.btnGo {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #e67e22;
+  transition: background 0.15s;
+}
+
+.btnGo:hover {
+  background: #d35400;
+}
+
+/* Message */
+.message {
+  min-height: 20px;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 2px 0 6px;
+}
+
+.messageError {
+  color: #ef4444;
+}
+
+/* Recent */
+.recent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.recentChip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.15s;
+}
+
+.recentChip:hover {
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.recentChipActive {
+  color: #27ae60;
+  border-color: rgba(39, 174, 96, 0.4);
+  background: rgba(39, 174, 96, 0.1);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.key {
+  padding: 14px 0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: all 0.12s;
+}
+
+.keyDigit {
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.keyDigit:hover {
+  background: rgba(230, 126, 34, 0.15);
+  border-color: rgba(230, 126, 34, 0.3);
+}
+
+.keyClear {
+  color: #ef4444;
+  font-size: 13px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.keyClear:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.keyBackspace {
+  color: #94a3b8;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.keyBackspace:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Route button */
+.btnRoute {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  background: #e67e22;
+  box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
+  transition: all 0.15s;
+}
+
+.btnRoute:hover {
+  background: #d35400;
+  box-shadow: 0 4px 20px rgba(230, 126, 34, 0.4);
+}
+
+/* Disabled overlay */
+.sectionDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
