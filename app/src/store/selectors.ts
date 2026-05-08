@@ -1,4 +1,4 @@
-import type { FloorId, FloorData, Room, Entrance, GraphNode, GraphEdge } from '../core/types';
+import type { FloorId, FloorData, Room, Entrance, GraphNode, GraphEdge, Point } from '../core/types';
 import { distance } from '../core/coordinate';
 import { floor1Data } from '../data/floor1';
 import { floor2Data } from '../data/floor2';
@@ -18,6 +18,7 @@ export function getBaseFloorData(floor: FloorId): FloorData {
 export function applyOverrides(base: FloorData, overrides: FloorOverrides): FloorData {
   const roomOverrides = overrides.rooms;
   const entranceOverrides = overrides.entrances;
+  const corridorOverrides = overrides.corridors;
 
   const rooms: Room[] = base.rooms.map((r) => {
     const o = roomOverrides[r.id];
@@ -36,7 +37,17 @@ export function applyOverrides(base: FloorData, overrides: FloorOverrides): Floo
     return { ...e, position: o.position ?? e.position };
   });
 
+  // Apply corridor overrides: replace path if overridden
+  const corridors = base.corridors.map((c) => {
+    const o = corridorOverrides[c.id];
+    if (!o?.path) return c;
+    return { ...c, path: o.path };
+  });
+
   // Door nodes follow the room they belong to. Entrance nodes follow the entrance.
+  // Junction nodes close to corridor waypoints will snap to the waypoint.
+  const corridorPoints: Point[] = corridors.flatMap((c) => c.path);
+
   const nodes: GraphNode[] = base.nodes.map((n) => {
     if (n.id.startsWith('D_')) {
       const roomId = n.id.slice(2);
@@ -46,6 +57,13 @@ export function applyOverrides(base: FloorData, overrides: FloorOverrides): Floo
     if (n.id === 'NW' || n.id === 'NE' || n.id === 'SW') {
       const o = entranceOverrides[n.id];
       if (o?.position) return { ...n, position: o.position };
+    }
+    // Snap junction/connector nodes to nearby corridor waypoints (threshold ~0.03)
+    const snapThreshold = 0.03;
+    for (const cp of corridorPoints) {
+      if (distance(n.position, cp) < snapThreshold) {
+        return { ...n, position: cp };
+      }
     }
     return n;
   });
@@ -59,7 +77,7 @@ export function applyOverrides(base: FloorData, overrides: FloorOverrides): Floo
     return { ...e, weight: distance(a.position, b.position) };
   });
 
-  return { ...base, rooms, entrances, nodes, edges };
+  return { ...base, rooms, entrances, corridors, nodes, edges };
 }
 
 /** Floors as an array, in canonical order. */

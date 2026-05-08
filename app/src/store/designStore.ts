@@ -12,16 +12,21 @@ export interface EntranceOverride {
   position?: Point;
 }
 
+export interface CorridorOverride {
+  path?: Point[];
+}
+
 export interface FloorOverrides {
   rooms: Record<string, RoomOverride>;
   entrances: Partial<Record<EntranceId, EntranceOverride>>;
+  corridors: Record<string, CorridorOverride>;
 }
 
 type OverridesByFloor = Record<FloorId, FloorOverrides>;
 
 const emptyOverrides = (): OverridesByFloor => ({
-  floor1: { rooms: {}, entrances: {} },
-  floor2: { rooms: {}, entrances: {} },
+  floor1: { rooms: {}, entrances: {}, corridors: {} },
+  floor2: { rooms: {}, entrances: {}, corridors: {} },
 });
 
 export interface DesignState {
@@ -35,6 +40,7 @@ export interface DesignState {
   selectNode: (id: string | null) => void;
   patchRoom: (floor: FloorId, id: string, patch: RoomOverride) => void;
   patchEntrance: (floor: FloorId, id: EntranceId, patch: EntranceOverride) => void;
+  patchCorridor: (floor: FloorId, id: string, patch: CorridorOverride) => void;
   resetFloor: (floor: FloorId) => void;
   resetAll: () => void;
   importFloor: (floor: FloorId, payload: FloorOverrides) => void;
@@ -85,9 +91,24 @@ export const useDesignStore = create<DesignState>()(
           };
         }),
 
+      patchCorridor: (floor, id, patch) =>
+        set((s) => {
+          const floorOverride = s.overrides[floor];
+          const prev = floorOverride.corridors[id] ?? {};
+          return {
+            overrides: {
+              ...s.overrides,
+              [floor]: {
+                ...floorOverride,
+                corridors: { ...floorOverride.corridors, [id]: { ...prev, ...patch } },
+              },
+            },
+          };
+        }),
+
       resetFloor: (floor) =>
         set((s) => ({
-          overrides: { ...s.overrides, [floor]: { rooms: {}, entrances: {} } },
+          overrides: { ...s.overrides, [floor]: { rooms: {}, entrances: {}, corridors: {} } },
         })),
 
       resetAll: () => set({ overrides: emptyOverrides() }),
