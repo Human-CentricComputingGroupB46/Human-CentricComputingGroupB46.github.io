@@ -102,6 +102,9 @@ body {
   overflow-y: hidden;
   padding: 10px 4px;
   margin: -10px -4px;
+  overflow-y: hidden;
+  padding: 10px 4px;
+  margin: -10px -4px;
 }
 
 .nav-links a {
@@ -750,6 +753,7 @@ body[data-route="evaluation"] .hero {
     linear-gradient(135deg, #ffffff 0%, #f4f9fb 48%, #eef6f4 100%);
   box-shadow: 0 20px 44px rgba(15, 36, 69, 0.1);
   padding: 24px 28px 20px;
+  padding: 24px 28px 20px;
 }
 
 .detail-stage-eyebrow {
@@ -776,12 +780,15 @@ body[data-route="evaluation"] .hero {
 .detail-stage-card p {
   max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
   margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
+  max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
+  margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
   color: #4a5b70;
   font-size: 16px;
   line-height: 1.7;
 }
 
 .detail-stage-actions {
+  display: none;
   display: none;
 }
 
@@ -1467,9 +1474,73 @@ body[data-route="evaluation"] .hero {
   margin-bottom: 0;
 }
 
+.references-panel {
+  margin-top: 24px;
+  border: 1px solid rgba(215, 224, 236, 0.95);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f9fc 100%);
+  box-shadow: 0 14px 28px rgba(36, 59, 99, 0.065);
+  overflow: hidden;
+}
+
+.references-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(215, 224, 236, 0.9);
+  background: linear-gradient(135deg, #eef4fb, #edf6f4);
+}
+
+.references-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 22px;
+}
+
+.references-head p {
+  margin: 6px 0 0;
+  color: #597086;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.references-body {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.references-group {
+  border: 1px solid rgba(216, 224, 236, 0.92);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 14px;
+}
+
+.references-group h4 {
+  margin: 0 0 10px;
+  color: var(--brand-deep);
+  font-size: 18px;
+}
+
+.references-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #3d4f66;
+}
+
+.references-list li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.references-list li:last-child {
+  margin-bottom: 0;
+}
+
 .evidence-grid {
   margin-top: 14px;
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
@@ -1481,10 +1552,46 @@ body[data-route="evaluation"] .hero {
   overflow: hidden;
   box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  border: 1px solid rgba(189, 203, 224, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #fff8ed 100%);
+  overflow: hidden;
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .evidence-item:nth-child(even) {
   background: linear-gradient(135deg, #f8fbff 0%, #ffffff 52%, #edf6f4 100%);
+}
+
+.evidence-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(247, 148, 30, 0.34);
+  box-shadow: 0 18px 30px rgba(36, 59, 99, 0.12);
+}
+
+.evidence-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, #dde7f3, #f4f8fc);
+}
+
+.evidence-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.38s ease, filter 0.38s ease;
+}
+
+.evidence-item:hover .evidence-media img {
+  transform: scale(1.05);
+  filter: saturate(1.05);
+}
+
+.evidence-body {
+  padding: 12px 12px 14px;
 }
 
 .evidence-item:hover {
@@ -1590,6 +1697,29 @@ body[data-route="evaluation"] .hero {
   line-height: 1.6;
 }
 
+.subsection-title {
+  color: var(--brand-deep);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 40px 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(201, 211, 225, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.subsection-title::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 24px;
+  background: var(--orange);
+  border-radius: 3px;
+}
+.subsection-title:first-child {
+  margin-top: 0;
+}
+
 .architecture-flow {
   margin-top: 14px;
   display: grid;
@@ -1652,6 +1782,182 @@ body[data-route="evaluation"] .hero {
   color: #526378;
 }
 
+.ai-process-panel {
+  margin-top: 26px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(203, 214, 229, 0.95);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.1), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(47, 127, 121, 0.12), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f4f9fb 54%, #eef6f4 100%);
+  padding: 22px;
+  box-shadow: 0 18px 34px rgba(36, 59, 99, 0.08);
+}
+
+.ai-process-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.35) 32%, transparent 58%);
+  transform: translateX(-100%);
+  animation: aiPanelSweep 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ai-process-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ai-process-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+}
+
+.ai-process-head p {
+  margin-top: 8px;
+  max-width: 760px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4c5d72;
+}
+
+.ai-process-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(247, 148, 30, 0.16), rgba(47, 127, 121, 0.14));
+  color: var(--brand-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.ai-process-grid {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ai-step-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(211, 222, 237, 0.95);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 252, 0.96));
+  padding: 18px 18px 16px;
+  box-shadow: 0 10px 24px rgba(36, 59, 99, 0.06);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.ai-step-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f4c264 0%, #4a90e2 52%, #2f7f79 100%);
+  opacity: 0.9;
+}
+
+.ai-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 30px rgba(36, 59, 99, 0.11);
+  border-color: rgba(165, 186, 215, 0.98);
+}
+
+.ai-step-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-step-no {
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: 2px solid rgba(114, 131, 158, 0.36);
+  background: linear-gradient(135deg, #f6d27a 0%, #dcefdc 100%);
+  color: var(--brand-deep);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.12);
+  animation: aiBadgeFloat 4s ease-in-out infinite;
+}
+
+.ai-step-card:nth-child(2) .ai-step-no { animation-delay: 0.4s; }
+.ai-step-card:nth-child(3) .ai-step-no { animation-delay: 0.8s; }
+.ai-step-card:nth-child(4) .ai-step-no { animation-delay: 1.2s; }
+.ai-step-card:nth-child(5) .ai-step-no { animation-delay: 1.6s; }
+.ai-step-card:nth-child(6) .ai-step-no { animation-delay: 2s; }
+
+.ai-step-label {
+  min-width: 0;
+}
+
+.ai-step-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #aa7416;
+}
+
+.ai-step-kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7fd1e5;
+  box-shadow: 0 0 0 5px rgba(127, 209, 229, 0.14);
+}
+
+.ai-step-card h4 {
+  margin: 8px 0 0;
+  color: var(--brand-deep);
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.ai-step-card p {
+  margin: 12px 0 0;
+  color: #44566d;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+@keyframes aiBadgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes aiPanelSweep {
+  0%, 12% { transform: translateX(-100%); }
+  24%, 100% { transform: translateX(140%); }
+}
+
 .before-after {
   margin-top: 16px;
   display: grid;
@@ -1673,6 +1979,7 @@ body[data-route="evaluation"] .hero {
 }
 
 .comparison-panel h4 {
+  margin: 0 0 8px;
   margin: 0 0 8px;
   color: var(--brand-deep);
   font-size: 18px;
@@ -1708,10 +2015,46 @@ body[data-route="evaluation"] .hero {
   align-content: center;
 }
 
+.comparison-media {
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(245, 248, 252, 0.96));
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid rgba(201, 211, 225, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.comparison-panel.after .comparison-media {
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(237, 246, 244, 0.96));
+}
+
+.comparison-media img {
+  width: 100%;
+  height: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.comparison-copy {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+
 .comparison-panel ul {
   margin: 0;
   padding-left: 18px;
+  padding-left: 18px;
   color: #37495f;
+  line-height: 1.6;
+}
+
+.comparison-panel li + li {
+  margin-top: 8px;
   line-height: 1.6;
 }
 
@@ -1737,6 +2080,7 @@ body[data-route="evaluation"] .hero {
   .hero { grid-template-columns: 1fr; }
   .preview-body { grid-template-columns: 1fr; }
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ai-process-grid { grid-template-columns: 1fr; }
   .flow-step::after { display: none; }
 }
 
@@ -1766,6 +2110,14 @@ body[data-route="evaluation"] .hero {
   .insight-strip,
   .before-after {
     grid-template-columns: 1fr;
+  }
+
+  .ai-process-panel {
+    padding: 18px;
+  }
+
+  .ai-step-card h4 {
+    font-size: 22px;
   }
 
   .comparison-panel {
@@ -1828,6 +2180,44 @@ body[data-route="evaluation"] .hero {
     max-height: 220px;
   }
 }
+
+/* --- UNIFIED CARD STYLES --- */
+.block, .gap-card, .persona-card, .must-have-card, .evidence-item, .comparison-panel, .ai-step-card, .content-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(210, 219, 231, 0.8) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  box-shadow: 0 8px 24px rgba(15, 36, 69, 0.04) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  display: block;
+}
+.block:hover, .gap-card:hover, .persona-card:hover, .must-have-card:hover, .evidence-item:hover, .comparison-panel:hover, .ai-step-card:hover, .content-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(15, 36, 69, 0.08) !important;
+}
+
+/* Unify Card Titles */
+.block h3, .block h4, .block h5,
+.gap-card h3, .gap-card h4, .gap-card h5,
+.persona-card h3, .persona-card h4, .persona-card h5,
+.must-have-card h3, .must-have-card h4, .must-have-card h5,
+.evidence-item h3, .evidence-item h4, .evidence-item h5,
+.comparison-panel h3, .comparison-panel h4, .comparison-panel h5,
+.ai-step-card h3, .ai-step-card h4, .ai-step-card h5,
+.content-card h3, .content-card h4, .content-card h5 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--brand-deep) !important;
+  margin: 0 0 12px 0 !important;
+}
+
+/* Unify Card Paragraphs */
+.block p, .gap-card p, .persona-card p, .must-have-card p, .evidence-item p, .comparison-panel p, .ai-step-card p, .content-card p {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #4a5568 !important;
+  margin: 0 !important;
+}
 </style>
 </head>
 <body data-route="home">
@@ -1885,6 +2275,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
       <div class="intro-actions">
+        <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
+<a href="#evaluation" class="quick-link secondary">View Evaluation</a>
         <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
 <a href="#evaluation" class="quick-link secondary">View Evaluation</a>
       </div>
@@ -2033,8 +2425,8 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
-      <div class="block">
-        <h3>The Why</h3>
+      <h3 class="subsection-title">1.1 The Why</h3>
+      <div class="content-card">
         <p>
           Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
           to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
@@ -2046,8 +2438,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
 
-      <h3 style="margin: 0; color: var(--brand-deep);">The Gap</h3>
-      <h3 style="margin-top: 16px; color: var(--brand-deep);">Academic paper</h3>
+      <h3 class="subsection-title">1.2 The Gap</h3>
+      <h4 style="margin-top: 16px; color: var(--brand-deep); font-size: 20px;">Academic paper</h4>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2156,7 +2548,7 @@ body[data-route="evaluation"] .hero {
           </div>
         </article>
 
-        <h2>Commercial Products</h2>
+        <h4 style="grid-column: 1 / -1; margin: 24px 0 16px; color: var(--brand-deep); font-size: 20px;">Commercial Products</h4>
 
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2268,10 +2660,12 @@ body[data-route="evaluation"] .hero {
 
       </div>
 
-      <h3 id="persona" style="margin-top:16px; color: var(--brand-deep);">The Stakeholders</h3>
-      <p>
-        Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
-      </p>
+      <h3 id="persona" class="subsection-title">1.3 The Stakeholders</h3>
+      <div class="content-card">
+        <p>
+          Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
+        </p>
+      </div>
 
       <div class="persona-grid">
         <!-- Persona 1: John Smith -->
@@ -2457,7 +2851,7 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="requirements">
-      <h3 style="margin:0; color: var(--brand-deep);">User Journey Map</h3>
+      <h3 class="subsection-title">2.1 User Journey Map</h3>
       <div class="journey-map" aria-label="Poster Style User Journey Map">
         <div class="journey-actor">
           <strong>Actor:</strong> John (18), First-Year Student (New Student).
@@ -2611,7 +3005,7 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">3 Must-Haves for a Playful System</h3>
+      <h3 class="subsection-title">2.2 Requirements List (3 Must-Haves)</h3>
       <div class="must-have-grid">
         <article class="must-have-card">
           <span class="must-have-label">Must-have 1</span>
@@ -2636,10 +3030,19 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">Evidence of Life</h3>
-      <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
+      <h3 class="subsection-title">2.3 Evidence of Life</h3>
+      <div class="content-card" style="margin-bottom: 16px;">
+        <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
+      </div>
       <div class="evidence-grid">
         <article class="evidence-item">
+          <div class="evidence-media">
+            <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 1</h4>
+            <p>Interview record with a target user.</p>
+          </div>
           <div class="evidence-media">
             <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
           </div>
@@ -2656,8 +3059,22 @@ body[data-route="evaluation"] .hero {
             <h4>Evidence 2</h4>
             <p>Discuss how to develop interactive features with potential users.</p>
           </div>
+          <div class="evidence-media">
+            <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 2</h4>
+            <p>Discuss how to develop interactive features with potential users.</p>
+          </div>
         </article>
         <article class="evidence-item">
+          <div class="evidence-media">
+            <img src="images/evidence-3-placeholder.jpg" alt="On-site survey of the EB building structure and classroom layout">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 3</h4>
+            <p>On-site survey of the EB building structure and classroom layout.</p>
+          </div>
           <div class="evidence-media">
             <img src="images/evidence-3-placeholder.jpg" alt="On-site survey of the EB building structure and classroom layout">
           </div>
@@ -2674,14 +3091,21 @@ body[data-route="evaluation"] .hero {
             <h4>Evidence 4</h4>
             <p>Participants signed consent forms before research and usability testing.</p>
           </div>
+          <div class="evidence-media">
+            <img src="images/evidence-4-placeholder.jpg" alt="Participants signed consent forms before research and usability testing">
+          </div>
+          <div class="evidence-body">
+            <h4>Evidence 4</h4>
+            <p>Participants signed consent forms before research and usability testing.</p>
+          </div>
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-5-placeholder.jpg" alt="Follow-up validation record">
+            <img src="images/evidence-5-placeholder.jpg" alt="Usability testing experiment in progress">
           </div>
           <div class="evidence-body">
             <h4>Evidence 5</h4>
-            <p>Follow-up validation record.</p>
+            <p>Usability testing experiment in progress.</p>
           </div>
         </article>
       </div>
@@ -2689,11 +3113,13 @@ body[data-route="evaluation"] .hero {
 
     <section class="section-card scroll-fx detail-section" id="ideation">
       <div style="display: grid; gap: 14px;">    
-        <h3 style="margin:0; color: var(--brand-deep);">Crazy Eights</h3>
-        <p>
-          Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
-        </p>
-        <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+        <h3 class="subsection-title">3.1 The "Crazy Eights"</h3>
+        <div class="content-card">
+          <p>
+            Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
+          </p>
+          <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+        </div>
 
         <!-- <article class="block">
           <h3>Low-Fi Prototype</h3>
@@ -2702,11 +3128,12 @@ body[data-route="evaluation"] .hero {
           </p>
           <p class="small-note">
             <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
+            <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
           </p>
         </article> -->
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">Design Alternatives Comparison</h3>
+      <h3 class="subsection-title">3.2 Design Alternatives</h3>
       <table class="compare-table" aria-label="Design Alternatives Table">
         <thead>
           <tr>
@@ -2748,16 +3175,19 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
 
-      <p style="margin-top:24px;">
-        Low-Fi prototype: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View clickable Figma link</a>
-      </p>
+      <h3 class="subsection-title">3.3 Low-Fi Prototype</h3>
+      <div class="content-card">
+        <p>
+          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View prototype</a>
+        </p>
+      </div>
     </section>
 
     <section class="section-card scroll-fx detail-section" id="technical">
-      <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
-      
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-top: 24px; text-align: center;">
-        <!-- Step 1 -->
+      <h3 class="subsection-title">4.1 System Architecture</h3>
+      <div class="content-card">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; text-align: center; flex-wrap: wrap;">
+          <!-- Step 1 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
@@ -2803,13 +3233,17 @@ body[data-route="evaluation"] .hero {
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Free-tier cloud hosting (GitHub Pages) allowing seamless remote updates.</p>
         </article>
+        </div>
       </div>
 
-      <p style="margin-top:24px;">
-        High-Fi prototype: <a href="./app/">CampusCompass Interactive Web App</a>
-      </p>
+      <h3 class="subsection-title">4.2 High-Fi Prototype</h3>
+      <div class="content-card">
+        <p>
+          Hosted system: <a href="./app/">CampusCompass Interactive Web App</a>
+        </p>
+      </div>
 
-      <h3 style="margin-top:14px; color: var(--brand-deep);">Individual Contributions</h3>
+      <h3 class="subsection-title">4.3 Individual Contributions</h3>
       <table class="contrib-table" aria-label="Individual Contributions Table">
         <thead>
           <tr>
@@ -2836,10 +3270,103 @@ body[data-route="evaluation"] .hero {
           </tr>
         </tbody>
       </table>
+
+
+      <div class="ai-process-panel scroll-fx" aria-label="AI development process">
+        <div class="ai-process-head">
+          <div>
+            <h3>AI Assistant Development Process</h3>
+            <p>
+              This section explains how AI was used as an assistive tool throughout the CampusCompass project. It supported drafting, troubleshooting, and refinement, while all final design judgments, user research decisions, and evaluation conclusions remained human-led.
+            </p>
+          </div>
+          <span class="ai-process-tag">Human-guided workflow</span>
+        </div>
+
+        <div class="ai-process-grid">
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">01</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">Prompt Setup</span>
+                <h4>Structured Prompting</h4>
+              </div>
+            </div>
+            <p>
+              Each prompt combined project goals, kiosk usage context, and engineering constraints so AI suggestions stayed relevant to our classroom navigation scenario.
+            </p>
+          </article>
+
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">02</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">Review Gate</span>
+                <h4>Critical Review of AI Output</h4>
+              </div>
+            </div>
+            <p>
+              We reviewed every AI-generated suggestion before using it, checking whether it matched our UX goals, technical feasibility, and course requirements.
+            </p>
+          </article>
+
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">03</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">Implementation Support</span>
+                <h4>Code Debugging and Refinement</h4>
+              </div>
+            </div>
+            <p>
+              AI was used to help explain errors, suggest fixes, and improve small parts of the HTML, CSS, and JavaScript during implementation.
+            </p>
+          </article>
+
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">04</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">System Fit</span>
+                <h4>Integration with Project Logic</h4>
+              </div>
+            </div>
+            <p>
+              Useful AI suggestions were adapted into our actual route flow, interface structure, and deployment setup rather than copied directly without modification.
+            </p>
+          </article>
+
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">05</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">UX Judgement</span>
+                <h4>Human-Centred Validation</h4>
+              </div>
+            </div>
+            <p>
+              Final decisions were based on user needs, heuristic thinking, and team discussion, ensuring the system remained human-centred instead of AI-directed.
+            </p>
+          </article>
+
+          <article class="ai-step-card scroll-fx">
+            <div class="ai-step-meta">
+              <div class="ai-step-no">06</div>
+              <div class="ai-step-label">
+                <span class="ai-step-kicker">Trace Record</span>
+                <h4>Transparent AI Use</h4>
+              </div>
+            </div>
+            <p>
+              We documented prompts, useful outputs, and final human decisions for accountability.
+            </p>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section class="section-card scroll-fx detail-section" id="evaluation">
-      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Usability Testing (Alpha)</h3>
+      <h3 class="subsection-title">5.1 Usability Testing</h3>
       <article class="block" style="margin-bottom: 24px;">
         <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
           <div style="flex: 1 1 55%;">
@@ -2860,12 +3387,13 @@ body[data-route="evaluation"] .hero {
         </div>
       </article>
 
-      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Iterative Refinement</h3>
+      <h3 class="subsection-title">5.2 Iterative Refinement</h3>
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
         <article class="comparison-panel">
           <h4>Before: High Cognitive Load</h4>
           <!-- Please replace the src with actual before screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
+            <img src="images/before-evaluation.jpg" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
             <img src="images/before-evaluation.jpg" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
@@ -2878,6 +3406,7 @@ body[data-route="evaluation"] .hero {
           <h4>After: Active Guidance</h4>
           <!-- Please replace the src with actual after screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
+            <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
             <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
@@ -2934,8 +3463,8 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
-      <div class="block" style="margin-top:24px;">
-        <h3>Final Reflection (Social / Ethical / AI)</h3>
+      <h3 class="subsection-title">5.3 Final Reflection</h3>
+      <div class="content-card" style="margin-top:24px;">
         <p>
           <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy and ethical perspective, the system runs fully client-side. During our usability testing, no personally identifiable information (PII) was collected from participants, and for future deployments, data will remain strictly anonymous and localized.
         </p>
@@ -2943,6 +3472,47 @@ body[data-route="evaluation"] .hero {
           <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
         </p>
       </div>
+
+
+      <div class="references-panel misplaced-reference">
+        <div class="references-head">
+          <h3>References and AI Acknowledgements</h3>
+          <p>Sources used across the process portfolio, including academic research, project tools, and AI assistance disclosure.</p>
+        </div>
+        <div class="references-body">
+          <article class="references-group">
+            <h4>Academic Papers</h4>
+            <ol class="references-list">
+              <li>Khan, D., Ullah, S., &amp; Nabi, S. (2019). A Generic Approach toward Indoor Navigation and Pathfinding with Robust Marker Tracking. <em>Remote Sensing, 11</em>(24), 3052.</li>
+              <li>Fajrianti, E. D., Funabiki, N., Sukaridhoto, S., Panduman, Y. Y. F., Dezheng, K., Shihao, F., &amp; Pradhana, A. A. S. (2023). INSUS: Indoor Navigation System Using Unity and Smartphone for User Ambulation Assistance. <em>Information, 14</em>(7), 359.</li>
+              <li>Zhen, W., Yang, L., Kwan, M. P., Zuo, Z., Qian, H., &amp; Zhou, S. (2020). Generating Comfortable Navigable Space for 3D Indoor Navigation Considering Users’ Dimensions. <em>Sensors, 20</em>(17), 4964.</li>
+              <li>Sato, D., Oh, U., Guerreiro, J., Ahmetovic, D., Naito, K., Takagi, H., Kitani, K. M., &amp; Asakawa, C. (2019). NavCog3 in the Wild: Large-Scale Blind Indoor Navigation Assistant with Semantic Features. <em>ACM Transactions on Accessible Computing, 12</em>(3), Article 14.</li>
+              <li>Kunhoth, J., Karkar, A., Al-Maadeed, S., &amp; Al-Ali, A. (2020). Indoor positioning and wayfinding systems: a survey. <em>Human-centric Computing and Information Sciences, 10</em>, 18.</li>
+              <li>Kim, M., Wang, X., Han, S., et al. (2015). Implementing an augmented reality-enabled wayfinding system through studying user experience and requirements in complex environments. <em>Visualization in Engineering, 3</em>, 14.</li>
+            </ol>
+          </article>
+
+          <article class="references-group">
+            <h4>Commercial Product References</h4>
+            <ul class="references-list">
+              <li>Figma: Used for low-fidelity prototyping, interface exploration, and design communication.</li>
+              <li>Questionnaire Star: Used for questionnaire distribution, response collection, and early user research analysis.</li>
+              <li>GitHub Pages: Used for web deployment, portfolio hosting, and iterative project publishing.</li>
+              <li>Visual Studio Code: Used for frontend coding, file editing, and interface implementation.</li>
+            </ul>
+          </article>
+
+          <article class="references-group">
+            <h4>AI Tool Disclosure</h4>
+            <ul class="references-list">
+              <li>Gemini: Used as an assistive tool for ideation brainstorming, wording refinement, and documentation support.</li>
+              <li>Claude: Used as an assistive tool for content polishing, structure suggestions, and writing improvement.</li>
+              <li>Codex: Used as an assistive tool for code editing, interface refinement, and implementation support.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
 
 
       <div class="references-panel misplaced-reference">
