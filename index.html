@@ -129,8 +129,12 @@ body {
   border-radius: 0;
   min-height: 100vh;
   padding: 80px calc(50vw - min(590px, calc(50vw - 20px)));
-  /* 替换为您的背景图并设置背景属性 */
-  background: url('images/hero-bg-placeholder.png') center/cover no-repeat;
+  /* Parallax fixed background */
+  background-image: url('images/hero-bg-placeholder.png');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #fff;
   text-align: left;
   display: flex;
@@ -140,6 +144,14 @@ body {
   box-shadow: 0 24px 58px rgba(7, 29, 54, 0.4);
   overflow: hidden;
   position: relative;
+  z-index: 1; /* Establish stacking context */
+}
+
+/* Fallback for mobile devices (iOS Safari issues with fixed attachment) */
+@media (max-width: 768px) {
+  .hero {
+    background-attachment: scroll;
+  }
 }
 
 .hero::after {
@@ -561,6 +573,9 @@ body {
   margin-top: 30px;
   display: grid;
   gap: 18px;
+  /* Enhance overlap behavior with hero section */
+  position: relative;
+  z-index: 2;
 }
 
 #progress { order: 1; }
@@ -2345,7 +2360,7 @@ body[data-route="evaluation"] .hero {
     </div>
   </nav>
 
-  <header class="hero scroll-fx" id="about">
+  <header class="hero" id="about">
     <div class="hero-copy">
       <h1>Campus<span>Compass</span></h1>
       <span class="hero-line">Room codes show the floor. We show the way.</span>
