@@ -1828,6 +1828,240 @@ body[data-route="evaluation"] .hero {
   24%, 100% { transform: translateX(140%); }
 }
 
+.feedback-quotes-panel {
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.95);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(57, 120, 184, 0.12), transparent 26%),
+    radial-gradient(circle at bottom left, rgba(244, 194, 100, 0.14), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f4f8fc 56%, #edf6f4 100%);
+  box-shadow: 0 18px 34px rgba(36, 59, 99, 0.08);
+  padding: 22px 24px;
+}
+
+.feedback-quotes-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.48) 36%, transparent 62%);
+  pointer-events: none;
+}
+
+.feedback-quotes-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--brand-deep);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.feedback-quotes-head::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6fd3eb;
+  box-shadow: 0 0 0 5px rgba(111, 211, 235, 0.14);
+}
+
+.feedback-quotes-intro {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 16px 18px;
+  max-width: 860px;
+  color: #4c5d72;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.feedback-quotes-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+}
+
+.feedback-quote {
+  position: relative;
+  border: 1px solid rgba(209, 220, 234, 0.95);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246, 249, 252, 0.96));
+  padding: 16px 18px 16px 22px;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.feedback-quote::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f4c264 0%, #3978b8 100%);
+}
+
+.feedback-quote:hover {
+  transform: translateY(-3px);
+  border-color: rgba(171, 192, 219, 0.98);
+  background: linear-gradient(180deg, #ffffff, #f2f7fb);
+}
+
+.feedback-quote-label {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.feedback-quote p {
+  margin: 10px 0 0;
+  color: #44566d;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.feedback-quotes-note {
+  position: relative;
+  z-index: 1;
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(201, 211, 225, 0.8);
+  color: #4c5d72;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.feedback-suite {
+  margin-top: 24px;
+}
+
+.feedback-suite-head {
+  margin-bottom: 14px;
+}
+
+.feedback-suite-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 22px;
+}
+
+.feedback-suite-head p {
+  margin-top: 8px;
+  color: #4c5d72;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.eval-table-wrap {
+  margin-top: 14px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.95);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(57, 120, 184, 0.08), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244, 248, 252, 0.96));
+  box-shadow: 0 12px 28px rgba(36, 59, 99, 0.06);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.eval-table-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.34) 38%, transparent 62%);
+  transform: translateX(-100%);
+  animation: tableSweep 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.eval-table-wrap:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px rgba(36, 59, 99, 0.09);
+  border-color: rgba(183, 200, 223, 0.98);
+}
+
+.eval-table {
+  width: 100%;
+  min-width: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  background: transparent;
+  table-layout: fixed;
+}
+
+.eval-table thead th {
+  text-align: left;
+  padding: 14px;
+  background: linear-gradient(135deg, #e9f1fb 0%, #edf6f4 100%);
+  color: var(--brand-deep);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #d8e2ef;
+}
+
+.eval-table tbody td {
+  padding: 16px 14px;
+  vertical-align: top;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #34495f;
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid #e2e8f2;
+  transition: background 0.25s ease;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.eval-table tbody tr:nth-child(even) td {
+  background: rgba(248, 251, 255, 0.96);
+}
+
+.eval-table tbody tr:hover td {
+  background: linear-gradient(135deg, #ffffff 0%, #f4f9fb 100%);
+}
+
+.eval-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.eval-table strong {
+  color: var(--brand-deep);
+}
+
+.eval-table .muted {
+  color: #526378;
+}
+
+.eval-table.task-table col:nth-child(1) { width: 25%; }
+.eval-table.task-table col:nth-child(2) { width: 20%; }
+.eval-table.task-table col:nth-child(3) { width: 8%; }
+.eval-table.task-table col:nth-child(4) { width: 47%; }
+
+.eval-table.participant-table col:nth-child(1) { width: 17%; }
+.eval-table.participant-table col:nth-child(2) { width: 31%; }
+.eval-table.participant-table col:nth-child(3) { width: 22%; }
+.eval-table.participant-table col:nth-child(4) { width: 30%; }
+
+@keyframes tableSweep {
+  0%, 14% { transform: translateX(-100%); }
+  28%, 100% { transform: translateX(135%); }
+}
+
 .before-after {
   margin-top: 16px;
   display: grid;
@@ -1951,6 +2185,10 @@ body[data-route="evaluation"] .hero {
 
   .ai-step-card h4 {
     font-size: 22px;
+  }
+
+  .feedback-quotes-panel {
+    padding: 18px;
   }
 
   .comparison-panel {
@@ -3209,6 +3447,119 @@ body[data-route="evaluation"] .hero {
                <strong>Punctuality Boost:</strong> <strong>80% of users reached their destination in &lt;117s</strong> (compared to 215s without the system). This interaction shift effectively eliminates the stress of being late for classes.
              </p>
           </div>
+        </div>
+      </div>
+
+      <div class="feedback-suite scroll-fx" aria-label="Detailed qualitative feedback summary">
+        <div class="feedback-suite-head">
+          <h3>Detailed Qualitative Feedback Summary</h3>
+          <p>
+            To complement our quantitative results, we summarized the alpha test through three usability tasks, three participant-level observations, and representative anonymous feedback quotes. This makes the evaluation easier to read from both a task perspective and a participant perspective.
+          </p>
+        </div>
+
+        <div class="eval-table-wrap">
+          <table class="eval-table task-table" aria-label="Usability task summary">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Usability Task</th>
+                <th>Success Rate</th>
+                <th>Average Time</th>
+                <th>Main Error Point and Design Implication</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Task 1: Enter the destination classroom and generate a route.</strong></td>
+                <td>3/3 completed; 2/3 without help.</td>
+                <td>32s</td>
+                <td class="muted">The main friction point was slow classroom selection on the touchscreen when users already knew the room code. This led directly to the addition of a direct text input field for destination entry.</td>
+              </tr>
+              <tr>
+                <td><strong>Task 2: Select the current entrance point and confirm the starting direction.</strong></td>
+                <td>3/3 completed; 3/3 without help.</td>
+                <td>18s</td>
+                <td class="muted">No major failure occurred, but one participant briefly hesitated when distinguishing between similar entrance positions. This suggested clearer entrance labels and stronger highlighting of the selected starting point.</td>
+              </tr>
+              <tr>
+                <td><strong>Task 3: Interpret the route and follow the map toward the correct classroom.</strong></td>
+                <td>3/3 completed; 2/3 without help.</td>
+                <td>28s</td>
+                <td class="muted">Two users needed a short moment to map the top-down route onto the real corridor. This informed our refinement toward clearer landmarks, simpler route presentation, and lower visual decoding effort.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="eval-table-wrap">
+          <table class="eval-table participant-table" aria-label="Participant observations">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Participant</th>
+                <th>Tasks Tested</th>
+                <th>Success Rate</th>
+                <th>Key Issue Observed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Participant A: First-year student</strong></td>
+                <td>Entered classroom code; selected entry point; followed the generated route to the target room.</td>
+                <td>Completed assigned flow without assistance.</td>
+                <td class="muted">Wanted a faster way to specify the target classroom and clearer confirmation after the route appeared on screen.</td>
+              </tr>
+              <tr>
+                <td><strong>Participant B: First-time visitor</strong></td>
+                <td>Selected an unfamiliar entrance; interpreted the top-down map; navigated corridor turns toward the destination.</td>
+                <td>Completed assigned flow; needed one clarification when matching the interface to the real hallway.</td>
+                <td class="muted">Understood the route overall, but wanted stronger visual landmarks and more explicit wording at decision points.</td>
+              </tr>
+              <tr>
+                <td><strong>Participant C: Third-year student</strong></td>
+                <td>Used direct room input; regenerated the route after changing the entry point; checked final destination confirmation.</td>
+                <td>Completed assigned flow with only brief orientation time.</td>
+                <td class="muted">Found the process efficient, but suggested clearer restart and completion feedback after reaching the classroom.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="feedback-quotes-panel scroll-fx" aria-label="Anonymous feedback quotes">
+          <div class="feedback-quotes-head">Anonymous Feedback Quotes</div>
+          <p class="feedback-quotes-intro">
+            These comments summarize representative reactions from the same three early users and reinforce the patterns observed in the task and participant summaries above.
+          </p>
+          <div class="feedback-quotes-grid">
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant A, first-year student</h4>
+              <p>"The route was much faster than trying to figure it out by myself. Once the classroom appeared on the map, I felt more certain about where to go next."</p>
+            </article>
+
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant B, first-time visitor</h4>
+              <p>"I liked that the system gave me a clear path immediately, but at first I still needed a moment to match the route with the real corridor, so clearer visual guidance would help."</p>
+            </article>
+
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant C, third-year student</h4>
+              <p>"Typing the classroom directly was very convenient. It reduced unnecessary searching and made the whole process feel more efficient when I was in a hurry."</p>
+            </article>
+          </div>
+          <p class="feedback-quotes-note">
+            Together, these responses show that CampusCompass improved speed, certainty, and perceived usability, while also clarifying that route interpretation should become even more immediate for first-time users.
+          </p>
         </div>
       </div>
 
