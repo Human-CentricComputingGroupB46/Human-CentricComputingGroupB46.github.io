@@ -1590,6 +1590,29 @@ body[data-route="evaluation"] .hero {
   line-height: 1.6;
 }
 
+.subsection-title {
+  color: var(--brand-deep);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 40px 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(201, 211, 225, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.subsection-title::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 24px;
+  background: var(--orange);
+  border-radius: 3px;
+}
+.subsection-title:first-child {
+  margin-top: 0;
+}
+
 .architecture-flow {
   margin-top: 14px;
   display: grid;
@@ -1828,240 +1851,6 @@ body[data-route="evaluation"] .hero {
   24%, 100% { transform: translateX(140%); }
 }
 
-.feedback-quotes-panel {
-  margin-top: 24px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(205, 216, 231, 0.95);
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at top right, rgba(57, 120, 184, 0.12), transparent 26%),
-    radial-gradient(circle at bottom left, rgba(244, 194, 100, 0.14), transparent 34%),
-    linear-gradient(135deg, #ffffff 0%, #f4f8fc 56%, #edf6f4 100%);
-  box-shadow: 0 18px 34px rgba(36, 59, 99, 0.08);
-  padding: 22px 24px;
-}
-
-.feedback-quotes-panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.48) 36%, transparent 62%);
-  pointer-events: none;
-}
-
-.feedback-quotes-head {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 8px;
-  color: var(--brand-deep);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-}
-
-.feedback-quotes-head::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #6fd3eb;
-  box-shadow: 0 0 0 5px rgba(111, 211, 235, 0.14);
-}
-
-.feedback-quotes-intro {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 16px 18px;
-  max-width: 860px;
-  color: #4c5d72;
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.feedback-quotes-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 12px;
-}
-
-.feedback-quote {
-  position: relative;
-  border: 1px solid rgba(209, 220, 234, 0.95);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246, 249, 252, 0.96));
-  padding: 16px 18px 16px 22px;
-  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-
-.feedback-quote::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 14px;
-  bottom: 14px;
-  width: 4px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #f4c264 0%, #3978b8 100%);
-}
-
-.feedback-quote:hover {
-  transform: translateY(-3px);
-  border-color: rgba(171, 192, 219, 0.98);
-  background: linear-gradient(180deg, #ffffff, #f2f7fb);
-}
-
-.feedback-quote-label {
-  margin: 0;
-  color: var(--brand-deep);
-  font-size: 15px;
-  font-weight: 800;
-}
-
-.feedback-quote p {
-  margin: 10px 0 0;
-  color: #44566d;
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.feedback-quotes-note {
-  position: relative;
-  z-index: 1;
-  margin: 14px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid rgba(201, 211, 225, 0.8);
-  color: #4c5d72;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.feedback-suite {
-  margin-top: 24px;
-}
-
-.feedback-suite-head {
-  margin-bottom: 14px;
-}
-
-.feedback-suite-head h3 {
-  margin: 0;
-  color: var(--brand-deep);
-  font-size: 22px;
-}
-
-.feedback-suite-head p {
-  margin-top: 8px;
-  color: #4c5d72;
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.eval-table-wrap {
-  margin-top: 14px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(205, 216, 231, 0.95);
-  border-radius: 16px;
-  background:
-    radial-gradient(circle at top right, rgba(57, 120, 184, 0.08), transparent 26%),
-    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244, 248, 252, 0.96));
-  box-shadow: 0 12px 28px rgba(36, 59, 99, 0.06);
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-}
-
-.eval-table-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.34) 38%, transparent 62%);
-  transform: translateX(-100%);
-  animation: tableSweep 8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.eval-table-wrap:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 34px rgba(36, 59, 99, 0.09);
-  border-color: rgba(183, 200, 223, 0.98);
-}
-
-.eval-table {
-  width: 100%;
-  min-width: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  border: none;
-  border-radius: 0;
-  overflow: hidden;
-  background: transparent;
-  table-layout: fixed;
-}
-
-.eval-table thead th {
-  text-align: left;
-  padding: 14px;
-  background: linear-gradient(135deg, #e9f1fb 0%, #edf6f4 100%);
-  color: var(--brand-deep);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-bottom: 1px solid #d8e2ef;
-}
-
-.eval-table tbody td {
-  padding: 16px 14px;
-  vertical-align: top;
-  font-size: 14px;
-  line-height: 1.65;
-  color: #34495f;
-  background: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid #e2e8f2;
-  transition: background 0.25s ease;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.eval-table tbody tr:nth-child(even) td {
-  background: rgba(248, 251, 255, 0.96);
-}
-
-.eval-table tbody tr:hover td {
-  background: linear-gradient(135deg, #ffffff 0%, #f4f9fb 100%);
-}
-
-.eval-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.eval-table strong {
-  color: var(--brand-deep);
-}
-
-.eval-table .muted {
-  color: #526378;
-}
-
-.eval-table.task-table col:nth-child(1) { width: 25%; }
-.eval-table.task-table col:nth-child(2) { width: 20%; }
-.eval-table.task-table col:nth-child(3) { width: 8%; }
-.eval-table.task-table col:nth-child(4) { width: 47%; }
-
-.eval-table.participant-table col:nth-child(1) { width: 17%; }
-.eval-table.participant-table col:nth-child(2) { width: 31%; }
-.eval-table.participant-table col:nth-child(3) { width: 22%; }
-.eval-table.participant-table col:nth-child(4) { width: 30%; }
-
-@keyframes tableSweep {
-  0%, 14% { transform: translateX(-100%); }
-  28%, 100% { transform: translateX(135%); }
-}
-
 .before-after {
   margin-top: 16px;
   display: grid;
@@ -2187,10 +1976,6 @@ body[data-route="evaluation"] .hero {
     font-size: 22px;
   }
 
-  .feedback-quotes-panel {
-    padding: 18px;
-  }
-
   .comparison-panel {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   }
@@ -2251,6 +2036,44 @@ body[data-route="evaluation"] .hero {
     max-height: 220px;
   }
 }
+
+/* --- UNIFIED CARD STYLES --- */
+.block, .gap-card, .persona-card, .must-have-card, .evidence-item, .comparison-panel, .ai-step-card, .content-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(210, 219, 231, 0.8) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  box-shadow: 0 8px 24px rgba(15, 36, 69, 0.04) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  display: block;
+}
+.block:hover, .gap-card:hover, .persona-card:hover, .must-have-card:hover, .evidence-item:hover, .comparison-panel:hover, .ai-step-card:hover, .content-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(15, 36, 69, 0.08) !important;
+}
+
+/* Unify Card Titles */
+.block h3, .block h4, .block h5,
+.gap-card h3, .gap-card h4, .gap-card h5,
+.persona-card h3, .persona-card h4, .persona-card h5,
+.must-have-card h3, .must-have-card h4, .must-have-card h5,
+.evidence-item h3, .evidence-item h4, .evidence-item h5,
+.comparison-panel h3, .comparison-panel h4, .comparison-panel h5,
+.ai-step-card h3, .ai-step-card h4, .ai-step-card h5,
+.content-card h3, .content-card h4, .content-card h5 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--brand-deep) !important;
+  margin: 0 0 12px 0 !important;
+}
+
+/* Unify Card Paragraphs */
+.block p, .gap-card p, .persona-card p, .must-have-card p, .evidence-item p, .comparison-panel p, .ai-step-card p, .content-card p {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #4a5568 !important;
+  margin: 0 !important;
+}
 </style>
 </head>
 <body data-route="home">
@@ -2308,9 +2131,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
       <div class="intro-actions">
-        <a href="./web_code/index.html" class="quick-link">Open High-Fi Prototype</a>
-        <a href="./web_code/doc/PROJECT.md" class="quick-link secondary">Project Document</a>
-        <a href="#evaluation" class="quick-link secondary">View Evaluation</a>
+        <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
+<a href="#evaluation" class="quick-link secondary">View Evaluation</a>
       </div>
       <div class="intro-stats" aria-label="Project highlights">
         <div class="stat-card-moved">
@@ -2457,8 +2279,8 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
-      <div class="block">
-        <h3>The Why</h3>
+      <h3 class="subsection-title">1.1 The Why</h3>
+      <div class="content-card">
         <p>
           Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
           to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
@@ -2470,8 +2292,8 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
 
-      <h3 style="margin: 0; color: var(--brand-deep);">The Gap</h3>
-      <h3 style="margin-top: 16px; color: var(--brand-deep);">Academic paper</h3>
+      <h3 class="subsection-title">1.2 The Gap</h3>
+      <h4 style="margin-top: 16px; color: var(--brand-deep); font-size: 20px;">Academic paper</h4>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2580,7 +2402,7 @@ body[data-route="evaluation"] .hero {
           </div>
         </article>
 
-        <h2>Commercial Products</h2>
+        <h4 style="grid-column: 1 / -1; margin: 24px 0 16px; color: var(--brand-deep); font-size: 20px;">Commercial Products</h4>
 
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2692,10 +2514,12 @@ body[data-route="evaluation"] .hero {
 
       </div>
 
-      <h3 id="persona" style="margin-top:16px; color: var(--brand-deep);">The Stakeholders</h3>
-      <p>
-        Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
-      </p>
+      <h3 id="persona" class="subsection-title">1.3 The Stakeholders</h3>
+      <div class="content-card">
+        <p>
+          Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
+        </p>
+      </div>
 
       <div class="persona-grid">
         <!-- Persona 1: John Smith -->
@@ -2881,7 +2705,7 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="requirements">
-      <h3 style="margin:0; color: var(--brand-deep);">User Journey Map</h3>
+      <h3 class="subsection-title">2.1 User Journey Map</h3>
       <div class="journey-map" aria-label="Poster Style User Journey Map">
         <div class="journey-actor">
           <strong>Actor:</strong> John (18), First-Year Student (New Student).
@@ -3035,7 +2859,7 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">3 Must-Haves for a Playful System</h3>
+      <h3 class="subsection-title">2.2 Requirements List (3 Must-Haves)</h3>
       <div class="must-have-grid">
         <article class="must-have-card">
           <span class="must-have-label">Must-have 1</span>
@@ -3060,8 +2884,10 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">Evidence of Life</h3>
-      <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
+      <h3 class="subsection-title">2.3 Evidence of Life</h3>
+      <div class="content-card" style="margin-bottom: 16px;">
+        <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
+      </div>
       <div class="evidence-grid">
         <article class="evidence-item">
           <div class="evidence-media">
@@ -3113,11 +2939,13 @@ body[data-route="evaluation"] .hero {
 
     <section class="section-card scroll-fx detail-section" id="ideation">
       <div style="display: grid; gap: 14px;">    
-        <h3 style="margin:0; color: var(--brand-deep);">Crazy Eights</h3>
-        <p>
-          Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
-        </p>
-        <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+        <h3 class="subsection-title">3.1 The "Crazy Eights"</h3>
+        <div class="content-card">
+          <p>
+            Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
+          </p>
+          <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+        </div>
 
         <!-- <article class="block">
           <h3>Low-Fi Prototype</h3>
@@ -3125,12 +2953,12 @@ body[data-route="evaluation"] .hero {
             A clickable low-fi flow was used to validate the 3-stage interaction before coding.
           </p>
           <p class="small-note">
-            <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
+            <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
           </p>
         </article> -->
       </div>
 
-      <h3 style="margin-top:16px; color: var(--brand-deep);">Design Alternatives Comparison</h3>
+      <h3 class="subsection-title">3.2 Design Alternatives</h3>
       <table class="compare-table" aria-label="Design Alternatives Table">
         <thead>
           <tr>
@@ -3172,16 +3000,19 @@ body[data-route="evaluation"] .hero {
         </p>
       </div>
 
-      <p style="margin-top:24px;">
-        Low-Fi prototype: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer">View clickable Figma link</a>
-      </p>
+      <h3 class="subsection-title">3.3 Low-Fi Prototype</h3>
+      <div class="content-card">
+        <p>
+          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View prototype</a>
+        </p>
+      </div>
     </section>
 
     <section class="section-card scroll-fx detail-section" id="technical">
-      <h3 style="margin:0; color: var(--brand-deep);">System Architecture</h3>
-      
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-top: 24px; text-align: center;">
-        <!-- Step 1 -->
+      <h3 class="subsection-title">4.1 System Architecture</h3>
+      <div class="content-card">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; text-align: center; flex-wrap: wrap;">
+          <!-- Step 1 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
@@ -3227,13 +3058,17 @@ body[data-route="evaluation"] .hero {
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Free-tier cloud hosting (GitHub Pages) allowing seamless remote updates.</p>
         </article>
+        </div>
       </div>
 
-      <p style="margin-top:24px;">
-        High-Fi prototype: <a href="./web_code/index.html">CampusCompass Interactive Web App</a>
-      </p>
+      <h3 class="subsection-title">4.2 High-Fi Prototype</h3>
+      <div class="content-card">
+        <p>
+          Hosted system: <a href="./app/">CampusCompass Interactive Web App</a>
+        </p>
+      </div>
 
-      <h3 style="margin-top:14px; color: var(--brand-deep);">Individual Contributions</h3>
+      <h3 class="subsection-title">4.3 Individual Contributions</h3>
       <table class="contrib-table" aria-label="Individual Contributions Table">
         <thead>
           <tr>
@@ -3356,7 +3191,7 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="evaluation">
-      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Usability Testing (Alpha)</h3>
+      <h3 class="subsection-title">5.1 Usability Testing</h3>
       <article class="block" style="margin-bottom: 24px;">
         <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
           <div style="flex: 1 1 55%;">
@@ -3377,7 +3212,7 @@ body[data-route="evaluation"] .hero {
         </div>
       </article>
 
-      <h3 style="margin: 0 0 16px; color: var(--brand-deep);">Iterative Refinement</h3>
+      <h3 class="subsection-title">5.2 Iterative Refinement</h3>
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
         <article class="comparison-panel">
           <h4>Before: High Cognitive Load</h4>
@@ -3568,6 +3403,8 @@ body[data-route="evaluation"] .hero {
 
       <div class="block" style="margin-top:24px;">
         <h3>Final Reflection (Social / Ethical / AI)</h3>
+      <h3 class="subsection-title">5.3 Final Reflection</h3>
+      <div class="content-card" style="margin-top:24px;">
         <p>
           <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy and ethical perspective, the system runs fully client-side. During our usability testing, no personally identifiable information (PII) was collected from participants, and for future deployments, data will remain strictly anonymous and localized.
         </p>
