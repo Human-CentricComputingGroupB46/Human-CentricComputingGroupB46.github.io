@@ -1601,6 +1601,7 @@ body[data-route="evaluation"] .hero {
   align-items: center;
   gap: 12px;
 }
+
 .subsection-title::before {
   content: "";
   display: inline-block;
@@ -1609,6 +1610,7 @@ body[data-route="evaluation"] .hero {
   background: var(--orange);
   border-radius: 3px;
 }
+
 .subsection-title:first-child {
   margin-top: 0;
 }
@@ -2280,7 +2282,7 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">1.1 The Why</h3>
-      <div class="content-card">
+      <div class="block">
         <p>
           Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
           to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
@@ -2293,7 +2295,7 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">1.2 The Gap</h3>
-      <h4 style="margin-top: 16px; color: var(--brand-deep); font-size: 20px;">Academic paper</h4>
+      <h3 style="margin-top: 16px; color: var(--brand-deep);">Academic paper</h3>
       <div class="gap-grid">
         <article class="gap-card scroll-fx">
           <div class="gap-head">
@@ -2515,11 +2517,9 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 id="persona" class="subsection-title">1.3 The Stakeholders</h3>
-      <div class="content-card">
-        <p>
-          Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
-        </p>
-      </div>
+      <p>
+        Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
+      </p>
 
       <div class="persona-grid">
         <!-- Persona 1: John Smith -->
@@ -2885,9 +2885,7 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">2.3 Evidence of Life</h3>
-      <div class="content-card" style="margin-bottom: 16px;">
-        <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
-      </div>
+      <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
       <div class="evidence-grid">
         <article class="evidence-item">
           <div class="evidence-media">
@@ -2940,12 +2938,10 @@ body[data-route="evaluation"] .hero {
     <section class="section-card scroll-fx detail-section" id="ideation">
       <div style="display: grid; gap: 14px;">    
         <h3 class="subsection-title">3.1 The "Crazy Eights"</h3>
-        <div class="content-card">
-          <p>
-            Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
-          </p>
-          <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
-        </div>
+        <p>
+          Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
+        </p>
+        <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
 
         <!-- <article class="block">
           <h3>Low-Fi Prototype</h3>
@@ -3001,18 +2997,16 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">3.3 Low-Fi Prototype</h3>
-      <div class="content-card">
-        <p>
-          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View prototype</a>
-        </p>
-      </div>
+      <p style="margin-top:24px;">
+        Low-Fi prototype: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?t=JbyeI2MpFdchLjqx-1" target="_blank" rel="noopener noreferrer">View clickable Figma link</a>
+      </p>
     </section>
 
     <section class="section-card scroll-fx detail-section" id="technical">
       <h3 class="subsection-title">4.1 System Architecture</h3>
-      <div class="content-card">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; text-align: center; flex-wrap: wrap;">
-          <!-- Step 1 -->
+      
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-top: 24px; text-align: center;">
+        <!-- Step 1 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
@@ -3062,11 +3056,9 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">4.2 High-Fi Prototype</h3>
-      <div class="content-card">
-        <p>
-          Hosted system: <a href="./app/">CampusCompass Interactive Web App</a>
-        </p>
-      </div>
+      <p style="margin-top:24px;">
+        High-Fi prototype: <a href="./web_code/index.html">CampusCompass Interactive Web App</a>
+      </p>
 
       <h3 class="subsection-title">4.3 Individual Contributions</h3>
       <table class="contrib-table" aria-label="Individual Contributions Table">
@@ -3095,8 +3087,7 @@ body[data-route="evaluation"] .hero {
           </tr>
         </tbody>
       </table>
-
-
+      <h3 class="subsection-title">4.4 AI Assistant Development Process</h3>
       <div class="ai-process-panel scroll-fx" aria-label="AI development process">
         <div class="ai-process-head">
           <div>
@@ -3240,6 +3231,7 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
+      <h3 class="subsection-title">5.3 Quantitative Impact Validation</h3>
       <!-- Beta Test / Quantitative Results Section -->
       <div class="block" style="margin-top:24px; padding-top:24px; border-top: 1px solid var(--line);">
         <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:16px;">
@@ -3285,9 +3277,122 @@ body[data-route="evaluation"] .hero {
           </div>
         </div>
       </div>
+      <h3 class="subsection-title">5.4 Detailed Qualitative Feedback Summary</h3>
+      <div class="feedback-suite scroll-fx" aria-label="Detailed qualitative feedback summary">
+        <div class="feedback-suite-head">
+          <h3>Detailed Qualitative Feedback Summary</h3>
+          <p>
+            To complement our quantitative results, we summarized the alpha test through three usability tasks, three participant-level observations, and representative anonymous feedback quotes. This makes the evaluation easier to read from both a task perspective and a participant perspective.
+          </p>
+        </div>
 
-      <h3 class="subsection-title">5.3 Final Reflection</h3>
-      <div class="content-card" style="margin-top:24px;">
+        <div class="eval-table-wrap">
+          <table class="eval-table task-table" aria-label="Usability task summary">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>Usability Task</th>
+              <th>Success Rate</th>
+              <th>Average Time</th>
+              <th>Main Error Point and Design Implication</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><strong>Task 1: Enter the destination classroom and generate a route.</strong></td>
+              <td>3/3 completed; 2/3 without help.</td>
+              <td>32s</td>
+              <td class="muted">The main friction point was slow classroom selection on the touchscreen when users already knew the room code. This led directly to the addition of a direct text input field for destination entry.</td>
+            </tr>
+            <tr>
+              <td><strong>Task 2: Select the current entrance point and confirm the starting direction.</strong></td>
+              <td>3/3 completed; 3/3 without help.</td>
+              <td>18s</td>
+              <td class="muted">No major failure occurred, but one participant briefly hesitated when distinguishing between similar entrance positions. This suggested clearer entrance labels and stronger highlighting of the selected starting point.</td>
+            </tr>
+            <tr>
+              <td><strong>Task 3: Interpret the route and follow the map toward the destination classroom.</strong></td>
+              <td>3/3 completed; 2/3 without help.</td>
+              <td>28s</td>
+              <td class="muted">Two users needed a short moment to map the top-down route onto the real corridor. This informed our refinement toward clearer landmarks, simpler route presentation, and lower visual decoding effort.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="eval-table-wrap">
+          <table class="eval-table participant-table" aria-label="Participant observations">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>Participant</th>
+              <th>Tasks Tested</th>
+              <th>Success Rate</th>
+              <th>Key Issue Observed</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><strong>Participant A: First-year student</strong></td>
+              <td>Entered classroom code; selected entry point; followed the generated route to the target room.</td>
+              <td>Completed assigned flow without assistance.</td>
+              <td class="muted">Wanted a faster way to specify the target classroom and clearer confirmation after the route appeared on screen.</td>
+            </tr>
+            <tr>
+              <td><strong>Participant B: First-time visitor</strong></td>
+              <td>Selected an unfamiliar entrance; interpreted the top-down map; navigated corridor turns toward the destination.</td>
+              <td>Completed assigned flow; needed one clarification when matching the interface to the real hallway.</td>
+              <td class="muted">Understood the route overall, but wanted stronger visual landmarks and more explicit wording at decision points.</td>
+            </tr>
+            <tr>
+              <td><strong>Participant C: Third-year student</strong></td>
+              <td>Used direct room input; regenerated the route after changing the entry point; checked final destination confirmation.</td>
+              <td>Completed assigned flow with only brief orientation time.</td>
+              <td class="muted">Found the process efficient, but suggested clearer restart and completion feedback after reaching the classroom.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="feedback-quotes-panel scroll-fx" aria-label="Anonymous feedback quotes">
+          <div class="feedback-quotes-head">Anonymous Feedback Quotes</div>
+          <p class="feedback-quotes-intro">
+            These comments summarize representative reactions from the same three early users and reinforce the patterns observed in the task and participant summaries above.
+          </p>
+          <div class="feedback-quotes-grid">
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant A, first-year student</h4>
+              <p>"The route was much faster than trying to figure it out by myself. Once the classroom appeared on the map, I felt more certain about where to go next."</p>
+            </article>
+
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant B, first-time visitor</h4>
+              <p>"I liked that the system gave me a clear path immediately, but at first I still needed a moment to match the route with the real corridor, so clearer visual guidance would help."</p>
+            </article>
+
+            <article class="feedback-quote scroll-fx">
+              <h4 class="feedback-quote-label">Participant C, third-year student</h4>
+              <p>"Typing the classroom directly was very convenient. It reduced unnecessary searching and made the whole process feel more efficient when I was in a hurry."</p>
+            </article>
+          </div>
+          <p class="feedback-quotes-note">
+            Together, these responses show that CampusCompass improved speed, certainty, and perceived usability, while also clarifying that route interpretation should become even more immediate for first-time users.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">5.5 Final Reflection</h3>
+      <div class="block" style="margin-top:24px;">
         <p>
           <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy and ethical perspective, the system runs fully client-side. During our usability testing, no personally identifiable information (PII) was collected from participants, and for future deployments, data will remain strictly anonymous and localized.
         </p>
@@ -3295,8 +3400,7 @@ body[data-route="evaluation"] .hero {
           <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
         </p>
       </div>
-
-
+      <h3 class="subsection-title">5.6 References and AI Acknowledgements</h3>
       <div class="references-panel misplaced-reference">
         <div class="references-head">
           <h3>References and AI Acknowledgements</h3>
