@@ -76,7 +76,7 @@ function pushHistory(state: DesignState): {
 
 export const useDesignStore = create<DesignState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       designMode: false,
       demoMode: false,
       selectedNodeId: null,

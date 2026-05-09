@@ -17,7 +17,6 @@ export function DesignPanel() {
   const history = useDesignStore((s) => s.history);
   const historyIndex = useDesignStore((s) => s.historyIndex);
   const patchRoom = useDesignStore((s) => s.patchRoom);
-  const patchCorridor = useDesignStore((s) => s.patchCorridor);
   const patchEntrance = useDesignStore((s) => s.patchEntrance);
   const undo = useDesignStore((s) => s.undo);
   const redo = useDesignStore((s) => s.redo);

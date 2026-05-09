@@ -322,8 +322,6 @@ export function MapView() {
       if (d.type === 'handle') {
         // Resize via handle
         const rel = svgToRel(svgPt.x, svgPt.y, plan);
-        const hw = plan.viewBoxWidth;
-        const hh = plan.viewBoxHeight;
         const ic = d.initialCenter;
         const iw = d.initialW;
         const ih = d.initialH;

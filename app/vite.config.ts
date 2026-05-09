@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -6,7 +5,7 @@ function stableCssModuleName(localName: string, filename: string): string {
   const normalizedPath = filename.replace(/\\/g, '/');
   const relativePath = normalizedPath.includes('/src/')
     ? normalizedPath.split('/src/')[1]!
-    : path.basename(normalizedPath);
+    : normalizedPath.split('/').pop() ?? normalizedPath;
 
   const fileScope = relativePath
     .replace(/\.module\.css$/, '')
