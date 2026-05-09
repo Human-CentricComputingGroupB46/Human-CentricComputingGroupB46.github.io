@@ -67,7 +67,8 @@ body {
 
 .top-nav a:focus-visible,
 .quick-link:focus-visible,
-.card-link:focus-visible {
+.card-link:focus-visible,
+.hero-demo-link:focus-visible {
   outline: 3px solid rgba(247, 148, 30, 0.45);
   outline-offset: 3px;
 }
@@ -128,7 +129,7 @@ body {
   margin-right: calc(-50vw + 50%);
   border-radius: 0;
   min-height: 100vh;
-  padding: 80px calc(50vw - min(590px, calc(50vw - 20px)));
+  padding: 0 clamp(72px, 14vw, 210px);
   /* Parallax fixed background */
   background-image: url('images/hero-bg-placeholder.png');
   background-attachment: fixed;
@@ -139,7 +140,7 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   box-shadow: 0 24px 58px rgba(7, 29, 54, 0.4);
   overflow: hidden;
@@ -170,7 +171,7 @@ body {
   max-width: 650px;
   display: flex;
   flex-direction: column;
-  margin-top: -160px; /* 让内容稍微偏上一点，还原图中布局 */
+  margin-top: 24vh;
 }
 
 .hero h1 {
@@ -204,10 +205,35 @@ body {
   line-height: 1.6;
 }
 
+.hero-demo-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid rgba(244, 194, 100, 0.68);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(246, 213, 139, 0.92) 0%, rgba(232, 181, 91, 0.9) 100%);
+  color: #071d36;
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  box-shadow: 0 18px 36px rgba(7, 29, 54, 0.32);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.hero-demo-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow: 0 22px 42px rgba(7, 29, 54, 0.38);
+}
+
 .hero-eyebrow {
   position: absolute;
   bottom: 50px;
-  left: calc(50vw - min(590px, calc(50vw - 20px)));
+  left: clamp(72px, 14vw, 210px);
   color: rgba(255, 255, 255, 0.7);
   font-size: 15px;
   letter-spacing: 0.03em;
@@ -249,11 +275,444 @@ body {
   line-height: 1.65;
 }
 
-.intro-actions {
+.requirements-checklist {
+  width: 100%;
   margin-top: 24px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(15, 36, 69, 0.06);
+}
+
+.requirements-checklist th,
+.requirements-checklist td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.82);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.requirements-checklist th {
+  color: var(--brand-deep);
+  background: linear-gradient(135deg, #edf3f8 0%, #f8fbfd 100%);
+  font-weight: 800;
+}
+
+.requirements-checklist td {
+  color: #3f4d60;
+}
+
+.requirements-checklist tr:last-child td {
+  border-bottom: none;
+}
+
+.requirements-checklist td:last-child {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.evidence-chain-card {
+  position: relative;
+  margin-top: 24px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.86);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%);
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055);
+}
+
+.evidence-chain-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #f4c264 0%, #2f7f79 100%);
+  opacity: 0.58;
+}
+
+.evidence-chain-card--preview {
+  margin-top: 0;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045);
+}
+
+.evidence-chain-card--core {
+  margin: 26px 0 28px;
+}
+
+.evidence-chain-card--validation {
+  margin: 0 0 26px;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045);
+}
+
+.evidence-chain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 4px 9px;
+  border: 1px solid rgba(205, 216, 231, 0.82);
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.82);
+  color: var(--brand-deep);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.evidence-chain-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  opacity: 0.72;
+  box-shadow: 0 0 0 2px rgba(247, 148, 30, 0.1);
+}
+
+.evidence-chain-title {
+  margin: 10px 0 0;
+  color: var(--brand-deep);
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.2;
+}
+
+.evidence-chain-card--preview .evidence-chain-title,
+.evidence-chain-card--validation .evidence-chain-title {
+  font-size: clamp(18px, 1.8vw, 23px);
+}
+
+.evidence-chain-copy {
+  margin: 8px 0 0;
+  max-width: 860px;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evidence-chain-table-wrap {
+  width: 100%;
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid rgba(205, 216, 231, 0.86);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 18px rgba(36, 59, 99, 0.045);
+}
+
+.evidence-chain-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
+.evidence-chain-table th,
+.evidence-chain-table td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.74);
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.evidence-chain-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%);
+  color: var(--brand-deep);
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.evidence-chain-table td {
+  color: #34495f;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.evidence-chain-table tbody tr:nth-child(even) td {
+  background: rgba(248, 250, 252, 0.88);
+}
+
+.evidence-chain-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.evidence-chain-table .is-requirement {
+  background: linear-gradient(135deg, rgba(255, 248, 237, 0.62), rgba(255, 255, 255, 0.78));
+  color: var(--brand-deep);
+  font-weight: 650;
+}
+
+.evidence-chain-pill {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 6px 4px 0;
+  padding: 2px 6px;
+  border: 1px solid rgba(47, 127, 121, 0.16);
+  border-radius: 999px;
+  background: rgba(237, 246, 244, 0.74);
+  color: #49627c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.evidence-chain-takeaway {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid rgba(247, 148, 30, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.54);
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.evaluation-callout {
+  margin-top: 14px;
+  padding: 18px 20px;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-left: 4px solid var(--orange);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.08), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 62%, #edf3f8 100%);
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055);
+}
+
+.evaluation-callout p {
+  margin-top: 10px;
+  color: #3f4d60;
+  font-size: 15px;
+  line-height: 1.68;
+}
+
+.evaluation-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 10px;
+  border: 1px solid rgba(205, 216, 231, 0.88);
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.82);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.evaluation-badge--secondary {
+  background: rgba(237, 246, 244, 0.72);
+  color: #49627c;
+}
+
+.alpha-summary-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.alpha-summary-card h4,
+.alpha-media-card h4,
+.alpha-results-card h4,
+.alpha-insights-card h4,
+.alpha-change-card h4,
+.beta-validation-card h3,
+.reflection-card h4 {
+  margin: 0 0 12px;
+  color: var(--brand-deep);
+  font-size: 18px;
+}
+
+.evaluation-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 8px 18px rgba(36, 59, 99, 0.045);
+}
+
+.evaluation-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.evaluation-table th,
+.evaluation-table td {
+  padding: 11px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.8);
+  color: #34495f;
+  font-size: 14px;
+  line-height: 1.52;
+}
+
+.evaluation-table th {
+  width: 28%;
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.86), rgba(241, 246, 250, 0.86));
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.evaluation-table tr:last-child th,
+.evaluation-table tr:last-child td {
+  border-bottom: none;
+}
+
+.alpha-media-card {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.alpha-media-frame,
+.beta-chart-frame {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  border: 1px dashed rgba(201, 211, 225, 0.95);
+  border-radius: 8px;
+  background: #f5f8fc;
+  padding: 10px;
+}
+
+.alpha-media-frame img,
+.beta-chart-frame img {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+.alpha-media-card p {
+  margin-top: 10px;
+  color: #5a6676;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.alpha-results-card,
+.alpha-insights-card,
+.alpha-change-card {
+  margin-top: 18px;
+}
+
+.alpha-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+}
+
+.alpha-insight-item {
+  border: 1px solid rgba(216, 224, 236, 0.9);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+  padding: 14px;
+}
+
+.alpha-insight-item span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(255, 248, 237, 0.9);
+  color: var(--brand-deep);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.alpha-insight-item p {
+  margin-top: 10px;
+  color: #44566d;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.evaluation-section-note {
+  margin: 10px 0 0;
+  color: #4c5b70;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.feedback-quotes-panel--compact {
+  margin-top: 20px;
+  border-radius: 16px !important;
+  padding: 18px 20px !important;
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055) !important;
+}
+
+.feedback-quotes-panel--compact::after {
+  background: transparent !important;
+}
+
+.beta-validation-card {
+  margin-top: 16px;
+  border-left: 3px solid rgba(47, 127, 121, 0.28) !important;
+  box-shadow: 0 10px 24px rgba(15, 36, 69, 0.045) !important;
+}
+
+.beta-validation-card .grid > div {
+  background: rgba(255, 255, 255, 0.64) !important;
+  border-color: rgba(205, 216, 231, 0.78) !important;
+  padding: 14px !important;
+  box-shadow: none !important;
+}
+
+.beta-validation-card .grid h4 {
+  color: var(--brand-deep) !important;
+  font-size: 15px !important;
+}
+
+.beta-validation-card .grid p {
+  color: #4c5b70 !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+}
+
+.beta-note {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid rgba(247, 148, 30, 0.58);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.5);
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.reflection-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reflection-card {
+  min-height: 100%;
+}
+
+.reflection-card h4 {
+  margin-bottom: 10px;
 }
 
 .intro-stats {
@@ -517,6 +976,31 @@ body {
   color: #3f4d60;
   line-height: 1.75;
   font-size: 17px;
+}
+
+.evidence-chain-card .evidence-chain-title {
+  margin: 10px 0 0;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.2;
+}
+
+.evidence-chain-card .evidence-chain-copy {
+  margin: 8px 0 0;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evidence-chain-card .evidence-chain-takeaway {
+  margin: 14px 0 0;
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.evidence-chain-card.evidence-chain-card--preview .evidence-chain-title,
+.evidence-chain-card.evidence-chain-card--validation .evidence-chain-title {
+  font-size: clamp(18px, 1.8vw, 23px);
 }
 
 .link-row {
@@ -2293,6 +2777,12 @@ body[data-route="evaluation"] .hero {
     padding: 18px;
   }
 
+  .alpha-summary-grid,
+  .alpha-insight-grid,
+  .reflection-grid {
+    grid-template-columns: 1fr;
+  }
+
   .ai-step-card h4 {
     font-size: 22px;
   }
@@ -2345,6 +2835,18 @@ body[data-route="evaluation"] .hero {
   .architecture-flow {
     grid-template-columns: 1fr;
   }
+
+  .evidence-chain-card {
+    padding: 18px;
+  }
+
+  .evidence-chain-table {
+    min-width: 720px;
+  }
+
+  .evaluation-table {
+    min-width: 680px;
+  }
 }
 
 @media (max-width: 680px) {
@@ -2359,6 +2861,32 @@ body[data-route="evaluation"] .hero {
 
   .comparison-media img {
     max-height: 220px;
+  }
+
+  .evidence-chain-card {
+    padding: 16px;
+  }
+
+  .evidence-chain-title {
+    font-size: 20px;
+  }
+
+  .evidence-chain-copy,
+  .evidence-chain-takeaway {
+    font-size: 13px;
+  }
+
+  .evidence-chain-table {
+    min-width: 620px;
+  }
+
+  .evaluation-callout,
+  .alpha-insight-item {
+    padding: 14px;
+  }
+
+  .evaluation-table {
+    min-width: 600px;
   }
 }
 
@@ -2421,6 +2949,43 @@ body[data-route="evaluation"] .hero {
     radial-gradient(circle at top right, rgba(43, 76, 126, 0.08), transparent 30%),
     linear-gradient(135deg, #ffffff 0%, #f7fafc 54%, #edf3f8 100%) !important;
   box-shadow: 0 18px 38px rgba(15, 36, 69, 0.07);
+}
+
+.content .evidence-chain-card {
+  border-color: rgba(205, 216, 231, 0.86) !important;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%) !important;
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055) !important;
+}
+
+.content .evidence-chain-card--preview,
+.content .evidence-chain-card--validation {
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045) !important;
+}
+
+.content .evidence-chain-table-wrap {
+  border-color: rgba(205, 216, 231, 0.86) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.content .evidence-chain-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%) !important;
+  color: var(--content-ink) !important;
+}
+
+.content .evidence-chain-table td {
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #34495f !important;
+}
+
+.content .evidence-chain-table tbody tr:nth-child(even) td {
+  background: rgba(248, 250, 252, 0.88) !important;
+}
+
+.content .evidence-chain-table .is-requirement {
+  background: linear-gradient(135deg, rgba(255, 248, 237, 0.62), rgba(255, 255, 255, 0.78)) !important;
+  color: var(--content-ink) !important;
 }
 
 .detail-stage-card {
@@ -2728,6 +3293,7 @@ body[data-route="evaluation"] .hero {
       <p class="desc">
         A browser-based EB building navigation kiosk that turns confusing room codes into entrance-aware routes for new students and visiting guests.
       </p>
+      <a href="./app/" class="hero-demo-link">Try the Demo</a>
     </div>
     <div class="hero-eyebrow">Indoor Navigation</div>
     <div class="scroll-down-arrow" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})" aria-label="Scroll down"></div>
@@ -2744,10 +3310,7 @@ body[data-route="evaluation"] .hero {
           CampusCompass addresses a common EB building problem: room codes such as EB204 reveal the floor but not the wing, closest entrance, or turning decisions. Users choose their entrance, enter a target room, and receive map-based guidance with concise steps.
         </p>
       </div>
-      <div class="intro-actions">
-        <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
-<a href="#evaluation" class="quick-link secondary">View Evaluation</a>
-      </div>
+
       <div class="intro-stats" aria-label="Project highlights">
         <div class="stat-card-moved">
           <strong>3</strong>
@@ -2762,6 +3325,69 @@ body[data-route="evaluation"] .hero {
           <span>estimated time saved in user testing</span>
         </div>
       </div>
+
+            <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
+        <thead>
+          <tr>
+            <th>Requirement</th>
+            <th>Evidence in Portfolio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Why statement</td><td>Section 1.1</td></tr>
+          <tr><td>4 academic papers</td><td>Section 1.2 Academic Papers</td></tr>
+          <tr><td>4 commercial products</td><td>Section 1.2 Commercial Products</td></tr>
+          <tr><td>Primary and secondary personas</td><td>Section 1.3</td></tr>
+          <tr><td>Journey map</td><td>Section 2.1</td></tr>
+          <tr><td>3 must-have requirements</td><td>Section 2.2</td></tr>
+          <tr><td>5 evidence photos</td><td>Section 2.3</td></tr>
+          <tr><td>Crazy 8 sketches</td><td>Section 3.1</td></tr>
+          <tr><td>3 alternatives</td><td>Section 3.2</td></tr>
+          <tr><td>Low-fi Figma</td><td>Section 3.3</td></tr>
+          <tr><td>System architecture</td><td>Section 4.1</td></tr>
+          <tr><td>High-fi URL</td><td>Section 4.2</td></tr>
+          <tr><td>Individual contribution</td><td>Section 4.3</td></tr>
+          <tr><td>AI disclosure</td><td>Section 4.3 / 5 References</td></tr>
+          <tr><td>Usability testing with 3 real users</td><td>Section 5.1</td></tr>
+          <tr><td>Before/After refinement</td><td>Section 5.2</td></tr>
+          <tr><td>Final reflection + ethics + AI</td><td>Section 5.4</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-card scroll-fx home-section evidence-chain-card evidence-chain-card--preview" id="evidence-chain-preview" aria-labelledby="evidence-chain-preview-title">
+      <span class="evidence-chain-badge">Process Snapshot</span>
+      <h2 class="evidence-chain-title" id="evidence-chain-preview-title">Evidence Chain Preview</h2>
+      <p class="evidence-chain-copy">
+        This snapshot shows how early research insights shaped the core CampusCompass design responses.
+      </p>
+      <div class="evidence-chain-table-wrap">
+        <table class="evidence-chain-table" aria-label="Evidence chain preview from research insight to design response">
+          <thead>
+            <tr>
+              <th>Research Insight</th>
+              <th>&rarr; Design Response</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Users could read room codes but could not infer the actual route.</td>
+              <td>Room-code search and route generation.</td>
+            </tr>
+            <tr>
+              <td>Users hesitated at stairs and corridor turns.</td>
+              <td>Step-by-step route instructions.</td>
+            </tr>
+            <tr>
+              <td>Users lacked confidence after reaching the destination.</td>
+              <td>Clear arrival confirmation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="evidence-chain-takeaway">
+        CampusCompass was designed as a research-driven response to confusion around room codes, floor changes, and route confidence.
+      </p>
     </section>
 
     <section class="section-card scroll-fx home-section" id="progress">
@@ -3428,6 +4054,61 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
+      <section class="evidence-chain-card evidence-chain-card--core" aria-labelledby="evidence-chain-core-title">
+        <span class="evidence-chain-badge">Core Traceability</span>
+        <h3 class="evidence-chain-title" id="evidence-chain-core-title">Research-to-Requirement Evidence Chain</h3>
+        <p class="evidence-chain-copy">
+          This table shows how user research findings were translated into concrete design requirements and CampusCompass features.
+        </p>
+        <div class="evidence-chain-table-wrap">
+          <table class="evidence-chain-table" aria-label="Research-to-requirement evidence chain">
+            <thead>
+              <tr>
+                <th>Research Evidence</th>
+                <th>&rarr; Pain Point Identified</th>
+                <th>&rarr; Design Requirement</th>
+                <th>&rarr; CampusCompass Feature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Interview participants could read EB204 but did not know which entrance, stairs, or corridor to use.</td>
+                <td>Room codes reveal limited spatial information.</td>
+                <td class="is-requirement">The system must translate room codes into clear route information.</td>
+                <td>Room-code search with route generation.</td>
+              </tr>
+              <tr>
+                <td>Observation showed users paused at stairs and corridor intersections.</td>
+                <td>Users lose confidence at key decision points.</td>
+                <td class="is-requirement">The system must provide step-by-step guidance.</td>
+                <td>Text instruction cards with map highlights.</td>
+              </tr>
+              <tr>
+                <td>Users wanted to know whether they were moving in the correct direction.</td>
+                <td>Users need immediate feedback after entering a destination.</td>
+                <td class="is-requirement">The system must provide instant visual feedback.</td>
+                <td>Highlighted route and destination marker.</td>
+              </tr>
+              <tr>
+                <td>Participants were unsure when the route was complete.</td>
+                <td>The end of the journey lacks confirmation.</td>
+                <td class="is-requirement">The system must provide a clear arrival signal.</td>
+                <td>Completion message and final destination confirmation.</td>
+              </tr>
+              <tr>
+                <td>Evidence photos showed repeated hesitation around floor changes.</td>
+                <td>Floor transitions are a major source of confusion.</td>
+                <td class="is-requirement">The system must make floor changes explicit.</td>
+                <td>Floor-specific route steps and stair guidance.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="evidence-chain-takeaway">
+          The final must-have requirements were derived from repeated user confusion around room codes, floor changes, and route confidence.
+        </p>
+      </section>
+
       <h3 class="subsection-title">2.2 Requirements List (3 Must-Haves)</h3>
       <div class="must-have-grid">
         <article class="must-have-card">
@@ -3760,28 +4441,181 @@ body[data-route="evaluation"] .hero {
     </section>
 
     <section class="section-card scroll-fx detail-section" id="evaluation">
-      <h3 class="subsection-title">5.1 Usability Testing</h3>
-      <article class="block" style="margin-bottom: 24px;">
-        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-          <div style="flex: 1 1 55%;">
-            <ul>
-              <li><strong>Participants:</strong> tested with 3 real users (first-time visitors and freshmen).</li>
-              <li><strong>Time Efficiency:</strong> Average route-finding time dropped from 190.0s to 78.3s, representing a substantial 58.8% time reduction.</li>
-              <li><strong>Interaction Efficiency:</strong> All 3 users successfully reached their destinations, confirming the system effectively resolves "ingress penalty" at unfamiliar entrances.</li>
-              <li><strong>Qualitative Discovery:</strong> While navigation speed improved significantly, users reported the initial route design still required mental effort to decode, guiding our next iteration phase.</li>
-            </ul>
+      <h3 class="subsection-title">5.1 Required Alpha Usability Testing</h3>
+      <article class="evaluation-callout evaluation-callout--alpha">
+        <span class="evaluation-badge">Required Alpha Test</span>
+        <p>
+          To meet the portfolio requirement, we tested the alpha version of CampusCompass with three real users. The goal was to identify usability problems in the early prototype before refinement, especially around room-code input, route interpretation, floor changes, and arrival confidence.
+        </p>
+      </article>
+
+      <div class="alpha-summary-grid">
+        <article class="block alpha-summary-card">
+          <h4>A. Alpha Test Setup</h4>
+          <div class="evaluation-table-wrap">
+            <table class="evaluation-table" aria-label="Alpha test setup">
+              <tbody>
+                <tr><th>Participants</th><td>3 real users: first-year student, first-time visitor, and current student</td></tr>
+                <tr><th>Prototype Stage</th><td>Alpha version before major refinement</td></tr>
+                <tr><th>Main Task</th><td>Find a target classroom, such as EB204, from an EB building entrance scenario</td></tr>
+                <tr><th>Evaluation Focus</th><td>Input clarity, route understanding, floor-change guidance, and arrival confidence</td></tr>
+                <tr><th>Data Collected</th><td>Observation notes, task completion time, hesitation points, confidence rating, and short interview feedback</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div style="flex: 1 1 40%; min-width: 250px;">
-            <!-- Alpha Test Image Placeholder -->
-            <div style="background:rgba(255,255,255,0.5); border-radius:6px; padding:8px; text-align:center; border: 1px dashed var(--line);">
-               <img src="images/alpha-test-findings.png" alt="Alpha Testing Qualitative Findings" style="max-width:100%; height:auto; border-radius:4px; max-height:180px; object-fit: contain;">
-               <p style="font-size:0.85em; color:var(--muted); margin:8px 0 0 0;">Qualitative findings & observation highlights from 3 early users.</p>
-            </div>
+        </article>
+
+        <article class="block alpha-media-card">
+          <h4>Alpha test results from 3 real users</h4>
+          <div class="alpha-media-frame">
+            <img src="images/alpha-test-findings.png" alt="Alpha test results from 3 real users">
           </div>
+          <p>Qualitative findings and observation highlights from the required 3-user alpha test.</p>
+        </article>
+      </div>
+
+      <article class="block alpha-results-card">
+        <h4>B. Alpha Test Results</h4>
+        <div class="evaluation-table-wrap">
+          <table class="evaluation-table" aria-label="Alpha test results">
+            <thead>
+              <tr>
+                <th>Measure</th>
+                <th>Alpha Result</th>
+                <th>What It Revealed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Completion Time</td>
+                <td>Average route-finding time dropped from 190.6s to 78.3s after guidance was introduced.</td>
+                <td>Step-by-step guidance helped users complete the task faster.</td>
+              </tr>
+              <tr>
+                <td>Task Success</td>
+                <td>All 3 users successfully reached their destinations.</td>
+                <td>The core route-search flow was understandable.</td>
+              </tr>
+              <tr>
+                <td>Hesitation Points</td>
+                <td>Users still paused at stairs, corridor turns, and floor transitions.</td>
+                <td>The interface needed clearer decision-point guidance.</td>
+              </tr>
+              <tr>
+                <td>Confidence</td>
+                <td>Users reported higher confidence after seeing route steps and arrival confirmation.</td>
+                <td>The design needed stronger feedback and completion signals.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </article>
 
-      <h3 class="subsection-title">5.2 Iterative Refinement</h3>
+      <article class="block alpha-insights-card">
+        <h4>C. Key Alpha Insights</h4>
+        <div class="alpha-insight-grid" aria-label="Key alpha insights">
+          <article class="alpha-insight-item">
+            <span>1</span>
+            <p>Users understood the room-code search idea, but needed the input area to be more visually dominant.</p>
+          </article>
+          <article class="alpha-insight-item">
+            <span>2</span>
+            <p>Users relied heavily on text steps at stairs and corridor turns.</p>
+          </article>
+          <article class="alpha-insight-item">
+            <span>3</span>
+            <p>Users wanted clearer confirmation that they had reached the correct destination.</p>
+          </article>
+          <article class="alpha-insight-item">
+            <span>4</span>
+            <p>Floor changes needed to be separated into explicit route steps.</p>
+          </article>
+        </div>
+      </article>
+
+      <section class="evidence-chain-card evidence-chain-card--validation alpha-validation-card" aria-labelledby="evidence-chain-validation-title">
+        <span class="evidence-chain-badge">Alpha Validation</span>
+        <h3 class="evidence-chain-title" id="evidence-chain-validation-title">Alpha Requirement Validation</h3>
+        <p class="evidence-chain-copy">
+          This table connects the three required alpha usability tests to the must-have requirements identified in Section 2.
+        </p>
+        <div class="evidence-chain-table-wrap">
+          <table class="evidence-chain-table" aria-label="Alpha requirement validation">
+            <thead>
+              <tr>
+                <th>Requirement Tested</th>
+                <th>&rarr; Alpha Testing Evidence</th>
+                <th>&rarr; Refinement Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Instant visual feedback</td>
+                <td>Alpha users noticed the route more quickly when the input result was visually connected to the map.</td>
+                <td>Keep the input-result interaction prominent.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Step-by-step route guidance</td>
+                <td>Alpha users relied on text steps at stairs and corridor turns.</td>
+                <td>Make instruction cards clearer and more visible.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Clear completion signal</td>
+                <td>Alpha users felt more confident when the route ended with confirmation.</td>
+                <td>Add a stronger arrival state.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Floor-specific guidance</td>
+                <td>Alpha users hesitated less when floor changes were shown as separate steps.</td>
+                <td>Keep stairs and floor transitions as explicit route steps.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <h3 class="subsection-title">5.2 Alpha Feedback &rarr; Design Refinement</h3>
+      <p class="evaluation-section-note">
+        The alpha test feedback directly informed the interface refinement shown below.
+      </p>
+
+      <article class="block alpha-change-card">
+        <h4>Feedback &rarr; Change &rarr; Result</h4>
+        <div class="evaluation-table-wrap">
+          <table class="evaluation-table" aria-label="Alpha feedback to design refinement">
+            <thead>
+              <tr>
+                <th>Alpha Feedback</th>
+                <th>Design Change</th>
+                <th>Result After Refinement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Users were unsure where to enter the classroom code.</td>
+                <td>Added a more visible input box for direct room-code entry.</td>
+                <td>Users could start the task faster with less hesitation.</td>
+              </tr>
+              <tr>
+                <td>Users relied on text guidance at stairs and corridor turns.</td>
+                <td>Added clearer step-by-step instruction cards.</td>
+                <td>Route interpretation became easier at decision points.</td>
+              </tr>
+              <tr>
+                <td>Users were uncertain during floor transitions.</td>
+                <td>Separated stair and floor-change actions into explicit route steps.</td>
+                <td>Users understood when and how to move between floors.</td>
+              </tr>
+              <tr>
+                <td>Users wanted confirmation after reaching the target room.</td>
+                <td>Added a clearer arrival/completion state.</td>
+                <td>Users felt more confident that the route was complete.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
         <article class="comparison-panel">
           <h4>Before: High Cognitive Load</h4>
@@ -3809,25 +4643,48 @@ body[data-route="evaluation"] .hero {
         </article>
       </div>
 
-      <!-- Beta Test / Quantitative Results Section -->
-      <div class="block" style="margin-top:24px; padding-top:24px; border-top: 1px solid var(--line);">
+      <div class="feedback-quotes-panel feedback-quotes-panel--compact scroll-fx" aria-label="Representative alpha feedback">
+        <div class="feedback-quotes-head">Representative Alpha Feedback</div>
+        <p class="feedback-quotes-intro">
+          These quotes summarize the clearest feedback patterns from the required 3-user alpha test.
+        </p>
+        <div class="feedback-quotes-grid">
+          <article class="feedback-quote scroll-fx">
+            <h4 class="feedback-quote-label">Participant A, first-year student</h4>
+            <p>"The route was much faster than trying to figure it out by myself. Once the classroom appeared on the map, I felt more certain about where to go next."</p>
+          </article>
+
+          <article class="feedback-quote scroll-fx">
+            <h4 class="feedback-quote-label">Participant B, first-time visitor</h4>
+            <p>"I liked that the system gave me a clear path immediately, but I still needed a moment to match the route with the real corridor, so clearer visual guidance would help."</p>
+          </article>
+
+          <article class="feedback-quote scroll-fx">
+            <h4 class="feedback-quote-label">Participant C, third-year student</h4>
+            <p>"Typing the classroom directly was very convenient. It reduced unnecessary searching and made the process feel more efficient when I was in a hurry."</p>
+          </article>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">5.3 Extended Beta Validation</h3>
+      <div class="block beta-validation-card">
         <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:16px;">
-          <h3>Quantitative Impact Validation (Beta Test)</h3>
-          <span class="status" style="background:#edf6f4; color:#2f7f79; padding:4px 10px; border-radius:20px; font-size:0.85em; font-weight:600;">50 Participants</span>
+          <h3>Post-refinement beta validation</h3>
+          <span class="evaluation-badge evaluation-badge--secondary">Beyond Requirement</span>
         </div>
         <p style="margin-bottom:16px; color:var(--muted);">
-          Following the alpha iteration, a large-scale evaluation confirmed significant improvements in wayfinding efficiency and subjective confidence. The data below highlights our system's impact on reducing cognitive load and time pressure.
+          After completing the required 3-user alpha test and applying the main interface refinements, we conducted an additional beta validation with 50 participants. This larger test was supplementary evidence, not a replacement for the required alpha usability test. It was used to check whether the refined CampusCompass flow remained understandable, efficient, and confidence-building for a broader group of users.
         </p>
         
         <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
           <!-- Chart Placeholder 1 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
-             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Subjective Ratings (1-5)</h4>
+             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Subjective Ratings (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
                 <img src="images/chart-ratings.png" alt="Confidence, Ease of Use, and Stress Reduction Chart" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
              <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
-               <strong>High Psychological Impact:</strong> The system fostered extremely high <strong>Confidence (4.67)</strong>, <strong>Ease of Use (4.33)</strong>, and <strong>Stress Reduction (4.33)</strong>, confirming it successfully minimizes anxiety and cognitive load in unfamiliar campus buildings.
+               <strong>Beta pattern:</strong> The ratings suggested strong <strong>Confidence (4.67)</strong>, <strong>Ease of Use (4.33)</strong>, and <strong>Stress Reduction (4.33)</strong> after refinement.
              </p>
           </div>
           
@@ -3838,155 +4695,49 @@ body[data-route="evaluation"] .hero {
                 <img src="images/chart-time.png" alt="Route finding time reduction box plot" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
              <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
-               <strong>Efficiency Gained:</strong> Users experienced a massive <strong>45.2% mean reduction</strong> in route-finding time. The narrower box plot spread with the system also indicates much more consistent, predictable navigation.
+               <strong>Beta pattern:</strong> The time data indicated a <strong>45.2% mean reduction</strong> in route-finding time and more consistent route completion after refinement.
              </p>
           </div>
 
           <!-- Chart Placeholder 3 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
-             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Cumulative Arrival Rate</h4>
+             <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Cumulative Arrival Rate (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
                 <img src="images/chart-arrival.png" alt="Cumulative arrival rate over time line chart" style="max-width:100%; max-height:100%; object-fit:contain;">
              </div>
              <p style="font-size:0.9em; color:var(--ink); margin:12px 0 0 0; text-align:left; line-height:1.4;">
-               <strong>Punctuality Boost:</strong> <strong>80% of users reached their destination in &lt;117s</strong> (compared to 215s without the system). This interaction shift effectively eliminates the stress of being late for classes.
+               <strong>Beta pattern:</strong> <strong>80% of users reached their destination in &lt;117s</strong>, which provided supplementary validation for the refined route flow.
              </p>
           </div>
         </div>
+        <p class="beta-note">
+          Note: These results come from the post-refinement beta validation and are presented as supplementary evidence beyond the required alpha test.
+        </p>
       </div>
 
-      <div class="feedback-suite scroll-fx" aria-label="Detailed qualitative feedback summary">
-        <div class="feedback-suite-head">
-          <h3>Detailed Qualitative Feedback Summary</h3>
+      <h3 class="subsection-title">5.4 Final Reflection</h3>
+      <div class="reflection-grid">
+        <article class="content-card reflection-card">
+          <h4>Societal Impact</h4>
           <p>
-            To complement our quantitative results, we summarized the alpha test through three usability tasks, three participant-level observations, and representative anonymous feedback quotes. This makes the evaluation easier to read from both a task perspective and a participant perspective.
+            CampusCompass helps new students, visitors, and time-pressured users reduce wayfinding stress inside unfamiliar academic buildings. By translating room codes into entrance-aware routes, the system supports punctuality, spatial confidence, and more independent movement through the EB building.
           </p>
-        </div>
+        </article>
 
-        <details class="feedback-details">
-          <summary>Expand for Detailed Feedback</summary>
-          <div class="feedback-detail-body">
-        <div class="eval-table-wrap">
-          <table class="eval-table task-table" aria-label="Usability task summary">
-            <colgroup>
-              <col>
-              <col>
-              <col>
-              <col>
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Usability Task</th>
-                <th>Success Rate</th>
-                <th>Average Time</th>
-                <th>Main Error Point and Design Implication</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Task 1: Enter the destination classroom and generate a route.</strong></td>
-                <td>3/3 completed; 2/3 without help.</td>
-                <td>32s</td>
-                <td class="muted">The main friction point was slow classroom selection on the touchscreen when users already knew the room code. This led directly to the addition of a direct text input field for destination entry.</td>
-              </tr>
-              <tr>
-                <td><strong>Task 2: Select the current entrance point and confirm the starting direction.</strong></td>
-                <td>3/3 completed; 3/3 without help.</td>
-                <td>18s</td>
-                <td class="muted">No major failure occurred, but one participant briefly hesitated when distinguishing between similar entrance positions. This suggested clearer entrance labels and stronger highlighting of the selected starting point.</td>
-              </tr>
-              <tr>
-                <td><strong>Task 3: Interpret the route and follow the map toward the correct classroom.</strong></td>
-                <td>3/3 completed; 2/3 without help.</td>
-                <td>28s</td>
-                <td class="muted">Two users needed a short moment to map the top-down route onto the real corridor. This informed our refinement toward clearer landmarks, simpler route presentation, and lower visual decoding effort.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="eval-table-wrap">
-          <table class="eval-table participant-table" aria-label="Participant observations">
-            <colgroup>
-              <col>
-              <col>
-              <col>
-              <col>
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Participant</th>
-                <th>Tasks Tested</th>
-                <th>Success Rate</th>
-                <th>Key Issue Observed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Participant A: First-year student</strong></td>
-                <td>Entered classroom code; selected entry point; followed the generated route to the target room.</td>
-                <td>Completed assigned flow without assistance.</td>
-                <td class="muted">Wanted a faster way to specify the target classroom and clearer confirmation after the route appeared on screen.</td>
-              </tr>
-              <tr>
-                <td><strong>Participant B: First-time visitor</strong></td>
-                <td>Selected an unfamiliar entrance; interpreted the top-down map; navigated corridor turns toward the destination.</td>
-                <td>Completed assigned flow; needed one clarification when matching the interface to the real hallway.</td>
-                <td class="muted">Understood the route overall, but wanted stronger visual landmarks and more explicit wording at decision points.</td>
-              </tr>
-              <tr>
-                <td><strong>Participant C: Third-year student</strong></td>
-                <td>Used direct room input; regenerated the route after changing the entry point; checked final destination confirmation.</td>
-                <td>Completed assigned flow with only brief orientation time.</td>
-                <td class="muted">Found the process efficient, but suggested clearer restart and completion feedback after reaching the classroom.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-          </div>
-        </details>
-
-        <div class="feedback-quotes-panel scroll-fx" aria-label="Anonymous feedback quotes">
-          <div class="feedback-quotes-head">Anonymous Feedback Quotes</div>
-          <p class="feedback-quotes-intro">
-            These comments summarize representative reactions from the same three early users and reinforce the patterns observed in the task and participant summaries above.
+        <article class="content-card reflection-card">
+          <h4>Ethical Considerations</h4>
+          <p>
+            The current prototype does not track users or collect personal location data. Research photos, observation notes, and interview records should be handled with consent and anonymisation. The next version should also provide stronger accessibility options, including wheelchair routes, elevator-first routes, and clearer support for users with different mobility needs.
           </p>
-          <div class="feedback-quotes-grid">
-            <article class="feedback-quote scroll-fx">
-              <h4 class="feedback-quote-label">Participant A, first-year student</h4>
-              <p>"The route was much faster than trying to figure it out by myself. Once the classroom appeared on the map, I felt more certain about where to go next."</p>
-            </article>
+        </article>
 
-            <article class="feedback-quote scroll-fx">
-              <h4 class="feedback-quote-label">Participant B, first-time visitor</h4>
-              <p>"I liked that the system gave me a clear path immediately, but at first I still needed a moment to match the route with the real corridor, so clearer visual guidance would help."</p>
-            </article>
-
-            <article class="feedback-quote scroll-fx">
-              <h4 class="feedback-quote-label">Participant C, third-year student</h4>
-              <p>"Typing the classroom directly was very convenient. It reduced unnecessary searching and made the whole process feel more efficient when I was in a hurry."</p>
-            </article>
-          </div>
-          <p class="feedback-quotes-note">
-            Together, these responses show that CampusCompass improved speed, certainty, and perceived usability, while also clarifying that route interpretation should become even more immediate for first-time users.
+        <article class="content-card reflection-card">
+          <h4>AI Use Reflection</h4>
+          <p>
+            AI tools supported wording refinement, coding assistance, debugging, and reflection structure. However, the research interpretation, user testing, design judgement, ethical judgement, and final decisions remained the responsibility of the project team.
           </p>
-        </div>
+        </article>
       </div>
-
-      <h3 class="subsection-title">5.3 Final Reflection</h3>
-      <div class="content-card" style="margin-top:24px;">
-        <p>
-          <strong>Social & Ethical Implications:</strong> CampusCompass actively champions human-centric inclusivity by reducing navigational stress for new students, external visitors, and those with spatial cognitive challenges. It addresses the architectural disorientation of symmetrical layouts at the exact point-of-need. From a privacy and ethical perspective, the system runs fully client-side. During our usability testing, no personally identifiable information (PII) was collected from participants, and for future deployments, data will remain strictly anonymous and localized.
-        </p>
-        <p style="margin-top:8px;">
-          <strong>Generative AI Usage:</strong> In compliance with the course's AI permissions, Generative AI tools (specifically <strong>Gemini</strong> and <strong>Claude</strong>) were utilized merely as assistive technologies. They were used to support ideation brainstorming, basic code troubleshooting, and grammar proofreading for our documentation. All core human-centric processes—including problem definition, UX/UI design decisions, user interviews, and data evaluation—were conducted entirely by our project team. We maintain full intellectual responsibility for the final system and its evaluative insights.
-        </p>
-        <p style="margin-top:8px;">
-          <strong>Reflection on AI Impact:</strong> As shown in Section 4.3, AI acted as a structured assistant during the CampusCompass workflow rather than as an autonomous designer. It helped us compare wording options, diagnose implementation errors, and refine documentation, but every suggestion was checked against our user research, accessibility goals, and kiosk context before adoption. This process also made us more aware of the ethical risk of over-reliance: if AI output is accepted too quickly, it can flatten local evidence, hide design assumptions, or make a project appear more certain than the testing actually supports. Our final approach was therefore to treat AI as a review and drafting layer, while keeping responsibility for design judgment, evidence interpretation, and final decisions with the human team.
-        </p>
-      </div>
-
 
       <div class="references-panel misplaced-reference">
         <div class="references-head">
