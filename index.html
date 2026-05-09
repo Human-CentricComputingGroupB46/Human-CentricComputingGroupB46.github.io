@@ -2291,6 +2291,197 @@ body[data-route="evaluation"] .hero {
   color: #526378;
 }
 
+.architecture-data-card {
+  position: relative;
+  margin-top: 14px;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.055), transparent 26%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%);
+  padding: 16px 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.048);
+  overflow: hidden;
+}
+
+.architecture-data-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, rgba(247, 148, 30, 0.62), rgba(47, 127, 121, 0.34));
+}
+
+.architecture-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.86);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+
+.architecture-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(247, 148, 30, 0.72);
+}
+
+.architecture-data-card h4 {
+  margin: 8px 0 0;
+  color: var(--brand-deep);
+  font-size: clamp(18px, 1.7vw, 21px);
+}
+
+.architecture-data-copy {
+  margin: 6px 0 0 !important;
+  color: #4c5b70 !important;
+  font-size: 13.5px !important;
+  line-height: 1.56 !important;
+}
+
+.data-flow-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.data-flow-step,
+.routing-logic-item {
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 11px 12px;
+  box-shadow: 0 7px 16px rgba(36, 59, 99, 0.04);
+}
+
+.data-flow-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.82);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.data-flow-step h5,
+.routing-logic-item h5 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 14.4px;
+  line-height: 1.3;
+}
+
+.data-flow-step p,
+.routing-logic-item p {
+  margin: 6px 0 0 !important;
+  color: #526378 !important;
+  font-size: 13.2px !important;
+  line-height: 1.48 !important;
+}
+
+.architecture-table-wrap {
+  margin-top: 12px;
+  border: 1px solid rgba(205, 216, 231, 0.88);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow-x: auto;
+}
+
+.architecture-data-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #34495f;
+}
+
+.architecture-data-table th,
+.architecture-data-table td {
+  padding: 9px 11px;
+  border-bottom: 1px solid rgba(211, 222, 237, 0.86);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.48;
+}
+
+.architecture-data-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%);
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.architecture-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.architecture-data-table code,
+.architecture-code-sample code {
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.architecture-code-sample {
+  margin: 10px 0 0;
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(248, 251, 255, 0.86);
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+.architecture-code-sample code {
+  color: #29405b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.routing-logic-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.architecture-takeaway,
+.prototype-scenario {
+  margin-top: 10px !important;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(247, 148, 30, 0.56);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.46);
+  color: #4c5b70 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.contrib-table-wrap {
+  margin-top: 14px;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.contrib-table-wrap .contrib-table {
+  min-width: 760px;
+  margin-top: 0;
+}
+
 .ai-process-panel {
   margin-top: 26px;
   position: relative;
@@ -2858,6 +3049,8 @@ body[data-route="evaluation"] .hero {
   .hero { grid-template-columns: 1fr; }
   .preview-body { grid-template-columns: 1fr; }
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .data-flow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .routing-logic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-process-grid { grid-template-columns: 1fr; }
   .flow-step::after { display: none; }
 }
@@ -2950,6 +3143,14 @@ body[data-route="evaluation"] .hero {
   }
 
   .architecture-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .data-flow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .routing-logic-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3628,14 +3829,20 @@ body[data-route="evaluation"] .hero {
       <h3 class="subsection-title">1.1 The Why</h3>
       <div class="content-card">
         <p>
-          Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
-          to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
-          in their first weeks and external guests who visit only once. We observed that this problem is not caused by a lack of motivation to navigate, but by a mismatch between static signage
-          and the moment-to-moment decisions users need to make while moving. A student rushing from a previous class may not have time to compare corridor signs, ask staff, or recover from a
-          wrong turn before the next lesson starts. We therefore designed CampusCompass as a point-of-entry decision support tool: users declare where they entered,
-          enter a destination code, and immediately receive a shortest path and plain-language steps. This directly supports quick, confident movement under time pressure and lowers cognitive load.
-          The concept is intentionally lightweight, browser-based, and deployable on a kiosk screen, so it can be installed where confusion starts rather than requiring every user to install a
-          new app. The project reflects human-centered priorities: reducing anxiety, improving first-time success, and enabling independent navigation for a broader range of users.
+          Our group selected the Active track because indoor navigation is a real and frequent friction point in everyday campus movement. In the EB building,
+          users may know a room code such as EB204, but the code alone does not reveal the correct wing, entrance, stair, or corridor route. This creates repeated stopping,
+          backtracking, and uncertainty, especially for first-year students during their first weeks on campus and external visitors who may only enter the building once.
+        </p>
+        <p>
+          We observed that this problem is not caused by users’ lack of motivation, but by a mismatch between static signage and the moment-to-moment decisions people must make
+          while moving through an unfamiliar building. A student rushing from a previous class may not have time to compare corridor signs, ask staff, or recover from a wrong turn
+          before the next lesson starts.
+        </p>
+        <p>
+          Therefore, we designed CampusCompass as a point-of-entry decision support tool. Users select where they entered, input a destination room code, and immediately receive a shortest path
+          with plain-language route steps. This supports quick, confident movement under time pressure while reducing cognitive load. The concept is intentionally lightweight, browser-based,
+          and suitable for kiosk deployment, so guidance can be placed where confusion begins rather than requiring every user to install a new app. Through this project,
+          we aim to reduce anxiety, improve first-time wayfinding success, and support more independent campus navigation.
         </p>
       </div>
 
@@ -4491,7 +4698,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures destination classroom, current entry point, and optional floor.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures selected entrance, destination classroom code, and optional floor context.</p>
         </article>
 
         <!-- Arrow 1 -->
@@ -4501,7 +4708,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-frontend.svg" alt="Frontend UI" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Frontend UI</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Interactive HTML/CSS/JS interface built for touch-kiosk resolution.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Normalises input, triggers route lookup, and renders map highlights and route feedback.</p>
         </article>
 
         <!-- Arrow 2 -->
@@ -4511,7 +4718,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-routing.svg" alt="Routing Logic" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Routing Logic</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Lightweight shortest-path algorithm mapping the predefined EB hallway needs.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Matches entrance and room data to graph nodes, then calculates a route through EB corridors and stairs.</p>
         </article>
 
         <!-- Arrow 3 -->
@@ -4521,7 +4728,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-data.svg" alt="Data Management" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Data Management</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores route graph, room data, landmark nodes for real-time instruction updates.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores static room data, entrance data, corridor paths, route nodes, edges, and floor metadata.</p>
         </article>
 
         <!-- Arrow 4 -->
@@ -4531,45 +4738,205 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-deployment.svg" alt="Deployment" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Free-tier cloud hosting (GitHub Pages) allowing seamless remote updates.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Hosted as a static web app for easy access, testing, and remote updates.</p>
         </article>
         </div>
       </div>
+
+      <article class="architecture-data-card" aria-labelledby="data-handling-flow-title">
+        <span class="architecture-badge">HOW DATA MOVES</span>
+        <h4 id="data-handling-flow-title">Data Handling Flow</h4>
+        <p class="architecture-data-copy">
+          This flow explains how CampusCompass turns a user's entrance choice and destination room code into a highlighted indoor route, floor-aware route feedback, and an arrival confirmation.
+        </p>
+        <div class="data-flow-grid" aria-label="CampusCompass data handling flow">
+          <div class="data-flow-step">
+            <span class="data-flow-number">01</span>
+            <h5>User Input</h5>
+            <p>The user selects an entrance and enters a destination room code, such as EB204.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">02</span>
+            <h5>Input Validation</h5>
+            <p>The frontend normalises the room code and checks whether the destination exists.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">03</span>
+            <h5>Room Data Lookup</h5>
+            <p>The app retrieves the room's floor, map position, and related route node from static data.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">04</span>
+            <h5>Route Graph Matching</h5>
+            <p>The selected entrance becomes the start node, and the destination room becomes the end point.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">05</span>
+            <h5>Path Calculation</h5>
+            <p>The route logic finds a walkable path through corridors, stairs, and floor transitions.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">06</span>
+            <h5>Route Output</h5>
+            <p>The route is converted into floor-aware map highlights and plain-language instructions.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">07</span>
+            <h5>Interface Output</h5>
+            <p>The UI displays route steps, destination feedback, and arrival confirmation.</p>
+          </div>
+        </div>
+        <p class="architecture-takeaway">
+          Takeaway: data stays inside the browser, moving from user input to static lookup, graph search, state update, and visual route output.
+        </p>
+      </article>
+
+      <article class="architecture-data-card" aria-labelledby="static-data-model-title">
+        <span class="architecture-badge">DATA STRUCTURE</span>
+        <h4 id="static-data-model-title">Static Data Model</h4>
+        <p class="architecture-data-copy">
+          CampusCompass uses lightweight static data structures in the frontend rather than a server-side database. These structures connect room codes, entrances, route nodes, and route output.
+        </p>
+        <div class="architecture-table-wrap">
+          <table class="architecture-data-table" aria-label="Static data model used by CampusCompass">
+            <thead>
+              <tr>
+                <th>Data Type</th>
+                <th>Actual Code / Fields</th>
+                <th>Used For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>User input</td>
+                <td><code>currentEntrance</code>, <code>inputRoomNumber</code>, <code>currentFloor</code></td>
+                <td>Defines the route start, target classroom, and current viewing context.</td>
+              </tr>
+              <tr>
+                <td>Floor data</td>
+                <td><code>floor1Data</code>, <code>floor2Data</code> as <code>FloorData</code></td>
+                <td>Provides the static data source for each EB floor.</td>
+              </tr>
+              <tr>
+                <td>Room data</td>
+                <td><code>rooms: Room[]</code> with <code>id</code>, <code>label</code>, <code>floor</code>, <code>position</code>, <code>width</code>, <code>height</code>, <code>type</code></td>
+                <td>Validates room codes and marks the target classroom on the map.</td>
+              </tr>
+              <tr>
+                <td>Entrance data</td>
+                <td><code>entrances: Entrance[]</code> with <code>id</code>, <code>floor</code>, <code>position</code></td>
+                <td>Maps a selected entrance such as <code>NW</code>, <code>NE</code>, or <code>SW</code> to a source node.</td>
+              </tr>
+              <tr>
+                <td>Corridor paths</td>
+                <td><code>corridors: Corridor[]</code> with <code>id</code>, <code>floor</code>, <code>path</code></td>
+                <td>Supports floor-plan geometry and route snapping for the highlighted path.</td>
+              </tr>
+              <tr>
+                <td>Route nodes</td>
+                <td><code>nodes: GraphNode[]</code> with <code>id</code>, <code>position</code>, <code>floor</code></td>
+                <td>Represents entrances, junctions, door points, stairs, and elevator nodes.</td>
+              </tr>
+              <tr>
+                <td>Route edges</td>
+                <td><code>edges: GraphEdge[]</code> and <code>crossFloorEdges</code> with <code>from</code>, <code>to</code>, <code>weight</code></td>
+                <td>Describes walkable connections, corridor links, and floor transitions.</td>
+              </tr>
+              <tr>
+                <td>Route output</td>
+                <td><code>RouteResult { path, floors, totalWeight }</code>, plus store fields <code>route</code>, <code>targetRoom</code>, <code>message</code></td>
+                <td>Generates map highlights, target markers, floor switching, and route feedback.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="architecture-code-sample" aria-label="Static data model code example"><code>// Data Example: static frontend mapping
+const roomId = 'EB206';
+const sourceNode = currentEntrance;    // e.g. 'SW'
+const targetNode = `D_${roomId}`;
+
+const routeOutput = {
+  path: ['SW', 'F1_STAIR_SW', 'F2_ELEV_SW', 'D_EB206'],
+  floors: ['floor1', 'floor2']
+};</code></pre>
+        <p class="architecture-takeaway">
+          Takeaway: CampusCompass uses lightweight browser-side data to connect room codes, entrances, route nodes, and user-facing instructions.
+        </p>
+      </article>
+
+      <article class="architecture-data-card" aria-labelledby="route-generation-logic-title">
+        <span class="architecture-badge">ROUTING LOGIC</span>
+        <h4 id="route-generation-logic-title">Route Generation Logic</h4>
+        <p class="architecture-data-copy">
+          The routing logic translates the static EB building graph into user-facing guidance. It does not require live GPS tracking; instead, it uses the selected entrance and classroom code to calculate a predictable indoor route.
+        </p>
+        <div class="routing-logic-grid" aria-label="Route generation logic">
+          <div class="routing-logic-item">
+            <h5>1. Start and destination mapping</h5>
+            <p>The selected entrance maps to a start node, while the room code maps to a destination node or room position.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>2. Graph-based route lookup</h5>
+            <p>The app searches connected route data to find a walkable path through corridors, stairs, and floor transitions.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>3. Floor-aware route state</h5>
+            <p>The route output is grouped by floor so users can understand when they need to move between levels.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>4. UI rendering</h5>
+            <p>The map highlights the route by floor, shows instruction cards, and marks the target room.</p>
+          </div>
+        </div>
+        <p class="architecture-takeaway">
+          This architecture fits a lightweight browser-based kiosk because route data is static, predictable, and fast to run locally in the frontend.
+        </p>
+      </article>
 
       <h3 class="subsection-title">4.2 High-Fi Prototype</h3>
       <div class="content-card">
         <p>
           Hosted system: <a href="./app/">CampusCompass Interactive Web App</a>
         </p>
+        <p class="prototype-scenario">
+          Suggested test scenario: Select South Entrance &rarr; enter a valid EB room code &rarr; follow the generated route steps &rarr; check the arrival confirmation.
+        </p>
       </div>
 
       <h3 class="subsection-title">4.3 Individual Contributions</h3>
-      <table class="contrib-table" aria-label="Individual Contributions Table">
-        <thead>
-          <tr>
-            <th>Member</th>
-            <th>Primary Contributions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Pingsong Deng</td>
-            <td>Frontend implementation, route UI integration, testing support.</td>
-          </tr>
-          <tr>
-            <td>Zichen Fan</td>
-            <td>Graph modelling and algorithm support, coding and debugging.</td>
-          </tr>
-          <tr>
-            <td>Ziyi Jia</td>
-            <td>UX flow design, content writing, process documentation.</td>
-          </tr>
-          <tr>
-            <td>Tianchen Niu</td>
-            <td>User research coordination, evaluation records, visual assets.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="contrib-table-wrap">
+        <table class="contrib-table" aria-label="Individual Contributions Table">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Primary Contributions</th>
+              <th>Concrete Outputs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pingsong Deng</td>
+              <td>Frontend implementation, route UI integration, testing support.</td>
+              <td>Home layout, route panel, interface styling.</td>
+            </tr>
+            <tr>
+              <td>Zichen Fan</td>
+              <td>Graph modelling, routing logic, coding and debugging.</td>
+              <td>Room-node mapping, route data, path calculation.</td>
+            </tr>
+            <tr>
+              <td>Ziyi Jia</td>
+              <td>UX flow design, content writing, process documentation.</td>
+              <td>Journey map, requirements, reflection writing.</td>
+            </tr>
+            <tr>
+              <td>Tianchen Niu</td>
+              <td>User research coordination, evaluation records, visual assets.</td>
+              <td>Interviews, evidence photos, alpha testing notes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
 
       <div class="ai-process-panel scroll-fx" aria-label="AI development process">
