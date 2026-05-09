@@ -44,7 +44,6 @@ const rooms: Room[] = [
 
   // Facilities
   { id: 'F1_ELEV_N', label: 'Lift/Stair', floor: 'floor1', position: { x: 0.16391, y: 0.27802 }, width: 0.02, height: 0.05, type: 'elevator' },
-  { id: 'F1_ELEV_E', label: 'Lift/Stair', floor: 'floor1', position: { x: 0.65243, y: 0.58201 }, width: 0.025, height: 0.065, type: 'elevator' },
   { id: 'F1_STAIR_NW', label: 'Stair', floor: 'floor1', position: { x: 0.21717, y: 0.25396 }, width: 0.03, height: 0.09, type: 'staircase' },
   { id: 'F1_STAIR_NE', label: 'Stair', floor: 'floor1', position: { x: 0.83150, y: 0.25016 }, width: 0.03, height: 0.04, type: 'staircase' },
   { id: 'F1_STAIR_SW', label: 'Stair', floor: 'floor1', position: { x: 0.1777, y: 0.7657 }, width: 0.03, height: 0.04, type: 'staircase' },
@@ -66,7 +65,7 @@ const corridors: Corridor[] = [
     floor: 'floor1',
     path: [
       { x: 0.13819771005233644, y: 0.33248892275555486 }, // J_NW (extends to NW entrance)
-      { x: 0.196, y: 0.3338 },                            // J_N1
+      { x: 0.196, y: 0.3338 },                            // J_F1_N1
     ],
   },
   {
@@ -97,7 +96,7 @@ const corridors: Corridor[] = [
     floor: 'floor1',
     path: [
       { x: 0.1437073852451179, y: 0.8657378089700224 }, // J_SW (extends to SW entrance)
-      { x: 0.1437073852451179, y: 0.6567447666141696 }, // J_S1
+      { x: 0.1437073852451179, y: 0.6567447666141696 }, // J_F1_S1
       { x: 0.14278911153904564, y: 0.3350221544888903 }, // near J_NW
     ],
   },
@@ -118,8 +117,8 @@ const nodes: GraphNode[] = [
   // navigation polyline overlays the dashed corridor.
   // J_NW — F1_CORR_NORTH[0] / F1_CORR_SW[2] (visually at NW entrance)
   { id: 'J_NW', position: { x: 0.13820, y: 0.33249 }, floor: 'floor1' },
-  // J_N1 — F1_CORR_NORTH[1] + F1_CONN_W[0]
-  { id: 'J_N1', position: { x: 0.196, y: 0.3376 }, floor: 'floor1' },
+  // J_F1_N1 — F1_CORR_NORTH[1] + F1_CONN_W[0]
+  { id: 'J_F1_N1', position: { x: 0.196, y: 0.3376 }, floor: 'floor1' },
   // J_M0 — F1_CORR_MID[0] + F1_CONN_W[1]
   { id: 'J_M0', position: { x: 0.20151, y: 0.39745 }, floor: 'floor1' },
   { id: 'J_M1', position: { x: 0.27886, y: 0.41247 }, floor: 'floor1' },
@@ -134,8 +133,8 @@ const nodes: GraphNode[] = [
   { id: 'J_NE', position: { x: 0.85354, y: 0.35782 }, floor: 'floor1' },
   // F1_CORR_SW junctions
   { id: 'J_SW', position: { x: 0.14371, y: 0.86574 }, floor: 'floor1' },
-  { id: 'J_S1', position: { x: 0.14371, y: 0.65674 }, floor: 'floor1' },
-  // South-east branch (extends from J_M6 downward, serves EB104 / EB106 / F1_ELEV_E)
+  { id: 'J_F1_S1', position: { x: 0.14371, y: 0.65674 }, floor: 'floor1' },
+  // South-east branch (extends from J_M6 downward, serves EB104 / EB106)
   { id: 'J_SE0', position: { x: 0.717, y: 0.46 }, floor: 'floor1' },
   { id: 'J_SE1', position: { x: 0.717, y: 0.55 }, floor: 'floor1' },
 
@@ -179,7 +178,6 @@ const nodes: GraphNode[] = [
 
   // Facility nodes (same id as room id)
   { id: 'F1_ELEV_N', position: { x: 0.16391, y: 0.27802 }, floor: 'floor1' },
-  { id: 'F1_ELEV_E', position: { x: 0.65243, y: 0.58201 }, floor: 'floor1' },
   { id: 'F1_STAIR_NW', position: { x: 0.21717, y: 0.25396 }, floor: 'floor1' },
   { id: 'F1_STAIR_NE', position: { x: 0.83150, y: 0.25016 }, floor: 'floor1' },
   { id: 'F1_STAIR_SW', position: { x: 0.1777, y: 0.7657 }, floor: 'floor1' },
@@ -198,7 +196,7 @@ function edge(from: string, to: string): GraphEdge {
   return { from, to, weight: dist(a.position, b.position) };
 }
 
-// NOTE: NW and SW are connected on floor 1 via the exterior corridor (J_SW → J_S1 → J_NW).
+// NOTE: NW and SW are connected on floor 1 via the exterior corridor (J_SW → J_F1_S1 → J_NW).
 // SW has NO direct interior connections — all routes from SW must traverse J_NW first.
 const edges: GraphEdge[] = [
   // ── Entrance connections ──
@@ -207,10 +205,10 @@ const edges: GraphEdge[] = [
   edge('SW', 'J_SW'),
 
   // ── Corridor backbone ──
-  // F1_CORR_NORTH: J_NW → J_N1
-  edge('J_NW', 'J_N1'),
-  // F1_CONN_W: J_N1 → J_M0
-  edge('J_N1', 'J_M0'),
+  // F1_CORR_NORTH: J_NW → J_F1_N1
+  edge('J_NW', 'J_F1_N1'),
+  // F1_CONN_W: J_F1_N1 → J_M0
+  edge('J_F1_N1', 'J_M0'),
   // F1_CORR_MID: J_M0 → ... → J_NE (subdivided by per-room drop-in junctions)
   edge('J_M0', 'DROP_EB137'),
   edge('DROP_EB137', 'J_M1'),
@@ -230,9 +228,9 @@ const edges: GraphEdge[] = [
   edge('J_M6', 'DROP_EB108'),
   edge('DROP_EB108', 'J_M7'),
   edge('J_M7', 'J_NE'),
-  // F1_CORR_SW: J_SW → J_S1 → J_NW (exterior path only, no interior shortcuts)
-  edge('J_SW', 'J_S1'),
-  edge('J_S1', 'J_NW'),
+  // F1_CORR_SW: J_SW → J_F1_S1 → J_NW (exterior path only, no interior shortcuts)
+  edge('J_SW', 'J_F1_S1'),
+  edge('J_F1_S1', 'J_NW'),
 
   // ── South-east branch: J_M6 → J_SE0 → J_SE1 ──
   edge('J_M6', 'J_SE0'),
@@ -240,8 +238,8 @@ const edges: GraphEdge[] = [
 
   // ── Door → drop-in / junction (perpendicular drop wherever possible) ──
   // NW cluster (no drop-ins — corridor doesn't extend that far north)
-  edge('J_N1', 'D_EB142'),
-  edge('J_N1', 'D_EB139'),
+  edge('J_F1_N1', 'D_EB142'),
+  edge('J_F1_N1', 'D_EB139'),
   // Mid-corridor (north side) — vertical drop from corridor
   edge('DROP_EB137',  'D_EB137'),
   edge('DROP_EB133',  'D_EB133'),
@@ -268,9 +266,8 @@ const edges: GraphEdge[] = [
   edge('J_SE1', 'D_EB104'),
 
   // ── Facilities ──
-  edge('J_N1', 'F1_ELEV_N'),
-  edge('J_SE1', 'F1_ELEV_E'),
-  edge('J_N1', 'F1_STAIR_NW'),
+  edge('J_F1_N1', 'F1_ELEV_N'),
+  edge('J_F1_N1', 'F1_STAIR_NW'),
   edge('J_NE', 'F1_STAIR_NE'),
   edge('J_SW', 'F1_STAIR_SW'),
 ];
