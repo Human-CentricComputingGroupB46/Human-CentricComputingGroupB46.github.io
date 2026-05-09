@@ -67,6 +67,14 @@ export interface FloorPlanMeta {
   viewBoxHeight: number;
 }
 
+export interface MapDetailLine {
+  id: string;
+  path: Point[];
+  strokeWidth?: number;
+  dash?: string;
+  opacity?: number;
+}
+
 export interface RouteResult {
   path: GraphNode[];
   floors: FloorId[];

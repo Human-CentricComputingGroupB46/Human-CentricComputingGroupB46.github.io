@@ -7,6 +7,8 @@ export function Header() {
   const designMode = useDesignStore((s) => s.designMode);
   const toggleDemo = useDesignStore((s) => s.toggleDemo);
   const demoMode = useDesignStore((s) => s.demoMode);
+  const showFloorImage = useDesignStore((s) => s.showFloorImage);
+  const toggleFloorImage = useDesignStore((s) => s.toggleFloorImage);
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -37,6 +39,14 @@ export function Header() {
       </div>
 
       <div className={styles.right}>
+        <button
+          type="button"
+          className={`${styles.btn} ${!showFloorImage ? styles.btnActive : ''}`}
+          onClick={toggleFloorImage}
+          title="Toggle floor image visibility"
+        >
+          {showFloorImage ? 'HIDE IMG' : 'SHOW IMG'}
+        </button>
         <button
           type="button"
           className={`${styles.btn} ${designMode ? styles.btnActive : ''}`}

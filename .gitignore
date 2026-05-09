@@ -9,3 +9,5 @@ node_modules
 **/.idea
 .DS_Store
 .env
+.claude/
+docs/

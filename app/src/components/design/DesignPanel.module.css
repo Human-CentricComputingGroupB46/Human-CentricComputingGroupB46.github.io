@@ -8,7 +8,7 @@
 }
 
 .header {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .title {
@@ -20,7 +20,7 @@
 
 .hint {
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
   color: #64748b;
   line-height: 1.4;
 }
@@ -32,6 +32,51 @@
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: #94a3b8;
+}
+
+/* Undo / Redo */
+.undoRedo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 6px 8px;
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.undoBtn {
+  width: 32px;
+  height: 28px;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 1;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.undoBtn:hover:not(:disabled) {
+  color: #fff;
+  background: rgba(230, 126, 34, 0.2);
+  border-color: rgba(230, 126, 34, 0.35);
+}
+
+.undoBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.historyCount {
+  margin-left: auto;
+  font-size: 11px;
+  color: #64748b;
+  font-family: 'SF Mono', 'Fira Code', monospace;
 }
 
 /* Inspector */
@@ -63,6 +108,86 @@
   color: #e2e8f0;
   font-family: 'SF Mono', 'Fira Code', monospace;
   font-size: 11px;
+}
+
+/* Editable input rows */
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inputLabel {
+  width: 18px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  text-align: right;
+}
+
+.inputField {
+  flex: 1;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  transition: border-color 0.12s;
+  width: 0;
+  min-width: 0;
+}
+
+.inputField:focus {
+  border-color: #e67e22;
+  box-shadow: 0 0 0 1px rgba(230, 126, 34, 0.2);
+}
+
+/* Hide number input spinners for cleaner look */
+.inputField::-webkit-inner-spin-button,
+.inputField::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.inputField[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Nudge grid — 3×3 grid with center disabled */
+.nudgeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
+  gap: 4px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.nudgeBtn {
+  width: 32px;
+  height: 28px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nudgeBtn:hover:not(:disabled) {
+  color: #e2e8f0;
+  background: rgba(230, 126, 34, 0.15);
+  border-color: rgba(230, 126, 34, 0.3);
+}
+
+.nudgeBtn:disabled {
+  visibility: hidden;
 }
 
 .propActions {
