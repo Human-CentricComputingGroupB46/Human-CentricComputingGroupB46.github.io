@@ -275,6 +275,212 @@ body {
   line-height: 1.65;
 }
 
+.requirements-checklist {
+  width: 100%;
+  margin-top: 24px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(15, 36, 69, 0.06);
+}
+
+.requirements-checklist th,
+.requirements-checklist td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.82);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.requirements-checklist th {
+  color: var(--brand-deep);
+  background: linear-gradient(135deg, #edf3f8 0%, #f8fbfd 100%);
+  font-weight: 800;
+}
+
+.requirements-checklist td {
+  color: #3f4d60;
+}
+
+.requirements-checklist tr:last-child td {
+  border-bottom: none;
+}
+
+.requirements-checklist td:last-child {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.evidence-chain-card {
+  position: relative;
+  margin-top: 24px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(205, 216, 231, 0.86);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%);
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055);
+}
+
+.evidence-chain-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #f4c264 0%, #2f7f79 100%);
+  opacity: 0.58;
+}
+
+.evidence-chain-card--preview {
+  margin-top: 0;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045);
+}
+
+.evidence-chain-card--core {
+  margin: 26px 0 28px;
+}
+
+.evidence-chain-card--validation {
+  margin: 0 0 26px;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045);
+}
+
+.evidence-chain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 4px 9px;
+  border: 1px solid rgba(205, 216, 231, 0.82);
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.82);
+  color: var(--brand-deep);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.evidence-chain-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  opacity: 0.72;
+  box-shadow: 0 0 0 2px rgba(247, 148, 30, 0.1);
+}
+
+.evidence-chain-title {
+  margin: 10px 0 0;
+  color: var(--brand-deep);
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.2;
+}
+
+.evidence-chain-card--preview .evidence-chain-title,
+.evidence-chain-card--validation .evidence-chain-title {
+  font-size: clamp(18px, 1.8vw, 23px);
+}
+
+.evidence-chain-copy {
+  margin: 8px 0 0;
+  max-width: 860px;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evidence-chain-table-wrap {
+  width: 100%;
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid rgba(205, 216, 231, 0.86);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 18px rgba(36, 59, 99, 0.045);
+}
+
+.evidence-chain-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
+.evidence-chain-table th,
+.evidence-chain-table td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.74);
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.evidence-chain-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%);
+  color: var(--brand-deep);
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.evidence-chain-table td {
+  color: #34495f;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.evidence-chain-table tbody tr:nth-child(even) td {
+  background: rgba(248, 250, 252, 0.88);
+}
+
+.evidence-chain-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.evidence-chain-table .is-requirement {
+  background: linear-gradient(135deg, rgba(255, 248, 237, 0.62), rgba(255, 255, 255, 0.78));
+  color: var(--brand-deep);
+  font-weight: 650;
+}
+
+.evidence-chain-pill {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 6px 4px 0;
+  padding: 2px 6px;
+  border: 1px solid rgba(47, 127, 121, 0.16);
+  border-radius: 999px;
+  background: rgba(237, 246, 244, 0.74);
+  color: #49627c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.evidence-chain-takeaway {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid rgba(247, 148, 30, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.54);
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .intro-stats {
   margin-top: 36px;
   display: grid;
@@ -536,6 +742,31 @@ body {
   color: #3f4d60;
   line-height: 1.75;
   font-size: 17px;
+}
+
+.evidence-chain-card .evidence-chain-title {
+  margin: 10px 0 0;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.2;
+}
+
+.evidence-chain-card .evidence-chain-copy {
+  margin: 8px 0 0;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evidence-chain-card .evidence-chain-takeaway {
+  margin: 14px 0 0;
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.evidence-chain-card.evidence-chain-card--preview .evidence-chain-title,
+.evidence-chain-card.evidence-chain-card--validation .evidence-chain-title {
+  font-size: clamp(18px, 1.8vw, 23px);
 }
 
 .link-row {
@@ -2364,6 +2595,14 @@ body[data-route="evaluation"] .hero {
   .architecture-flow {
     grid-template-columns: 1fr;
   }
+
+  .evidence-chain-card {
+    padding: 18px;
+  }
+
+  .evidence-chain-table {
+    min-width: 720px;
+  }
 }
 
 @media (max-width: 680px) {
@@ -2378,6 +2617,23 @@ body[data-route="evaluation"] .hero {
 
   .comparison-media img {
     max-height: 220px;
+  }
+
+  .evidence-chain-card {
+    padding: 16px;
+  }
+
+  .evidence-chain-title {
+    font-size: 20px;
+  }
+
+  .evidence-chain-copy,
+  .evidence-chain-takeaway {
+    font-size: 13px;
+  }
+
+  .evidence-chain-table {
+    min-width: 620px;
   }
 }
 
@@ -2440,6 +2696,43 @@ body[data-route="evaluation"] .hero {
     radial-gradient(circle at top right, rgba(43, 76, 126, 0.08), transparent 30%),
     linear-gradient(135deg, #ffffff 0%, #f7fafc 54%, #edf3f8 100%) !important;
   box-shadow: 0 18px 38px rgba(15, 36, 69, 0.07);
+}
+
+.content .evidence-chain-card {
+  border-color: rgba(205, 216, 231, 0.86) !important;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%) !important;
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055) !important;
+}
+
+.content .evidence-chain-card--preview,
+.content .evidence-chain-card--validation {
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.045) !important;
+}
+
+.content .evidence-chain-table-wrap {
+  border-color: rgba(205, 216, 231, 0.86) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.content .evidence-chain-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%) !important;
+  color: var(--content-ink) !important;
+}
+
+.content .evidence-chain-table td {
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #34495f !important;
+}
+
+.content .evidence-chain-table tbody tr:nth-child(even) td {
+  background: rgba(248, 250, 252, 0.88) !important;
+}
+
+.content .evidence-chain-table .is-requirement {
+  background: linear-gradient(135deg, rgba(255, 248, 237, 0.62), rgba(255, 255, 255, 0.78)) !important;
+  color: var(--content-ink) !important;
 }
 
 .detail-stage-card {
@@ -2764,6 +3057,7 @@ body[data-route="evaluation"] .hero {
           CampusCompass addresses a common EB building problem: room codes such as EB204 reveal the floor but not the wing, closest entrance, or turning decisions. Users choose their entrance, enter a target room, and receive map-based guidance with concise steps.
         </p>
       </div>
+
       <div class="intro-stats" aria-label="Project highlights">
         <div class="stat-card-moved">
           <strong>3</strong>
@@ -2778,6 +3072,69 @@ body[data-route="evaluation"] .hero {
           <span>estimated time saved in user testing</span>
         </div>
       </div>
+
+            <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
+        <thead>
+          <tr>
+            <th>Requirement</th>
+            <th>Evidence in Portfolio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Why statement</td><td>Section 1.1</td></tr>
+          <tr><td>4 academic papers</td><td>Section 1.2 Academic Papers</td></tr>
+          <tr><td>4 commercial products</td><td>Section 1.2 Commercial Products</td></tr>
+          <tr><td>Primary and secondary personas</td><td>Section 1.3</td></tr>
+          <tr><td>Journey map</td><td>Section 2.1</td></tr>
+          <tr><td>3 must-have requirements</td><td>Section 2.2</td></tr>
+          <tr><td>5 evidence photos</td><td>Section 2.3</td></tr>
+          <tr><td>Crazy 8 sketches</td><td>Section 3.1</td></tr>
+          <tr><td>3 alternatives</td><td>Section 3.2</td></tr>
+          <tr><td>Low-fi Figma</td><td>Section 3.3</td></tr>
+          <tr><td>System architecture</td><td>Section 4.1</td></tr>
+          <tr><td>High-fi URL</td><td>Section 4.2</td></tr>
+          <tr><td>Individual contribution</td><td>Section 4.3</td></tr>
+          <tr><td>AI disclosure</td><td>Section 4.3 / 5 References</td></tr>
+          <tr><td>Usability testing with 3 real users</td><td>Section 5.1</td></tr>
+          <tr><td>Before/After refinement</td><td>Section 5.2</td></tr>
+          <tr><td>Final reflection + ethics + AI</td><td>Section 5.3</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-card scroll-fx home-section evidence-chain-card evidence-chain-card--preview" id="evidence-chain-preview" aria-labelledby="evidence-chain-preview-title">
+      <span class="evidence-chain-badge">Process Snapshot</span>
+      <h2 class="evidence-chain-title" id="evidence-chain-preview-title">Evidence Chain Preview</h2>
+      <p class="evidence-chain-copy">
+        This snapshot shows how early research insights shaped the core CampusCompass design responses.
+      </p>
+      <div class="evidence-chain-table-wrap">
+        <table class="evidence-chain-table" aria-label="Evidence chain preview from research insight to design response">
+          <thead>
+            <tr>
+              <th>Research Insight</th>
+              <th>&rarr; Design Response</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Users could read room codes but could not infer the actual route.</td>
+              <td>Room-code search and route generation.</td>
+            </tr>
+            <tr>
+              <td>Users hesitated at stairs and corridor turns.</td>
+              <td>Step-by-step route instructions.</td>
+            </tr>
+            <tr>
+              <td>Users lacked confidence after reaching the destination.</td>
+              <td>Clear arrival confirmation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="evidence-chain-takeaway">
+        CampusCompass was designed as a research-driven response to confusion around room codes, floor changes, and route confidence.
+      </p>
     </section>
 
     <section class="section-card scroll-fx home-section" id="progress">
@@ -3444,6 +3801,61 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
+      <section class="evidence-chain-card evidence-chain-card--core" aria-labelledby="evidence-chain-core-title">
+        <span class="evidence-chain-badge">Core Traceability</span>
+        <h3 class="evidence-chain-title" id="evidence-chain-core-title">Research-to-Requirement Evidence Chain</h3>
+        <p class="evidence-chain-copy">
+          This table shows how user research findings were translated into concrete design requirements and CampusCompass features.
+        </p>
+        <div class="evidence-chain-table-wrap">
+          <table class="evidence-chain-table" aria-label="Research-to-requirement evidence chain">
+            <thead>
+              <tr>
+                <th>Research Evidence</th>
+                <th>&rarr; Pain Point Identified</th>
+                <th>&rarr; Design Requirement</th>
+                <th>&rarr; CampusCompass Feature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Interview participants could read EB204 but did not know which entrance, stairs, or corridor to use.</td>
+                <td>Room codes reveal limited spatial information.</td>
+                <td class="is-requirement">The system must translate room codes into clear route information.</td>
+                <td>Room-code search with route generation.</td>
+              </tr>
+              <tr>
+                <td>Observation showed users paused at stairs and corridor intersections.</td>
+                <td>Users lose confidence at key decision points.</td>
+                <td class="is-requirement">The system must provide step-by-step guidance.</td>
+                <td>Text instruction cards with map highlights.</td>
+              </tr>
+              <tr>
+                <td>Users wanted to know whether they were moving in the correct direction.</td>
+                <td>Users need immediate feedback after entering a destination.</td>
+                <td class="is-requirement">The system must provide instant visual feedback.</td>
+                <td>Highlighted route and destination marker.</td>
+              </tr>
+              <tr>
+                <td>Participants were unsure when the route was complete.</td>
+                <td>The end of the journey lacks confirmation.</td>
+                <td class="is-requirement">The system must provide a clear arrival signal.</td>
+                <td>Completion message and final destination confirmation.</td>
+              </tr>
+              <tr>
+                <td>Evidence photos showed repeated hesitation around floor changes.</td>
+                <td>Floor transitions are a major source of confusion.</td>
+                <td class="is-requirement">The system must make floor changes explicit.</td>
+                <td>Floor-specific route steps and stair guidance.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="evidence-chain-takeaway">
+          The final must-have requirements were derived from repeated user confusion around room codes, floor changes, and route confidence.
+        </p>
+      </section>
+
       <h3 class="subsection-title">2.2 Requirements List (3 Must-Haves)</h3>
       <div class="must-have-grid">
         <article class="must-have-card">
@@ -3796,6 +4208,50 @@ body[data-route="evaluation"] .hero {
           </div>
         </div>
       </article>
+
+      <section class="evidence-chain-card evidence-chain-card--validation" aria-labelledby="evidence-chain-validation-title">
+        <span class="evidence-chain-badge">Validation</span>
+        <h3 class="evidence-chain-title" id="evidence-chain-validation-title">Requirement Validation Through Usability Testing</h3>
+        <p class="evidence-chain-copy">
+          This table connects the original must-have requirements to usability testing evidence and refinement decisions.
+        </p>
+        <div class="evidence-chain-table-wrap">
+          <table class="evidence-chain-table" aria-label="Requirement validation through usability testing">
+            <thead>
+              <tr>
+                <th>Requirement Tested</th>
+                <th>&rarr; Testing Evidence</th>
+                <th>&rarr; Iteration Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Instant visual feedback.</td>
+                <td>Users noticed the route faster after entering the room code.</td>
+                <td>Keep the input-result interaction prominent.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Step-by-step route guidance.</td>
+                <td>Users relied on text steps at stairs and corridor turns.</td>
+                <td>Make instruction cards clearer and more visible.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Clear completion signal.</td>
+                <td>Users felt more confident when the route ended with confirmation.</td>
+                <td>Add a stronger arrival state.</td>
+              </tr>
+              <tr>
+                <td><span class="evidence-chain-pill">Tested</span>Floor-specific guidance.</td>
+                <td>Users hesitated less when floor changes were explicitly shown.</td>
+                <td>Keep stairs and floor transitions as separate route steps.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="evidence-chain-takeaway">
+          This validation step shows that the requirements identified in Section 2 were tested again during the evaluation stage and used to guide refinement.
+        </p>
+      </section>
 
       <h3 class="subsection-title">5.2 Iterative Refinement</h3>
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
