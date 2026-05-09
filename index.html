@@ -275,30 +275,78 @@ body {
   line-height: 1.65;
 }
 
+.requirement-map-card {
+  margin-top: 18px;
+  border: 1px solid rgba(205, 216, 231, 0.84);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.045), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbfd 58%, #edf3f8 100%);
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(15, 36, 69, 0.04);
+}
+
+.requirement-map-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.requirement-map-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.requirement-map-head p {
+  margin: 4px 0 0;
+  color: #526378;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.requirement-map-badge {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.76);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+}
+
+.requirement-map-table-wrap {
+  border: 1px solid rgba(205, 216, 231, 0.74);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.64);
+  overflow-x: auto;
+}
+
 .requirements-checklist {
   width: 100%;
-  margin-top: 24px;
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
-  border: 1px solid rgba(205, 216, 231, 0.9);
-  border-radius: 14px;
-  background: #ffffff;
-  box-shadow: 0 14px 28px rgba(15, 36, 69, 0.06);
+  background: transparent;
 }
 
 .requirements-checklist th,
 .requirements-checklist td {
-  padding: 11px 14px;
+  padding: 7px 10px;
   text-align: left;
-  border-bottom: 1px solid rgba(216, 224, 236, 0.82);
-  font-size: 14px;
-  line-height: 1.45;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.68);
+  font-size: 13.5px;
+  line-height: 1.35;
 }
 
 .requirements-checklist th {
   color: var(--brand-deep);
-  background: linear-gradient(135deg, #edf3f8 0%, #f8fbfd 100%);
+  background: linear-gradient(135deg, rgba(237, 243, 248, 0.76) 0%, rgba(248, 251, 253, 0.76) 100%);
   font-weight: 800;
 }
 
@@ -311,8 +359,21 @@ body {
 }
 
 .requirements-checklist td:last-child {
-  color: var(--accent);
-  font-weight: 700;
+  color: var(--brand-deep);
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.requirement-section-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.78);
+  color: var(--content-accent-2, #2b4c7e);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 4px 8px;
 }
 
 .evidence-chain-card {
@@ -2052,8 +2113,8 @@ body[data-route="evaluation"] .hero {
 .evidence-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .evidence-item {
@@ -2107,7 +2168,7 @@ body[data-route="evaluation"] .hero {
 .evidence-item h4 {
   margin: 0;
   color: var(--brand-deep);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .evidence-item p {
@@ -2120,19 +2181,26 @@ body[data-route="evaluation"] .hero {
 .evidence-caption {
   margin-top: 10px;
   display: grid;
-  gap: 6px;
+  gap: 7px;
 }
 
 .evidence-caption p {
   margin: 0;
   color: #4c5b70;
-  font-size: 12.5px;
-  line-height: 1.45;
+  font-size: 13.3px;
+  line-height: 1.5;
 }
 
 .evidence-caption strong {
   color: var(--brand-deep);
   font-weight: 800;
+}
+
+.evidence-caption .evidence-finding {
+  padding: 7px 9px;
+  border-left: 2px solid rgba(247, 148, 30, 0.56);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.42);
 }
 
 .evidence-note {
@@ -2144,6 +2212,166 @@ body[data-route="evaluation"] .hero {
   color: #4c5b70;
   font-size: 13px;
   line-height: 1.55;
+}
+
+.lowfi-prototype-module {
+  display: grid;
+  gap: 13px;
+}
+
+.lowfi-prototype-module .lowfi-intro,
+.lowfi-prototype-module .lowfi-caption {
+  margin: 0 !important;
+  color: #4c5b70 !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+}
+
+.lowfi-link-row {
+  margin: 0 !important;
+  color: #4c5b70 !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+}
+
+.lowfi-overview-card {
+  border: 1px solid rgba(211, 222, 237, 0.92);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 10px 10px 12px;
+  box-shadow: 0 7px 18px rgba(36, 59, 99, 0.04);
+}
+
+.content-card .lowfi-section-title {
+  margin: 0 0 8px !important;
+  color: var(--brand-deep) !important;
+  font-size: 18px !important;
+  line-height: 1.25 !important;
+}
+
+.lowfi-image-frame {
+  overflow: hidden;
+  border: 1px solid rgba(203, 214, 229, 0.95);
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.lowfi-overview-image {
+  display: block;
+  width: 124%;
+  max-width: none;
+  height: auto;
+  margin: -1.5% 0 -3% -12%;
+}
+
+.lowfi-caption {
+  margin-top: 8px !important;
+}
+
+.lowfi-callout-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lowfi-callout {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 12px;
+  min-height: 126px;
+  box-shadow: 0 7px 16px rgba(36, 59, 99, 0.04);
+}
+
+.lowfi-callout-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 23px;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.82);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.content-card .lowfi-callout h5 {
+  margin: 0 !important;
+  color: var(--brand-deep) !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+}
+
+.lowfi-callout p {
+  margin: 6px 0 0 !important;
+  color: #526378 !important;
+  font-size: 13.4px !important;
+  line-height: 1.48 !important;
+}
+
+.lowfi-flow-note,
+.lowfi-takeaway {
+  margin: 0 !important;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(247, 148, 30, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.48);
+  color: #4c5b70 !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+}
+
+.lowfi-table-wrap {
+  border: 1px solid rgba(205, 216, 231, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow-x: auto;
+}
+
+.lowfi-purpose-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #34495f;
+}
+
+.lowfi-purpose-table th,
+.lowfi-purpose-table td {
+  padding: 9px 11px;
+  border-bottom: 1px solid rgba(211, 222, 237, 0.86);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.lowfi-purpose-table th:nth-child(1),
+.lowfi-purpose-table td:nth-child(1) {
+  width: 24%;
+}
+
+.lowfi-purpose-table th:nth-child(2),
+.lowfi-purpose-table td:nth-child(2) {
+  width: 26%;
+}
+
+.lowfi-purpose-table th:nth-child(3),
+.lowfi-purpose-table td:nth-child(3) {
+  width: 50%;
+}
+
+.lowfi-purpose-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.82), rgba(241, 246, 250, 0.82));
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.lowfi-purpose-table tr:last-child td {
+  border-bottom: none;
 }
 
 .compare-table,
@@ -3051,6 +3279,7 @@ body[data-route="evaluation"] .hero {
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .data-flow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .routing-logic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lowfi-callout-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-process-grid { grid-template-columns: 1fr; }
   .flow-step::after { display: none; }
 }
@@ -3074,7 +3303,8 @@ body[data-route="evaluation"] .hero {
   .must-have-grid,
   .persona-blocks,
   .progress-grid,
-  .evidence-grid {
+  .evidence-grid,
+  .lowfi-callout-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3261,13 +3491,20 @@ body[data-route="evaluation"] .hero {
 .content .evidence-caption p {
   margin: 0 !important;
   color: #4c5b70 !important;
-  font-size: 12.5px !important;
-  line-height: 1.45 !important;
+  font-size: 13.3px !important;
+  line-height: 1.5 !important;
 }
 
 .content .evidence-caption strong {
   color: var(--brand-deep) !important;
   font-weight: 800 !important;
+}
+
+.content .evidence-caption .evidence-finding {
+  padding: 7px 9px !important;
+  border-left: 2px solid rgba(247, 148, 30, 0.56) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 248, 237, 0.42) !important;
 }
 
 .content-card .evidence-note {
@@ -3679,33 +3916,44 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
-            <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
-        <thead>
-          <tr>
-            <th>Requirement</th>
-            <th>Evidence in Portfolio</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Why statement</td><td>Section 1.1</td></tr>
-          <tr><td>4 academic papers</td><td>Section 1.2 Academic Papers</td></tr>
-          <tr><td>4 commercial products</td><td>Section 1.2 Commercial Products</td></tr>
-          <tr><td>Primary and secondary personas</td><td>Section 1.3</td></tr>
-          <tr><td>Journey map</td><td>Section 2.1</td></tr>
-          <tr><td>3 must-have requirements</td><td>Section 2.2</td></tr>
-          <tr><td>5 evidence photos</td><td>Section 2.3</td></tr>
-          <tr><td>Crazy 8 sketches</td><td>Section 3.1</td></tr>
-          <tr><td>3 alternatives</td><td>Section 3.2</td></tr>
-          <tr><td>Low-fi Figma</td><td>Section 3.3</td></tr>
-          <tr><td>System architecture</td><td>Section 4.1</td></tr>
-          <tr><td>High-fi URL</td><td>Section 4.2</td></tr>
-          <tr><td>Individual contribution</td><td>Section 4.3</td></tr>
-          <tr><td>AI disclosure</td><td>Section 4.3 / 5 References</td></tr>
-          <tr><td>Usability testing with 3 real users</td><td>Section 5.1</td></tr>
-          <tr><td>Before/After refinement</td><td>Section 5.2</td></tr>
-          <tr><td>Final reflection + ethics + AI</td><td>Section 5.4</td></tr>
-        </tbody>
-      </table>
+      <section class="requirement-map-card" aria-labelledby="requirement-map-title">
+        <div class="requirement-map-head">
+          <div>
+            <h3 id="requirement-map-title">Portfolio Requirement Map</h3>
+            <p>This map shows where each portfolio requirement is evidenced in the project.</p>
+          </div>
+          <span class="requirement-map-badge">Checklist</span>
+        </div>
+        <div class="requirement-map-table-wrap">
+          <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Evidence in Portfolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Why statement</td><td><span class="requirement-section-chip">Section 1.1</span></td></tr>
+              <tr><td>4 academic papers</td><td><span class="requirement-section-chip">Section 1.2 Academic Papers</span></td></tr>
+              <tr><td>4 commercial products</td><td><span class="requirement-section-chip">Section 1.2 Commercial Products</span></td></tr>
+              <tr><td>Primary and secondary personas</td><td><span class="requirement-section-chip">Section 1.3</span></td></tr>
+              <tr><td>Journey map</td><td><span class="requirement-section-chip">Section 2.1</span></td></tr>
+              <tr><td>3 must-have requirements</td><td><span class="requirement-section-chip">Section 2.2</span></td></tr>
+              <tr><td>5 evidence photos</td><td><span class="requirement-section-chip">Section 2.3</span></td></tr>
+              <tr><td>Crazy 8 sketches</td><td><span class="requirement-section-chip">Section 3.1</span></td></tr>
+              <tr><td>3 alternatives</td><td><span class="requirement-section-chip">Section 3.2</span></td></tr>
+              <tr><td>Low-fi Figma</td><td><span class="requirement-section-chip">Section 3.3</span></td></tr>
+              <tr><td>System architecture</td><td><span class="requirement-section-chip">Section 4.1</span></td></tr>
+              <tr><td>High-fi URL</td><td><span class="requirement-section-chip">Section 4.2</span></td></tr>
+              <tr><td>Individual contribution</td><td><span class="requirement-section-chip">Section 4.3</span></td></tr>
+              <tr><td>AI disclosure</td><td><span class="requirement-section-chip">Section 4.3 / 5 References</span></td></tr>
+              <tr><td>Usability testing with 3 real users</td><td><span class="requirement-section-chip">Section 5.1</span></td></tr>
+              <tr><td>Before / After refinement</td><td><span class="requirement-section-chip">Section 5.2</span></td></tr>
+              <tr><td>Final reflection + ethics + AI</td><td><span class="requirement-section-chip">Section 5.4</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
     <section class="section-card scroll-fx home-section evidence-chain-card evidence-chain-card--preview" id="evidence-chain-preview" aria-labelledby="evidence-chain-preview-title">
@@ -4545,10 +4793,9 @@ body[data-route="evaluation"] .hero {
             <div class="evidence-caption">
               <p><strong>Date:</strong> April 2026</p>
               <p><strong>Location:</strong> EB Building study area</p>
-              <p><strong>Participant type:</strong> First-year / current student</p>
-              <p><strong>Activity:</strong> Interviewed a target user about how they understand EB room codes and how they normally find unfamiliar classrooms.</p>
-              <p><strong>Evidence produced:</strong> The interview confirmed that users can often identify the floor from a room code but still struggle to choose the correct entrance, stairs, and corridor route.</p>
-              <p><strong>Consent:</strong> Photo used with participant permission; personal details anonymised.</p>
+              <p><strong>Activity:</strong> Interview with first-year / current student about room-code interpretation.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Users could identify the floor but not the correct entrance, stairs, or corridor.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
             </div>
           </div>
         </article>
@@ -4561,10 +4808,9 @@ body[data-route="evaluation"] .hero {
             <div class="evidence-caption">
               <p><strong>Date:</strong> April 2026</p>
               <p><strong>Location:</strong> Campus classroom / discussion space</p>
-              <p><strong>Participant type:</strong> Potential student users</p>
-              <p><strong>Activity:</strong> Discussed possible interactive features, including room-code input, map feedback, and route instruction format.</p>
-              <p><strong>Evidence produced:</strong> Participants preferred direct classroom-code search and immediate visual feedback instead of browsing a full map manually.</p>
-              <p><strong>Consent:</strong> Photo used with participant permission; personal details anonymised.</p>
+              <p><strong>Activity:</strong> Feature discussion with potential student users about input, map feedback, and route instructions.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Users preferred direct classroom-code search and immediate visual feedback over manual map browsing.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
             </div>
           </div>
         </article>
@@ -4577,9 +4823,8 @@ body[data-route="evaluation"] .hero {
             <div class="evidence-caption">
               <p><strong>Date:</strong> April 2026</p>
               <p><strong>Location:</strong> EB Building corridors and classroom area</p>
-              <p><strong>Participant type:</strong> Research team / observed wayfinding context</p>
-              <p><strong>Activity:</strong> Surveyed the EB building structure, classroom layout, signage, entrances, stairs, and corridor decision points.</p>
-              <p><strong>Evidence produced:</strong> The observation showed that floor transitions and corridor intersections are key moments where users may lose confidence.</p>
+              <p><strong>Activity:</strong> On-site observation of building structure, signage, entrances, stairs, and corridor decision points.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Floor transitions and corridor intersections were key moments where users could lose confidence.</p>
               <p><strong>Consent:</strong> No sensitive personal data collected; public building environment documented for research purposes.</p>
             </div>
           </div>
@@ -4593,9 +4838,8 @@ body[data-route="evaluation"] .hero {
             <div class="evidence-caption">
               <p><strong>Date:</strong> April 2026</p>
               <p><strong>Location:</strong> Campus research session</p>
-              <p><strong>Participant type:</strong> Research participants</p>
-              <p><strong>Activity:</strong> Collected consent and recorded notes before interviews and usability testing activities.</p>
-              <p><strong>Evidence produced:</strong> This record supports ethical data collection and documents the research process behind the user requirements.</p>
+              <p><strong>Activity:</strong> Consent collection and note-taking with research participants before interviews and usability testing.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> This record supports ethical data collection and documents how user requirements were gathered.</p>
               <p><strong>Consent:</strong> Participants were informed of the research purpose; personal details anonymised.</p>
             </div>
           </div>
@@ -4609,10 +4853,9 @@ body[data-route="evaluation"] .hero {
             <div class="evidence-caption">
               <p><strong>Date:</strong> April 2026</p>
               <p><strong>Location:</strong> Campus testing session</p>
-              <p><strong>Participant type:</strong> Alpha test participants</p>
-              <p><strong>Activity:</strong> Observed users completing a classroom-finding task with the CampusCompass prototype.</p>
-              <p><strong>Evidence produced:</strong> The test revealed hesitation around input clarity, route steps, floor changes, and arrival confirmation, which informed the refinement decisions in Section 5.</p>
-              <p><strong>Consent:</strong> Photo used with participant permission; personal details anonymised.</p>
+              <p><strong>Activity:</strong> Alpha usability test participants completed a classroom-finding task with the CampusCompass prototype.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Hesitation around input clarity, route steps, floor changes, and arrival confirmation informed Section 5 refinements.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
             </div>
           </div>
         </article>
@@ -4683,9 +4926,109 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">3.3 Low-Fi Prototype</h3>
-      <div class="content-card">
-        <p>
-          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View prototype</a>
+      <div class="content-card lowfi-prototype-module">
+        <p class="lowfi-intro">
+          The low-fi prototype was created to test the basic navigation flow before visual refinement. It focuses on layout, input structure, route feedback, and kiosk-style interaction rather than final visual styling.
+        </p>
+        <p class="lowfi-intro">
+          This prototype turns the selected 2D top-down map + text-steps alternative into a clickable early interaction flow.
+        </p>
+        <p class="lowfi-link-row">
+          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View low-fi prototype</a>
+        </p>
+
+        <figure class="lowfi-overview-card" aria-labelledby="lowfi-overview-title">
+          <h4 class="lowfi-section-title" id="lowfi-overview-title">Low-Fi Interface Overview</h4>
+          <div class="lowfi-image-frame">
+            <img class="lowfi-overview-image" src="images/Low-fi figma.png" alt="Low-fi CampusCompass kiosk interface showing entrance selection, room-code input, map feedback, route highlight, and route controls.">
+          </div>
+          <figcaption class="lowfi-caption">
+            This low-fi screen shows the early kiosk-style layout, including entrance selection, room-code input, map display, route description, and route feedback areas.
+          </figcaption>
+        </figure>
+
+        <section aria-labelledby="lowfi-callouts-title">
+          <h4 class="lowfi-section-title" id="lowfi-callouts-title">Prototype Callouts</h4>
+          <div class="lowfi-callout-grid">
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">01</span>
+              <h5>Entrance selector</h5>
+              <p>Defines where the user starts the route.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">02</span>
+              <h5>Room-code input</h5>
+              <p>Allows direct classroom search instead of browsing a full map.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">03</span>
+              <h5>Map display area</h5>
+              <p>Reserves space for route highlights and destination markers.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">04</span>
+              <h5>Route description panel</h5>
+              <p>Provides step-by-step guidance after route generation.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">05</span>
+              <h5>Distance / time feedback</h5>
+              <p>Gives users quick confidence before moving.</p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-labelledby="lowfi-flow-title">
+          <h4 class="lowfi-section-title" id="lowfi-flow-title">Low-Fi Flow</h4>
+          <p class="lowfi-flow-note">
+            Select entrance &rarr; Enter room code &rarr; Generate route &rarr; View map feedback &rarr; Follow step-by-step guidance &rarr; Confirm arrival
+          </p>
+        </section>
+
+        <section aria-labelledby="lowfi-purpose-title">
+          <h4 class="lowfi-section-title" id="lowfi-purpose-title">Prototype Purpose</h4>
+          <div class="lowfi-table-wrap">
+            <table class="lowfi-purpose-table" aria-label="Low-fi prototype purpose table">
+              <thead>
+                <tr>
+                  <th>Prototype Area</th>
+                  <th>Purpose</th>
+                  <th>Design Question Tested</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Entrance selection</td>
+                  <td>Defines the route starting point</td>
+                  <td>Do users understand that the starting entrance affects the route?</td>
+                </tr>
+                <tr>
+                  <td>Room-code input</td>
+                  <td>Supports direct classroom search</td>
+                  <td>Can users quickly enter a destination without browsing the map?</td>
+                </tr>
+                <tr>
+                  <td>Map display area</td>
+                  <td>Shows route and destination feedback</td>
+                  <td>Does the layout make the route area visually central?</td>
+                </tr>
+                <tr>
+                  <td>Route description</td>
+                  <td>Provides text-based instructions</td>
+                  <td>Do users understand the route without relying only on the map?</td>
+                </tr>
+                <tr>
+                  <td>Distance / time feedback</td>
+                  <td>Gives quick route confidence</td>
+                  <td>Does summary feedback help users judge the route before moving?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <p class="lowfi-takeaway">
+          Takeaway: The low-fi prototype helped us check whether the basic kiosk navigation flow was understandable before moving into high-fi visual design and implementation.
         </p>
       </div>
     </section>
@@ -5080,8 +5423,8 @@ const routeOutput = {
             <tbody>
               <tr>
                 <td>Completion Time</td>
-                <td>Average route-finding time dropped from 190.6s to 78.3s after guidance was introduced.</td>
-                <td>Step-by-step guidance helped users complete the task faster.</td>
+                <td>Compared with the existing-signage baseline, the 3-user alpha prototype test reduced average route-finding time from 190.0s to 78.3s.</td>
+                <td>Step-by-step guidance helped alpha users complete the task faster.</td>
               </tr>
               <tr>
                 <td>Task Success</td>
