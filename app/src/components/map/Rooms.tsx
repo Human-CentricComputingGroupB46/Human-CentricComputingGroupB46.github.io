@@ -47,9 +47,10 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
               y={y}
               width={w}
               height={h}
-              fill={isTarget ? 'rgba(39, 174, 96, 0.35)' : fillByType(room.type)}
-              stroke={isTarget ? COLORS.destination : COLORS.roomStroke}
+              fill={isTarget ? 'rgba(39, 174, 96, 0)' : fillByType(room.type)}
+              stroke={isTarget ? 'rgba(39, 174, 96, 0)' : COLORS.roomStroke}
               strokeWidth={isTarget ? 2.5 : 1}
+              opacity={0}
               rx={2}
               ry={2}
             />
@@ -61,6 +62,7 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
                 height={h}
                 fill="url(#hatch-pattern)"
                 stroke="none"
+                opacity={0}
                 pointerEvents="none"
               />
             )}
@@ -72,6 +74,7 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
               fontSize={fontSize}
               fontFamily="Segoe UI, system-ui, sans-serif"
               fill={COLORS.roomLabel}
+              opacity={0}
               pointerEvents="none"
             >
               {room.label}
