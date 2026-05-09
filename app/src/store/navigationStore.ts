@@ -14,6 +14,7 @@ export interface NavigationState {
 
   switchFloor: (f: FloorId) => void;
   selectEntrance: (e: EntranceId) => void;
+  setInputRoomNumber: (value: string) => void;
   inputDigit: (d: string) => void;
   clearInput: () => void;
   backspace: () => void;
@@ -36,6 +37,9 @@ export const useNavigationStore = create<NavigationState>((set) => ({
   switchFloor: (f) => set({ currentFloor: f }),
 
   selectEntrance: (e) => set({ currentEntrance: e, route: null, message: null }),
+
+  setInputRoomNumber: (value) =>
+    set({ inputRoomNumber: value.replace(/\D/g, '').slice(0, 8) }),
 
   inputDigit: (d) =>
     set((s) => ({ inputRoomNumber: s.inputRoomNumber + d })),

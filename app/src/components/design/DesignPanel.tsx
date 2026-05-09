@@ -5,13 +5,21 @@ import { useNavigationStore } from '../../store/navigationStore';
 import type { Room, Entrance, Corridor } from '../../core/types';
 import styles from './DesignPanel.module.css';
 
+/** Round to 4 decimal places for display */
+function r4(v: number): string {
+  return String(Math.round(v * 10_000) / 10_000);
+}
+
 export function DesignPanel() {
   const designMode = useDesignStore((s) => s.designMode);
   const selectedNodeId = useDesignStore((s) => s.selectedNodeId);
   const overrides = useDesignStore((s) => s.overrides);
+  const history = useDesignStore((s) => s.history);
+  const historyIndex = useDesignStore((s) => s.historyIndex);
   const patchRoom = useDesignStore((s) => s.patchRoom);
-  const patchCorridor = useDesignStore((s) => s.patchCorridor);
   const patchEntrance = useDesignStore((s) => s.patchEntrance);
+  const undo = useDesignStore((s) => s.undo);
+  const redo = useDesignStore((s) => s.redo);
   const resetFloor = useDesignStore((s) => s.resetFloor);
   const importFloor = useDesignStore((s) => s.importFloor);
   const currentFloor = useNavigationStore((s) => s.currentFloor);
@@ -33,6 +41,9 @@ export function DesignPanel() {
   const selectedCorridor = selectedNodeId
     ? floorData.corridors.find((c) => c.id === selectedNodeId) ?? null
     : null;
+
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
 
   const handleExport = () => {
     const payload = {
@@ -73,7 +84,6 @@ export function DesignPanel() {
       try {
         const imported = JSON.parse(reader.result as string);
 
-        // Build overrides from the imported data
         const rooms: Record<string, { position?: { x: number; y: number }; width?: number; height?: number }> = {};
         const entrances: Partial<Record<string, { position?: { x: number; y: number } }>> = {};
 
@@ -100,7 +110,6 @@ export function DesignPanel() {
       }
     };
     reader.readAsText(file);
-    // Reset file input so the same file can be re-imported
     e.target.value = '';
   };
 
@@ -119,8 +128,33 @@ export function DesignPanel() {
       <div className={styles.header}>
         <h3 className={styles.title}>Design Mode</h3>
         <p className={styles.hint}>
-          Click &amp; drag rooms on the map to reposition. Changes auto-save to localStorage.
+          Drag &amp; drop rooms on the map. Changes auto-save.
         </p>
+      </div>
+
+      {/* Undo / Redo */}
+      <div className={styles.undoRedo}>
+        <button
+          type="button"
+          className={styles.undoBtn}
+          onClick={undo}
+          disabled={!canUndo}
+          title="Undo (Ctrl+Z)"
+        >
+          ↩
+        </button>
+        <button
+          type="button"
+          className={styles.undoBtn}
+          onClick={redo}
+          disabled={!canRedo}
+          title="Redo (Ctrl+Shift+Z)"
+        >
+          ↪
+        </button>
+        <span className={styles.historyCount}>
+          {historyIndex + 1}/{history.length}
+        </span>
       </div>
 
       {/* Property inspector */}
@@ -140,217 +174,164 @@ export function DesignPanel() {
               <span className={styles.propLabel}>Type</span>
               <span className={styles.propValue}>{selectedRoom.type}</span>
             </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Position (x, y)</span>
-              <span className={styles.propValue}>
-                {selectedRoom.position.x.toFixed(4)}, {selectedRoom.position.y.toFixed(4)}
-              </span>
+
+            {/* Editable X */}
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>X</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedRoom.position.x)}
+                step={0.001}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchRoom(currentFloor, selectedRoom.id, { position: { x: v, y: selectedRoom.position.y } });
+                }}
+              />
             </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Size (w × h)</span>
-              <span className={styles.propValue}>
-                {selectedRoom.width.toFixed(4)} × {selectedRoom.height.toFixed(4)}
-              </span>
+
+            {/* Editable Y */}
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>Y</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedRoom.position.y)}
+                step={0.001}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchRoom(currentFloor, selectedRoom.id, { position: { x: selectedRoom.position.x, y: v } });
+                }}
+              />
             </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Move</span>
+
+            {/* Editable Width */}
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>W</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedRoom.width)}
+                step={0.001}
+                min={0.005}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchRoom(currentFloor, selectedRoom.id, { width: Math.max(0.005, v) });
+                }}
+              />
             </div>
-            <div className={styles.propActions}>
+
+            {/* Editable Height */}
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>H</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedRoom.height)}
+                step={0.001}
+                min={0.005}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchRoom(currentFloor, selectedRoom.id, { height: Math.max(0.005, v) });
+                }}
+              />
+            </div>
+
+            {/* Nudge buttons */}
+            <div className={styles.propRow}>
+              <span className={styles.propLabel}>Nudge</span>
+            </div>
+            <div className={styles.nudgeGrid}>
+              <button type="button" className={styles.nudgeBtn} disabled />
               <button
                 type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    position: {
-                      x: selectedRoom.position.x - 0.005,
-                      y: selectedRoom.position.y,
-                    },
-                  })
-                }
-                title="Nudge left"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    position: {
-                      x: selectedRoom.position.x + 0.005,
-                      y: selectedRoom.position.y,
-                    },
-                  })
-                }
-                title="Nudge right"
-              >
-                →
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    position: {
-                      x: selectedRoom.position.x,
-                      y: selectedRoom.position.y - 0.005,
-                    },
-                  })
-                }
+                className={styles.nudgeBtn}
+                onClick={() => patchRoom(currentFloor, selectedRoom.id, { position: { x: selectedRoom.position.x, y: selectedRoom.position.y - 0.005 } })}
                 title="Nudge up"
               >
                 ↑
               </button>
+              <button type="button" className={styles.nudgeBtn} disabled />
               <button
                 type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    position: {
-                      x: selectedRoom.position.x,
-                      y: selectedRoom.position.y + 0.005,
-                    },
-                  })
-                }
+                className={styles.nudgeBtn}
+                onClick={() => patchRoom(currentFloor, selectedRoom.id, { position: { x: selectedRoom.position.x - 0.005, y: selectedRoom.position.y } })}
+                title="Nudge left"
+              >
+                ←
+              </button>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button
+                type="button"
+                className={styles.nudgeBtn}
+                onClick={() => patchRoom(currentFloor, selectedRoom.id, { position: { x: selectedRoom.position.x + 0.005, y: selectedRoom.position.y } })}
+                title="Nudge right"
+              >
+                →
+              </button>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button
+                type="button"
+                className={styles.nudgeBtn}
+                onClick={() => patchRoom(currentFloor, selectedRoom.id, { position: { x: selectedRoom.position.x, y: selectedRoom.position.y + 0.005 } })}
                 title="Nudge down"
               >
                 ↓
               </button>
-            </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Scale (W × H)</span>
-            </div>
-            <div className={styles.propActions}>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    width: Math.max(0.005, selectedRoom.width - 0.005),
-                  })
-                }
-                title="Shrink width"
-              >
-                W−
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    width: selectedRoom.width + 0.005,
-                  })
-                }
-                title="Grow width"
-              >
-                W+
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    height: Math.max(0.005, selectedRoom.height - 0.005),
-                  })
-                }
-                title="Shrink height"
-              >
-                H−
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchRoom(currentFloor, selectedRoom.id, {
-                    height: selectedRoom.height + 0.005,
-                  })
-                }
-                title="Grow height"
-              >
-                H+
-              </button>
+              <button type="button" className={styles.nudgeBtn} disabled />
             </div>
           </div>
         )}
+
         {selectedEntrance && (
           <div className={styles.props}>
             <div className={styles.propRow}>
               <span className={styles.propLabel}>Entrance</span>
               <span className={styles.propValue}>{selectedEntrance.id}</span>
             </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Position (x, y)</span>
-              <span className={styles.propValue}>
-                {selectedEntrance.position.x.toFixed(4)}, {selectedEntrance.position.y.toFixed(4)}
-              </span>
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>X</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedEntrance.position.x)}
+                step={0.001}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchEntrance(currentFloor, selectedEntrance.id, { position: { x: v, y: selectedEntrance.position.y } });
+                }}
+              />
+            </div>
+            <div className={styles.inputRow}>
+              <label className={styles.inputLabel}>Y</label>
+              <input
+                type="number"
+                className={styles.inputField}
+                value={r4(selectedEntrance.position.y)}
+                step={0.001}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  if (!isNaN(v)) patchEntrance(currentFloor, selectedEntrance.id, { position: { x: selectedEntrance.position.x, y: v } });
+                }}
+              />
             </div>
             <div className={styles.propRow}>
-              <span className={styles.propLabel}>Move</span>
+              <span className={styles.propLabel}>Nudge</span>
             </div>
-            <div className={styles.propActions}>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchEntrance(currentFloor, selectedEntrance.id, {
-                    position: {
-                      x: selectedEntrance.position.x - 0.005,
-                      y: selectedEntrance.position.y,
-                    },
-                  })
-                }
-                title="Nudge left"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchEntrance(currentFloor, selectedEntrance.id, {
-                    position: {
-                      x: selectedEntrance.position.x + 0.005,
-                      y: selectedEntrance.position.y,
-                    },
-                  })
-                }
-                title="Nudge right"
-              >
-                →
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchEntrance(currentFloor, selectedEntrance.id, {
-                    position: {
-                      x: selectedEntrance.position.x,
-                      y: selectedEntrance.position.y - 0.005,
-                    },
-                  })
-                }
-                title="Nudge up"
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                className={styles.smallBtn}
-                onClick={() =>
-                  patchEntrance(currentFloor, selectedEntrance.id, {
-                    position: {
-                      x: selectedEntrance.position.x,
-                      y: selectedEntrance.position.y + 0.005,
-                    },
-                  })
-                }
-                title="Nudge down"
-              >
-                ↓
-              </button>
+            <div className={styles.nudgeGrid}>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button type="button" className={styles.nudgeBtn} onClick={() => patchEntrance(currentFloor, selectedEntrance.id, { position: { x: selectedEntrance.position.x, y: selectedEntrance.position.y - 0.005 } })} title="Nudge up">↑</button>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button type="button" className={styles.nudgeBtn} onClick={() => patchEntrance(currentFloor, selectedEntrance.id, { position: { x: selectedEntrance.position.x - 0.005, y: selectedEntrance.position.y } })} title="Nudge left">←</button>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button type="button" className={styles.nudgeBtn} onClick={() => patchEntrance(currentFloor, selectedEntrance.id, { position: { x: selectedEntrance.position.x + 0.005, y: selectedEntrance.position.y } })} title="Nudge right">→</button>
+              <button type="button" className={styles.nudgeBtn} disabled />
+              <button type="button" className={styles.nudgeBtn} onClick={() => patchEntrance(currentFloor, selectedEntrance.id, { position: { x: selectedEntrance.position.x, y: selectedEntrance.position.y + 0.005 } })} title="Nudge down">↓</button>
+              <button type="button" className={styles.nudgeBtn} disabled />
             </div>
           </div>
         )}
+
         {selectedCorridor && (
           <div className={styles.props}>
             <div className={styles.propRow}>
@@ -361,65 +342,41 @@ export function DesignPanel() {
               <span className={styles.propLabel}>Waypoints</span>
               <span className={styles.propValue}>{selectedCorridor.path.length}</span>
             </div>
-            <div className={styles.propRow}>
-              <span className={styles.propLabel}>Path</span>
-            </div>
-            {selectedCorridor.path.map((pt, i) => (
-              <div key={i} className={styles.propRow}>
-                <span className={styles.propLabel}>
-                  [{i}] {pt.x.toFixed(4)}, {pt.y.toFixed(4)}
-                </span>
-                <button
-                  type="button"
-                  className={styles.smallBtn}
-                  onClick={() => {
-                    if (selectedCorridor.path.length <= 2) return;
-                    const newPath = selectedCorridor.path.filter((_, idx) => idx !== i);
-                    patchCorridor(currentFloor, selectedCorridor.id, { path: newPath });
-                  }}
-                  disabled={selectedCorridor.path.length <= 2}
-                  title="Delete waypoint"
-                  style={{ fontSize: 10, width: 20, height: 20 }}
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-            <p className={styles.hint} style={{ marginTop: 6 }}>
-              Ctrl+click on path to add waypoint. Drag circles to move.
+            <p className={styles.hint} style={{ marginTop: 4 }}>
+              Drag waypoint circles on the map to reshape. Ctrl+click path to add waypoint.
             </p>
           </div>
         )}
+
         {!selectedRoom && !selectedEntrance && !selectedCorridor && (
-          <p className={styles.noSelect}>Click a room or corridor on the map to inspect it.</p>
+          <p className={styles.noSelect}>Click a room, entrance, or corridor on the map to inspect.</p>
         )}
       </div>
 
       {/* Actions */}
       <div className={styles.actions}>
-        <h4 className={styles.sectionTitle}>
-          Floor {currentFloor === 'floor1' ? '1' : '2'} ({countOverrides} overrides)
-        </h4>
+        <h4 className={styles.sectionTitle}>Actions</h4>
         <div className={styles.actionRow}>
           <button type="button" className={styles.btn} onClick={handleExport}>
-            Export JSON
+            Export {floorData.id} Layout
           </button>
           <button type="button" className={styles.btn} onClick={handleImportClick}>
-            Import JSON
+            Import Layout
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
           <button type="button" className={`${styles.btn} ${styles.btnDanger}`} onClick={handleReset}>
-            Reset Floor
+            Reset {floorData.id} ({countOverrides} overrides)
           </button>
         </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        {statusMsg && <p className={styles.status}>{statusMsg}</p>}
       </div>
+
+      {statusMsg && <div className={styles.status}>{statusMsg}</div>}
     </div>
   );
 }
