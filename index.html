@@ -275,30 +275,78 @@ body {
   line-height: 1.65;
 }
 
+.requirement-map-card {
+  margin-top: 18px;
+  border: 1px solid rgba(205, 216, 231, 0.84);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.045), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbfd 58%, #edf3f8 100%);
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(15, 36, 69, 0.04);
+}
+
+.requirement-map-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.requirement-map-head h3 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.requirement-map-head p {
+  margin: 4px 0 0;
+  color: #526378;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.requirement-map-badge {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.76);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+}
+
+.requirement-map-table-wrap {
+  border: 1px solid rgba(205, 216, 231, 0.74);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.64);
+  overflow-x: auto;
+}
+
 .requirements-checklist {
   width: 100%;
-  margin-top: 24px;
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
-  border: 1px solid rgba(205, 216, 231, 0.9);
-  border-radius: 14px;
-  background: #ffffff;
-  box-shadow: 0 14px 28px rgba(15, 36, 69, 0.06);
+  background: transparent;
 }
 
 .requirements-checklist th,
 .requirements-checklist td {
-  padding: 11px 14px;
+  padding: 7px 10px;
   text-align: left;
-  border-bottom: 1px solid rgba(216, 224, 236, 0.82);
-  font-size: 14px;
-  line-height: 1.45;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.68);
+  font-size: 13.5px;
+  line-height: 1.35;
 }
 
 .requirements-checklist th {
   color: var(--brand-deep);
-  background: linear-gradient(135deg, #edf3f8 0%, #f8fbfd 100%);
+  background: linear-gradient(135deg, rgba(237, 243, 248, 0.76) 0%, rgba(248, 251, 253, 0.76) 100%);
   font-weight: 800;
 }
 
@@ -311,8 +359,21 @@ body {
 }
 
 .requirements-checklist td:last-child {
-  color: var(--accent);
-  font-weight: 700;
+  color: var(--brand-deep);
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.requirement-section-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.78);
+  color: var(--content-accent-2, #2b4c7e);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 4px 8px;
 }
 
 .evidence-chain-card {
@@ -528,6 +589,89 @@ body {
   align-items: stretch;
 }
 
+.target-user-scope {
+  margin: 16px 0 20px;
+  padding: 18px;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-left: 4px solid rgba(247, 148, 30, 0.78);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 62%, #edf3f8 100%);
+  box-shadow: 0 12px 26px rgba(15, 36, 69, 0.055);
+}
+
+.target-user-scope h4 {
+  margin: 10px 0 0;
+  color: var(--brand-deep);
+  font-size: 20px;
+}
+
+.target-user-scope p {
+  margin-top: 8px;
+  color: #4c5b70;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.user-scope-badge,
+.persona-role-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 9px;
+  border: 1px solid rgba(205, 216, 231, 0.84);
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.78);
+  color: var(--brand-deep);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.persona-role-badge {
+  margin-bottom: 7px;
+  background: rgba(234, 241, 248, 0.84);
+}
+
+.target-user-table-wrap {
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 8px 18px rgba(36, 59, 99, 0.045);
+}
+
+.target-user-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.target-user-table th,
+.target-user-table td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(216, 224, 236, 0.78);
+  color: #34495f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.target-user-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.86), rgba(241, 246, 250, 0.86));
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.target-user-table tr:last-child td {
+  border-bottom: none;
+}
+
 .alpha-summary-card h4,
 .alpha-media-card h4,
 .alpha-results-card h4,
@@ -713,6 +857,20 @@ body {
 
 .reflection-card h4 {
   margin-bottom: 10px;
+}
+
+.reflection-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: #41536a;
+  font-size: 14.5px;
+  line-height: 1.58;
+}
+
+.reflection-list li::marker {
+  color: var(--orange);
 }
 
 .intro-stats {
@@ -1487,6 +1645,47 @@ body[data-route="evaluation"] .hero {
   margin-bottom: 0;
 }
 
+.gap-summary-card {
+  grid-column: 1 / -1;
+  position: relative;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.06), transparent 26%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbfd 58%, #edf3f8 100%);
+  padding: 16px 18px;
+  box-shadow: 0 10px 22px rgba(36, 59, 99, 0.045);
+}
+
+.gap-summary-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: rgba(247, 148, 30, 0.62);
+}
+
+.gap-summary-card h4 {
+  margin: 9px 0 8px;
+  color: var(--brand-deep);
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.gap-summary-card p {
+  margin: 0;
+  color: #4c5b70;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.gap-summary-card p + p {
+  margin-top: 8px;
+}
+
 .small-note {
   margin-top: 8px;
   font-size: 14px;
@@ -1741,6 +1940,8 @@ body[data-route="evaluation"] .hero {
   background: linear-gradient(180deg, #ffffff 0%, #f5f9fc 100%);
   box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
   padding: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .must-have-label {
@@ -1769,6 +1970,20 @@ body[data-route="evaluation"] .hero {
   color: #41536a;
   font-size: 14px;
   line-height: 1.7;
+}
+
+.must-have-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 7px;
+  color: #41536a;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.must-have-list li::marker {
+  color: var(--orange);
 }
 
 .requirements-insights {
@@ -1852,6 +2067,58 @@ body[data-route="evaluation"] .hero {
   margin: 0;
   font-size: 14px;
   line-height: 1.65;
+}
+
+.crazy-ideas-panel {
+  margin-top: 12px;
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 12px;
+  box-shadow: 0 7px 16px rgba(36, 59, 99, 0.035);
+}
+
+.content-card .crazy-ideas-panel h4 {
+  margin: 0 0 9px !important;
+  color: var(--brand-deep) !important;
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+}
+
+.crazy-ideas-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.crazy-ideas-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(211, 222, 237, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  color: #41536a;
+  font-size: 13.5px;
+  line-height: 1.35;
+  padding: 7px 10px;
+}
+
+.crazy-ideas-list span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.86);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 850;
 }
 
 .requirements-chart-notes {
@@ -1969,8 +2236,8 @@ body[data-route="evaluation"] .hero {
 .evidence-grid {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .evidence-item {
@@ -1980,6 +2247,8 @@ body[data-route="evaluation"] .hero {
   overflow: hidden;
   box-shadow: 0 10px 22px rgba(36, 59, 99, 0.055);
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .evidence-item:nth-child(even) {
@@ -2014,12 +2283,15 @@ body[data-route="evaluation"] .hero {
 
 .evidence-body {
   padding: 12px 12px 14px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .evidence-item h4 {
   margin: 0;
   color: var(--brand-deep);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .evidence-item p {
@@ -2027,6 +2299,202 @@ body[data-route="evaluation"] .hero {
   font-size: 13px;
   line-height: 1.6;
   color: #5d6c80;
+}
+
+.evidence-caption {
+  margin-top: 10px;
+  display: grid;
+  gap: 7px;
+}
+
+.evidence-caption p {
+  margin: 0;
+  color: #4c5b70;
+  font-size: 13.3px;
+  line-height: 1.5;
+}
+
+.evidence-caption strong {
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.evidence-caption .evidence-finding {
+  padding: 7px 9px;
+  border-left: 2px solid rgba(247, 148, 30, 0.56);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.42);
+}
+
+.evidence-note {
+  margin-top: 10px;
+  padding: 9px 10px;
+  border-left: 3px solid rgba(247, 148, 30, 0.64);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.56);
+  color: #4c5b70;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.lowfi-prototype-module {
+  display: grid;
+  gap: 13px;
+}
+
+.lowfi-prototype-module .lowfi-intro,
+.lowfi-prototype-module .lowfi-caption {
+  margin: 0 !important;
+  color: #4c5b70 !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+}
+
+.lowfi-link-row {
+  margin: 0 !important;
+  color: #4c5b70 !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+}
+
+.lowfi-overview-card {
+  border: 1px solid rgba(211, 222, 237, 0.92);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 10px 10px 12px;
+  box-shadow: 0 7px 18px rgba(36, 59, 99, 0.04);
+}
+
+.content-card .lowfi-section-title {
+  margin: 0 0 8px !important;
+  color: var(--brand-deep) !important;
+  font-size: 18px !important;
+  line-height: 1.25 !important;
+}
+
+.lowfi-image-frame {
+  overflow: hidden;
+  border: 1px solid rgba(203, 214, 229, 0.95);
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.lowfi-overview-image {
+  display: block;
+  width: 124%;
+  max-width: none;
+  height: auto;
+  margin: -1.5% 0 -3% -12%;
+}
+
+.lowfi-caption {
+  margin-top: 8px !important;
+}
+
+.lowfi-callout-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lowfi-callout {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 12px;
+  min-height: 126px;
+  box-shadow: 0 7px 16px rgba(36, 59, 99, 0.04);
+}
+
+.lowfi-callout-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 23px;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.82);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.content-card .lowfi-callout h5 {
+  margin: 0 !important;
+  color: var(--brand-deep) !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+}
+
+.lowfi-callout p {
+  margin: 6px 0 0 !important;
+  color: #526378 !important;
+  font-size: 13.4px !important;
+  line-height: 1.48 !important;
+}
+
+.lowfi-flow-note,
+.lowfi-takeaway {
+  margin: 0 !important;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(247, 148, 30, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.48);
+  color: #4c5b70 !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+}
+
+.lowfi-table-wrap {
+  border: 1px solid rgba(205, 216, 231, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow-x: auto;
+}
+
+.lowfi-purpose-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #34495f;
+}
+
+.lowfi-purpose-table th,
+.lowfi-purpose-table td {
+  padding: 9px 11px;
+  border-bottom: 1px solid rgba(211, 222, 237, 0.86);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.lowfi-purpose-table th:nth-child(1),
+.lowfi-purpose-table td:nth-child(1) {
+  width: 24%;
+}
+
+.lowfi-purpose-table th:nth-child(2),
+.lowfi-purpose-table td:nth-child(2) {
+  width: 26%;
+}
+
+.lowfi-purpose-table th:nth-child(3),
+.lowfi-purpose-table td:nth-child(3) {
+  width: 50%;
+}
+
+.lowfi-purpose-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.82), rgba(241, 246, 250, 0.82));
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.lowfi-purpose-table tr:last-child td {
+  border-bottom: none;
 }
 
 .compare-table,
@@ -2172,6 +2640,197 @@ body[data-route="evaluation"] .hero {
   font-size: 13px;
   line-height: 1.55;
   color: #526378;
+}
+
+.architecture-data-card {
+  position: relative;
+  margin-top: 14px;
+  border: 1px solid rgba(205, 216, 231, 0.9);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(247, 148, 30, 0.055), transparent 26%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%);
+  padding: 16px 18px;
+  box-shadow: 0 10px 22px rgba(15, 36, 69, 0.048);
+  overflow: hidden;
+}
+
+.architecture-data-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, rgba(247, 148, 30, 0.62), rgba(47, 127, 121, 0.34));
+}
+
+.architecture-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  border-radius: 999px;
+  background: rgba(234, 241, 248, 0.86);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+
+.architecture-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(247, 148, 30, 0.72);
+}
+
+.architecture-data-card h4 {
+  margin: 8px 0 0;
+  color: var(--brand-deep);
+  font-size: clamp(18px, 1.7vw, 21px);
+}
+
+.architecture-data-copy {
+  margin: 6px 0 0 !important;
+  color: #4c5b70 !important;
+  font-size: 13.5px !important;
+  line-height: 1.56 !important;
+}
+
+.data-flow-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.data-flow-step,
+.routing-logic-item {
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 11px 12px;
+  box-shadow: 0 7px 16px rgba(36, 59, 99, 0.04);
+}
+
+.data-flow-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 248, 237, 0.82);
+  color: var(--brand-deep);
+  font-size: 11px;
+  font-weight: 850;
+  margin-bottom: 8px;
+}
+
+.data-flow-step h5,
+.routing-logic-item h5 {
+  margin: 0;
+  color: var(--brand-deep);
+  font-size: 14.4px;
+  line-height: 1.3;
+}
+
+.data-flow-step p,
+.routing-logic-item p {
+  margin: 6px 0 0 !important;
+  color: #526378 !important;
+  font-size: 13.2px !important;
+  line-height: 1.48 !important;
+}
+
+.architecture-table-wrap {
+  margin-top: 12px;
+  border: 1px solid rgba(205, 216, 231, 0.88);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow-x: auto;
+}
+
+.architecture-data-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #34495f;
+}
+
+.architecture-data-table th,
+.architecture-data-table td {
+  padding: 9px 11px;
+  border-bottom: 1px solid rgba(211, 222, 237, 0.86);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.48;
+}
+
+.architecture-data-table th {
+  background: linear-gradient(135deg, rgba(234, 241, 248, 0.78) 0%, rgba(241, 246, 250, 0.78) 100%);
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+
+.architecture-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.architecture-data-table code,
+.architecture-code-sample code {
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.architecture-code-sample {
+  margin: 10px 0 0;
+  border: 1px solid rgba(211, 222, 237, 0.88);
+  border-radius: 12px;
+  background: rgba(248, 251, 255, 0.86);
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+.architecture-code-sample code {
+  color: #29405b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.routing-logic-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.architecture-takeaway,
+.prototype-scenario {
+  margin-top: 10px !important;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(247, 148, 30, 0.56);
+  border-radius: 8px;
+  background: rgba(255, 248, 237, 0.46);
+  color: #4c5b70 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.contrib-table-wrap {
+  margin-top: 14px;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.contrib-table-wrap .contrib-table {
+  min-width: 760px;
+  margin-top: 0;
 }
 
 .ai-process-panel {
@@ -2741,6 +3400,9 @@ body[data-route="evaluation"] .hero {
   .hero { grid-template-columns: 1fr; }
   .preview-body { grid-template-columns: 1fr; }
   .architecture-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .data-flow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .routing-logic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lowfi-callout-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-process-grid { grid-template-columns: 1fr; }
   .flow-step::after { display: none; }
 }
@@ -2764,7 +3426,9 @@ body[data-route="evaluation"] .hero {
   .must-have-grid,
   .persona-blocks,
   .progress-grid,
-  .evidence-grid {
+  .evidence-grid,
+  .lowfi-callout-grid,
+  .crazy-ideas-list {
     grid-template-columns: 1fr;
   }
 
@@ -2836,6 +3500,14 @@ body[data-route="evaluation"] .hero {
     grid-template-columns: 1fr;
   }
 
+  .data-flow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .routing-logic-grid {
+    grid-template-columns: 1fr;
+  }
+
   .evidence-chain-card {
     padding: 18px;
   }
@@ -2846,6 +3518,10 @@ body[data-route="evaluation"] .hero {
 
   .evaluation-table {
     min-width: 680px;
+  }
+
+  .target-user-table {
+    min-width: 620px;
   }
 }
 
@@ -2888,6 +3564,14 @@ body[data-route="evaluation"] .hero {
   .evaluation-table {
     min-width: 600px;
   }
+
+  .target-user-scope {
+    padding: 14px;
+  }
+
+  .target-user-table {
+    min-width: 560px;
+  }
 }
 
 /* --- UNIFIED CARD STYLES --- */
@@ -2926,6 +3610,36 @@ body[data-route="evaluation"] .hero {
   line-height: 1.6 !important;
   color: #4a5568 !important;
   margin: 0 !important;
+}
+
+.content .evidence-caption p {
+  margin: 0 !important;
+  color: #4c5b70 !important;
+  font-size: 13.3px !important;
+  line-height: 1.5 !important;
+}
+
+.content .evidence-caption strong {
+  color: var(--brand-deep) !important;
+  font-weight: 800 !important;
+}
+
+.content .evidence-caption .evidence-finding {
+  padding: 7px 9px !important;
+  border-left: 2px solid rgba(247, 148, 30, 0.56) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 248, 237, 0.42) !important;
+}
+
+.content-card .evidence-note {
+  margin-top: 10px !important;
+  padding: 9px 10px !important;
+  border-left: 3px solid rgba(247, 148, 30, 0.64) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 248, 237, 0.56) !important;
+  color: #4c5b70 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
 }
 
 /* --- CONTENT PAGE COLOR CONSOLIDATION --- */
@@ -3326,33 +4040,44 @@ body[data-route="evaluation"] .hero {
         </div>
       </div>
 
-            <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
-        <thead>
-          <tr>
-            <th>Requirement</th>
-            <th>Evidence in Portfolio</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Why statement</td><td>Section 1.1</td></tr>
-          <tr><td>4 academic papers</td><td>Section 1.2 Academic Papers</td></tr>
-          <tr><td>4 commercial products</td><td>Section 1.2 Commercial Products</td></tr>
-          <tr><td>Primary and secondary personas</td><td>Section 1.3</td></tr>
-          <tr><td>Journey map</td><td>Section 2.1</td></tr>
-          <tr><td>3 must-have requirements</td><td>Section 2.2</td></tr>
-          <tr><td>5 evidence photos</td><td>Section 2.3</td></tr>
-          <tr><td>Crazy 8 sketches</td><td>Section 3.1</td></tr>
-          <tr><td>3 alternatives</td><td>Section 3.2</td></tr>
-          <tr><td>Low-fi Figma</td><td>Section 3.3</td></tr>
-          <tr><td>System architecture</td><td>Section 4.1</td></tr>
-          <tr><td>High-fi URL</td><td>Section 4.2</td></tr>
-          <tr><td>Individual contribution</td><td>Section 4.3</td></tr>
-          <tr><td>AI disclosure</td><td>Section 4.3 / 5 References</td></tr>
-          <tr><td>Usability testing with 3 real users</td><td>Section 5.1</td></tr>
-          <tr><td>Before/After refinement</td><td>Section 5.2</td></tr>
-          <tr><td>Final reflection + ethics + AI</td><td>Section 5.4</td></tr>
-        </tbody>
-      </table>
+      <section class="requirement-map-card" aria-labelledby="requirement-map-title">
+        <div class="requirement-map-head">
+          <div>
+            <h3 id="requirement-map-title">Portfolio Requirement Map</h3>
+            <p>This map shows where each portfolio requirement is evidenced in the project.</p>
+          </div>
+          <span class="requirement-map-badge">Checklist</span>
+        </div>
+        <div class="requirement-map-table-wrap">
+          <table class="requirements-checklist" aria-label="Portfolio requirements evidence checklist">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Evidence in Portfolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Why statement</td><td><span class="requirement-section-chip">Section 1.1</span></td></tr>
+              <tr><td>4 academic papers</td><td><span class="requirement-section-chip">Section 1.2 Academic Papers</span></td></tr>
+              <tr><td>4 commercial products</td><td><span class="requirement-section-chip">Section 1.2 Commercial Products</span></td></tr>
+              <tr><td>Primary and secondary personas</td><td><span class="requirement-section-chip">Section 1.3</span></td></tr>
+              <tr><td>Journey map</td><td><span class="requirement-section-chip">Section 2.1</span></td></tr>
+              <tr><td>3 must-have requirements</td><td><span class="requirement-section-chip">Section 2.2</span></td></tr>
+              <tr><td>5 evidence photos</td><td><span class="requirement-section-chip">Section 2.3</span></td></tr>
+              <tr><td>Crazy 8 sketches</td><td><span class="requirement-section-chip">Section 3.1</span></td></tr>
+              <tr><td>3 alternatives</td><td><span class="requirement-section-chip">Section 3.2</span></td></tr>
+              <tr><td>Low-fi Figma</td><td><span class="requirement-section-chip">Section 3.3</span></td></tr>
+              <tr><td>System architecture</td><td><span class="requirement-section-chip">Section 4.1</span></td></tr>
+              <tr><td>High-fi URL</td><td><span class="requirement-section-chip">Section 4.2</span></td></tr>
+              <tr><td>Individual contribution</td><td><span class="requirement-section-chip">Section 4.3</span></td></tr>
+              <tr><td>AI disclosure</td><td><span class="requirement-section-chip">Section 4.3 / 5 References</span></td></tr>
+              <tr><td>Usability testing with 3 real users</td><td><span class="requirement-section-chip">Section 5.1</span></td></tr>
+              <tr><td>Before / After refinement</td><td><span class="requirement-section-chip">Section 5.2</span></td></tr>
+              <tr><td>Final reflection + ethics + AI</td><td><span class="requirement-section-chip">Section 5.4</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
     <section class="section-card scroll-fx home-section evidence-chain-card evidence-chain-card--preview" id="evidence-chain-preview" aria-labelledby="evidence-chain-preview-title">
@@ -3476,14 +4201,20 @@ body[data-route="evaluation"] .hero {
       <h3 class="subsection-title">1.1 The Why</h3>
       <div class="content-card">
         <p>
-          Our group selected the Active track because indoor navigation is a real, frequent friction point in everyday campus movement. In EB, users may know the room code but still fail
-          to locate the room efficiently because the code does not reveal wing-level direction. This creates repeated stopping, backtracking, and uncertainty, especially for first-year students
-          in their first weeks and external guests who visit only once. We observed that this problem is not caused by a lack of motivation to navigate, but by a mismatch between static signage
-          and the moment-to-moment decisions users need to make while moving. A student rushing from a previous class may not have time to compare corridor signs, ask staff, or recover from a
-          wrong turn before the next lesson starts. We therefore designed CampusCompass as a point-of-entry decision support tool: users declare where they entered,
-          enter a destination code, and immediately receive a shortest path and plain-language steps. This directly supports quick, confident movement under time pressure and lowers cognitive load.
-          The concept is intentionally lightweight, browser-based, and deployable on a kiosk screen, so it can be installed where confusion starts rather than requiring every user to install a
-          new app. The project reflects human-centered priorities: reducing anxiety, improving first-time success, and enabling independent navigation for a broader range of users.
+          Our group selected the Active track because indoor navigation is a real and frequent friction point in everyday campus movement. In the EB building,
+          users may know a room code such as EB204, but the code alone does not reveal the correct wing, entrance, stair, or corridor route. This creates repeated stopping,
+          backtracking, and uncertainty, especially for first-year students during their first weeks on campus and external visitors who may only enter the building once.
+        </p>
+        <p>
+          We observed that this problem is not caused by users’ lack of motivation, but by a mismatch between static signage and the moment-to-moment decisions people must make
+          while moving through an unfamiliar building. A student rushing from a previous class may not have time to compare corridor signs, ask staff, or recover from a wrong turn
+          before the next lesson starts.
+        </p>
+        <p>
+          Therefore, we designed CampusCompass as a point-of-entry decision support tool. Users select where they entered, input a destination room code, and immediately receive a shortest path
+          with plain-language route steps. This supports quick, confident movement under time pressure while reducing cognitive load. The concept is intentionally lightweight, browser-based,
+          and suitable for kiosk deployment, so guidance can be placed where confusion begins rather than requiring every user to install a new app. Through this project,
+          we aim to reduce anxiety, improve first-time wayfinding success, and support more independent campus navigation.
         </p>
       </div>
 
@@ -3707,6 +4438,17 @@ body[data-route="evaluation"] .hero {
           </div>
         </article>
 
+        <article class="gap-summary-card scroll-fx" aria-labelledby="research-gap-summary-title">
+          <span class="gap-kicker">GAP SUMMARY</span>
+          <h4 id="research-gap-summary-title">Research Gap Summary</h4>
+          <p>
+            Existing academic systems often rely on sensors, markers, AR, or large-scale spatial infrastructure. Commercial indoor-map products are powerful, but they are not optimized for a lightweight classroom-code-to-route task in one campus building.
+          </p>
+          <p>
+            CampusCompass fills this gap by focusing on a simple browser-based flow: room code input &rarr; entrance-aware route &rarr; step-by-step indoor guidance &rarr; arrival confirmation.
+          </p>
+        </article>
+
       </div>
 
       <h3 id="persona" class="subsection-title">1.3 The Stakeholders</h3>
@@ -3715,6 +4457,37 @@ body[data-route="evaluation"] .hero {
           Primary users are new students and visiting guests. Secondary stakeholders include reception staff, teaching staff, and facilities teams who benefit from reduced direction requests and clearer movement flow.
         </p>
       </div>
+
+      <section class="target-user-scope" aria-labelledby="target-user-scope-title">
+        <span class="user-scope-badge">User Scope</span>
+        <h4 id="target-user-scope-title">Target User Scope</h4>
+        <p>
+          CampusCompass focuses on users who need to find unfamiliar classrooms in the EB building. We distinguish between primary users, who are most affected by wayfinding uncertainty, and secondary users, who need occasional navigation support in similar scenarios.
+        </p>
+        <div class="target-user-table-wrap">
+          <table class="target-user-table" aria-label="Primary and secondary user scope">
+            <thead>
+              <tr>
+                <th>User Type</th>
+                <th>Role</th>
+                <th>Why Important</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Primary User</strong></td>
+                <td>First-year / new students</td>
+                <td>Most likely to be unfamiliar with the EB building, classroom codes, entrances, stairs, and corridor layout.</td>
+              </tr>
+              <tr>
+                <td><strong>Secondary User</strong></td>
+                <td>Visitors / teachers / staff</td>
+                <td>Need occasional wayfinding support but may have different levels of confidence, urgency, and familiarity with campus spaces.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <div class="persona-grid">
         <!-- Persona 1: John Smith -->
@@ -3725,8 +4498,9 @@ body[data-route="evaluation"] .hero {
               <div style="display: flex; gap: 12px; align-items: start; margin-bottom: 16px;">
                 <img class="persona-avatar" src="images/john-smith-real.jpg" alt="John Smith avatar" style="width: 75px; height: 75px; border-radius: 8px;">
                 <div>
+                  <span class="persona-role-badge">Primary User</span>
                   <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">John Smith</h3>
-                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>XJTLU Student</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>First-year / New Student</strong></p>
                   <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 20<br><strong>Tech:</strong> High</p>
                 </div>
               </div>
@@ -3755,7 +4529,7 @@ body[data-route="evaluation"] .hero {
               <div style="margin-bottom: 18px;">
                 <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Bio</h4>
                 <div style="background: rgba(255, 255, 255, 0.84); border: 1px solid rgba(216, 224, 236, 0.9); border-radius: 8px; padding: 12px; font-size: 14px; color: #3f4d60; line-height: 1.6;">
-                  John is a sophomore at XJTLU. Despite being on campus for a while, he naturally struggles with a weak sense of direction. The symmetrical and internally disconnected layout of buildings like the EB building often confuses him, making it hard to navigate efficiently between classes, leading to unnecessary anxiety.
+                  John represents first-year and new students at XJTLU. He naturally struggles with a weak sense of direction. The symmetrical and internally disconnected layout of buildings like the EB building often confuses him, making it hard to navigate efficiently between classes, leading to unnecessary anxiety.
                 </div>
               </div>
               <div style="margin-bottom: 18px;">
@@ -3812,8 +4586,9 @@ body[data-route="evaluation"] .hero {
                 <!-- Reusing visiting guest image for Mark Chen if new image is not uploaded -->
                 <img class="persona-avatar" src="images/visiting-guest-real.jpg" alt="Mark Chen avatar" style="width: 75px; height: 75px; border-radius: 8px;">
                 <div>
+                  <span class="persona-role-badge">Secondary User</span>
                   <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">Mark Chen</h3>
-                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>External Visitor</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Visitor / Teacher / Staff</strong></p>
                   <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 42<br><strong>Tech:</strong> Medium</p>
                 </div>
               </div>
@@ -4114,29 +4889,40 @@ body[data-route="evaluation"] .hero {
         <article class="must-have-card">
           <span class="must-have-label">Must-have 1</span>
           <h4>Instant Visual Feedback</h4>
-          <p>
-            The system must provide immediate visual feedback after each user action, such as destination input or route generation. This helps students confirm that the interaction is working correctly and reduces hesitation during time-sensitive classroom search.
-          </p>
+          <ul class="must-have-list">
+            <li>Show route feedback immediately after a valid room code is entered.</li>
+            <li>Highlight the destination and route on the map.</li>
+            <li>Provide clear feedback when the room code is invalid or unavailable.</li>
+          </ul>
         </article>
         <article class="must-have-card">
           <span class="must-have-label">Must-have 2</span>
           <h4>Step-by-Step Route Guidance</h4>
-          <p>
-            The system must present navigation as short, sequential steps supported by a simple route view. This allows students to follow the path with low mental load and reduces confusion caused by complex building layouts or discontinuous room numbering.
-          </p>
+          <ul class="must-have-list">
+            <li>Break the route into short sequential instructions.</li>
+            <li>Show stairs, turns, and floor changes as separate steps.</li>
+            <li>Combine text instructions with map highlights to reduce uncertainty.</li>
+          </ul>
         </article>
         <article class="must-have-card">
           <span class="must-have-label">Must-have 3</span>
           <h4>Clear, <strong>Playful</strong> Completion Signal</h4>
-          <p>
-            The system must clearly indicate when the user has reached the correct destination through a small <strong>playful</strong> celebration, such as a friendly checkmark animation, and show how to restart a new search if needed. This gives students confidence that the task is complete and prevents lingering uncertainty at the end of the journey.
-          </p>
+          <ul class="must-have-list">
+            <li>Confirm when the user has reached the target classroom.</li>
+            <li>Display the destination room code clearly at the end of the route.</li>
+            <li>Reduce uncertainty at the final arrival point with a clear completion state.</li>
+          </ul>
         </article>
       </div>
 
       <h3 class="subsection-title">2.3 Evidence of Life</h3>
       <div class="content-card" style="margin-bottom: 16px;">
-        <p>Five fieldwork and interview records are reserved here for final media evidence:</p>
+        <p>
+          The following evidence records document our user research, on-site observation, consent process, and usability testing activities. Each item links the research activity to a specific design insight or requirement.
+        </p>
+        <p class="evidence-note">
+          <strong>Ethics note:</strong> Faces are shown with participant consent, or anonymised where required. Personal details are not used in the portfolio.
+        </p>
       </div>
       <div class="evidence-grid">
         <article class="evidence-item">
@@ -4144,8 +4930,14 @@ body[data-route="evaluation"] .hero {
             <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
           </div>
           <div class="evidence-body">
-            <h4>Evidence 1</h4>
-            <p>Interview record with a target user.</p>
+            <h4>Evidence 1 &mdash; Interview with Target User</h4>
+            <div class="evidence-caption">
+              <p><strong>Date:</strong> 7th April, 2026</p>
+              <p><strong>Location:</strong> Study area near EB Building </p>
+              <p><strong>Activity:</strong> Interview with current student about room-code interpretation.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Users could identify the floor but not the correct entrance, stairs, or corridor.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
+            </div>
           </div>
         </article>
         <article class="evidence-item">
@@ -4153,8 +4945,14 @@ body[data-route="evaluation"] .hero {
             <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
           </div>
           <div class="evidence-body">
-            <h4>Evidence 2</h4>
-            <p>Discuss how to develop interactive features with potential users.</p>
+            <h4>Evidence 2 &mdash; Feature Discussion with Potential Users</h4>
+            <div class="evidence-caption">
+              <p><strong>Date:</strong> 10th April, 2026</p>
+              <p><strong>Location:</strong> CB discussion space</p>
+              <p><strong>Activity:</strong> Feature discussion with potential student users about input, map feedback, and route instructions.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Users preferred direct classroom-code search and immediate visual feedback over manual map browsing.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
+            </div>
           </div>
         </article>
         <article class="evidence-item">
@@ -4162,8 +4960,14 @@ body[data-route="evaluation"] .hero {
             <img src="images/evidence-3-placeholder.jpg" alt="On-site survey of the EB building structure and classroom layout">
           </div>
           <div class="evidence-body">
-            <h4>Evidence 3</h4>
-            <p>On-site survey of the EB building structure and classroom layout.</p>
+            <h4>Evidence 3 &mdash; On-site Building Observation</h4>
+            <div class="evidence-caption">
+              <p><strong>Date:</strong> 13th April, 2026</p>
+              <p><strong>Location:</strong> EB Building corridors and classroom area</p>
+              <p><strong>Activity:</strong> On-site observation of building structure, signage, entrances, stairs, and corridor decision points.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Floor transitions and corridor intersections were key moments where users could lose confidence.</p>
+              <p><strong>Consent:</strong> No sensitive personal data collected; public building environment documented for research purposes.</p>
+            </div>
           </div>
         </article>
         <article class="evidence-item">
@@ -4171,8 +4975,14 @@ body[data-route="evaluation"] .hero {
             <img src="images/evidence-4-placeholder.jpg" alt="Participants signed consent forms before research and usability testing">
           </div>
           <div class="evidence-body">
-            <h4>Evidence 4</h4>
-            <p>Participants signed consent forms before research and usability testing.</p>
+            <h4>Evidence 4 &mdash; Consent and Research Notes</h4>
+            <div class="evidence-caption">
+              <p><strong>Date:</strong> 15th April, 2026</p>
+              <p><strong>Location:</strong> Campus research session</p>
+              <p><strong>Activity:</strong> Consent collection and note-taking with research participants before interviews and usability testing.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> This record supports ethical data collection and documents how user requirements were gathered.</p>
+              <p><strong>Consent:</strong> Participants were informed of the research purpose; personal details anonymised.</p>
+            </div>
           </div>
         </article>
         <article class="evidence-item">
@@ -4180,8 +4990,14 @@ body[data-route="evaluation"] .hero {
             <img src="images/evidence-5-placeholder.jpg" alt="Usability testing experiment in progress">
           </div>
           <div class="evidence-body">
-            <h4>Evidence 5</h4>
-            <p>Usability testing experiment in progress.</p>
+            <h4>Evidence 5 &mdash; Alpha Usability Testing in Progress</h4>
+            <div class="evidence-caption">
+              <p><strong>Date:</strong> 20th April, 2026</p>
+              <p><strong>Location:</strong> Campus testing session</p>
+              <p><strong>Activity:</strong> Alpha usability test participants completed a classroom-finding task with the CampusCompass prototype.</p>
+              <p class="evidence-finding"><strong>Evidence:</strong> Hesitation around input clarity, route steps, floor changes, and arrival confirmation informed Section 5 refinements.</p>
+              <p><strong>Consent:</strong> Photo used with permission; details anonymised.</p>
+            </div>
           </div>
         </article>
       </div>
@@ -4195,6 +5011,19 @@ body[data-route="evaluation"] .hero {
             Eight rapid UI sketch ideas were produced during ideation to explore entrance selection, input layout, and route feedback patterns.
           </p>
           <img src="images/crazy-eights.png" alt="Crazy Eights Sketches" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+          <div class="crazy-ideas-panel" aria-labelledby="crazy-ideas-title">
+            <h4 id="crazy-ideas-title">Eight Ideas Explored</h4>
+            <ol class="crazy-ideas-list">
+              <li><span>1</span>Baseline map + room input</li>
+              <li><span>2</span>Text-only step-by-step guidance</li>
+              <li><span>3</span>Voice kiosk</li>
+              <li><span>4</span>3D isometric navigation</li>
+              <li><span>5</span>Building wing map</li>
+              <li><span>6</span>Category directory</li>
+              <li><span>7</span>AR handoff</li>
+              <li><span>8</span>Landmark cards</li>
+            </ol>
+          </div>
         </div>
 
         <!-- <article class="block">
@@ -4251,9 +5080,109 @@ body[data-route="evaluation"] .hero {
       </div>
 
       <h3 class="subsection-title">3.3 Low-Fi Prototype</h3>
-      <div class="content-card">
-        <p>
-          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View prototype</a>
+      <div class="content-card lowfi-prototype-module">
+        <p class="lowfi-intro">
+          The low-fi prototype was created to test the basic navigation flow before visual refinement. It focuses on layout, input structure, route feedback, and kiosk-style interaction rather than final visual styling.
+        </p>
+        <p class="lowfi-intro">
+          This prototype turns the selected 2D top-down map + text-steps alternative into a clickable early interaction flow.
+        </p>
+        <p class="lowfi-link-row">
+          Clickable Figma draft: <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer">View low-fi prototype</a>
+        </p>
+
+        <figure class="lowfi-overview-card" aria-labelledby="lowfi-overview-title">
+          <h4 class="lowfi-section-title" id="lowfi-overview-title">Low-Fi Interface Overview</h4>
+          <div class="lowfi-image-frame">
+            <img class="lowfi-overview-image" src="images/Low-fi figma.png" alt="Low-fi CampusCompass kiosk interface showing entrance selection, room-code input, map feedback, route highlight, and route controls.">
+          </div>
+          <figcaption class="lowfi-caption">
+            This low-fi screen shows the early kiosk-style layout, including entrance selection, room-code input, map display, route description, and route feedback areas.
+          </figcaption>
+        </figure>
+
+        <section aria-labelledby="lowfi-callouts-title">
+          <h4 class="lowfi-section-title" id="lowfi-callouts-title">Prototype Callouts</h4>
+          <div class="lowfi-callout-grid">
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">01</span>
+              <h5>Entrance selector</h5>
+              <p>Defines where the user starts the route.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">02</span>
+              <h5>Room-code input</h5>
+              <p>Allows direct classroom search instead of browsing a full map.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">03</span>
+              <h5>Map display area</h5>
+              <p>Reserves space for route highlights and destination markers.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">04</span>
+              <h5>Route description panel</h5>
+              <p>Provides step-by-step guidance after route generation.</p>
+            </article>
+            <article class="lowfi-callout">
+              <span class="lowfi-callout-number">05</span>
+              <h5>Distance / time feedback</h5>
+              <p>Gives users quick confidence before moving.</p>
+            </article>
+          </div>
+        </section>
+
+        <section aria-labelledby="lowfi-flow-title">
+          <h4 class="lowfi-section-title" id="lowfi-flow-title">Low-Fi Flow</h4>
+          <p class="lowfi-flow-note">
+            Select entrance &rarr; Enter room code &rarr; Generate route &rarr; View map feedback &rarr; Follow step-by-step guidance &rarr; Confirm arrival
+          </p>
+        </section>
+
+        <section aria-labelledby="lowfi-purpose-title">
+          <h4 class="lowfi-section-title" id="lowfi-purpose-title">Prototype Purpose</h4>
+          <div class="lowfi-table-wrap">
+            <table class="lowfi-purpose-table" aria-label="Low-fi prototype purpose table">
+              <thead>
+                <tr>
+                  <th>Prototype Area</th>
+                  <th>Purpose</th>
+                  <th>Design Question Tested</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Entrance selection</td>
+                  <td>Defines the route starting point</td>
+                  <td>Do users understand that the starting entrance affects the route?</td>
+                </tr>
+                <tr>
+                  <td>Room-code input</td>
+                  <td>Supports direct classroom search</td>
+                  <td>Can users quickly enter a destination without browsing the map?</td>
+                </tr>
+                <tr>
+                  <td>Map display area</td>
+                  <td>Shows route and destination feedback</td>
+                  <td>Does the layout make the route area visually central?</td>
+                </tr>
+                <tr>
+                  <td>Route description</td>
+                  <td>Provides text-based instructions</td>
+                  <td>Do users understand the route without relying only on the map?</td>
+                </tr>
+                <tr>
+                  <td>Distance / time feedback</td>
+                  <td>Gives quick route confidence</td>
+                  <td>Does summary feedback help users judge the route before moving?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <p class="lowfi-takeaway">
+          Takeaway: The low-fi prototype helped us check whether the basic kiosk navigation flow was understandable before moving into high-fi visual design and implementation.
         </p>
       </div>
     </section>
@@ -4266,7 +5195,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures destination classroom, current entry point, and optional floor.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures selected entrance, destination classroom code, and optional floor context.</p>
         </article>
 
         <!-- Arrow 1 -->
@@ -4276,7 +5205,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-frontend.svg" alt="Frontend UI" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Frontend UI</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Interactive HTML/CSS/JS interface built for touch-kiosk resolution.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Normalises input, triggers route lookup, and renders map highlights and route feedback.</p>
         </article>
 
         <!-- Arrow 2 -->
@@ -4286,7 +5215,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-routing.svg" alt="Routing Logic" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Routing Logic</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Lightweight shortest-path algorithm mapping the predefined EB hallway needs.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Matches entrance and room data to graph nodes, then calculates a route through EB corridors and stairs.</p>
         </article>
 
         <!-- Arrow 3 -->
@@ -4296,7 +5225,7 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-data.svg" alt="Data Management" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Data Management</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores route graph, room data, landmark nodes for real-time instruction updates.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores static room data, entrance data, corridor paths, route nodes, edges, and floor metadata.</p>
         </article>
 
         <!-- Arrow 4 -->
@@ -4306,45 +5235,205 @@ body[data-route="evaluation"] .hero {
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-deployment.svg" alt="Deployment" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
-          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Free-tier cloud hosting (GitHub Pages) allowing seamless remote updates.</p>
+          <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Hosted as a static web app for easy access, testing, and remote updates.</p>
         </article>
         </div>
       </div>
+
+      <article class="architecture-data-card" aria-labelledby="data-handling-flow-title">
+        <span class="architecture-badge">HOW DATA MOVES</span>
+        <h4 id="data-handling-flow-title">Data Handling Flow</h4>
+        <p class="architecture-data-copy">
+          This flow explains how CampusCompass turns a user's entrance choice and destination room code into a highlighted indoor route, floor-aware route feedback, and an arrival confirmation.
+        </p>
+        <div class="data-flow-grid" aria-label="CampusCompass data handling flow">
+          <div class="data-flow-step">
+            <span class="data-flow-number">01</span>
+            <h5>User Input</h5>
+            <p>The user selects an entrance and enters a destination room code, such as EB204.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">02</span>
+            <h5>Input Validation</h5>
+            <p>The frontend normalises the room code and checks whether the destination exists.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">03</span>
+            <h5>Room Data Lookup</h5>
+            <p>The app retrieves the room's floor, map position, and related route node from static data.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">04</span>
+            <h5>Route Graph Matching</h5>
+            <p>The selected entrance becomes the start node, and the destination room becomes the end point.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">05</span>
+            <h5>Path Calculation</h5>
+            <p>The route logic finds a walkable path through corridors, stairs, and floor transitions.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">06</span>
+            <h5>Route Output</h5>
+            <p>The route is converted into floor-aware map highlights and plain-language instructions.</p>
+          </div>
+          <div class="data-flow-step">
+            <span class="data-flow-number">07</span>
+            <h5>Interface Output</h5>
+            <p>The UI displays route steps, destination feedback, and arrival confirmation.</p>
+          </div>
+        </div>
+        <p class="architecture-takeaway">
+          Takeaway: data stays inside the browser, moving from user input to static lookup, graph search, state update, and visual route output.
+        </p>
+      </article>
+
+      <article class="architecture-data-card" aria-labelledby="static-data-model-title">
+        <span class="architecture-badge">DATA STRUCTURE</span>
+        <h4 id="static-data-model-title">Static Data Model</h4>
+        <p class="architecture-data-copy">
+          CampusCompass uses lightweight static data structures in the frontend rather than a server-side database. These structures connect room codes, entrances, route nodes, and route output.
+        </p>
+        <div class="architecture-table-wrap">
+          <table class="architecture-data-table" aria-label="Static data model used by CampusCompass">
+            <thead>
+              <tr>
+                <th>Data Type</th>
+                <th>Actual Code / Fields</th>
+                <th>Used For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>User input</td>
+                <td><code>currentEntrance</code>, <code>inputRoomNumber</code>, <code>currentFloor</code></td>
+                <td>Defines the route start, target classroom, and current viewing context.</td>
+              </tr>
+              <tr>
+                <td>Floor data</td>
+                <td><code>floor1Data</code>, <code>floor2Data</code> as <code>FloorData</code></td>
+                <td>Provides the static data source for each EB floor.</td>
+              </tr>
+              <tr>
+                <td>Room data</td>
+                <td><code>rooms: Room[]</code> with <code>id</code>, <code>label</code>, <code>floor</code>, <code>position</code>, <code>width</code>, <code>height</code>, <code>type</code></td>
+                <td>Validates room codes and marks the target classroom on the map.</td>
+              </tr>
+              <tr>
+                <td>Entrance data</td>
+                <td><code>entrances: Entrance[]</code> with <code>id</code>, <code>floor</code>, <code>position</code></td>
+                <td>Maps a selected entrance such as <code>NW</code>, <code>NE</code>, or <code>SW</code> to a source node.</td>
+              </tr>
+              <tr>
+                <td>Corridor paths</td>
+                <td><code>corridors: Corridor[]</code> with <code>id</code>, <code>floor</code>, <code>path</code></td>
+                <td>Supports floor-plan geometry and route snapping for the highlighted path.</td>
+              </tr>
+              <tr>
+                <td>Route nodes</td>
+                <td><code>nodes: GraphNode[]</code> with <code>id</code>, <code>position</code>, <code>floor</code></td>
+                <td>Represents entrances, junctions, door points, stairs, and elevator nodes.</td>
+              </tr>
+              <tr>
+                <td>Route edges</td>
+                <td><code>edges: GraphEdge[]</code> and <code>crossFloorEdges</code> with <code>from</code>, <code>to</code>, <code>weight</code></td>
+                <td>Describes walkable connections, corridor links, and floor transitions.</td>
+              </tr>
+              <tr>
+                <td>Route output</td>
+                <td><code>RouteResult { path, floors, totalWeight }</code>, plus store fields <code>route</code>, <code>targetRoom</code>, <code>message</code></td>
+                <td>Generates map highlights, target markers, floor switching, and route feedback.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="architecture-code-sample" aria-label="Static data model code example"><code>// Data Example: static frontend mapping
+const roomId = 'EB206';
+const sourceNode = currentEntrance;    // e.g. 'SW'
+const targetNode = `D_${roomId}`;
+
+const routeOutput = {
+  path: ['SW', 'F1_STAIR_SW', 'F2_ELEV_SW', 'D_EB206'],
+  floors: ['floor1', 'floor2']
+};</code></pre>
+        <p class="architecture-takeaway">
+          Takeaway: CampusCompass uses lightweight browser-side data to connect room codes, entrances, route nodes, and user-facing instructions.
+        </p>
+      </article>
+
+      <article class="architecture-data-card" aria-labelledby="route-generation-logic-title">
+        <span class="architecture-badge">ROUTING LOGIC</span>
+        <h4 id="route-generation-logic-title">Route Generation Logic</h4>
+        <p class="architecture-data-copy">
+          The routing logic translates the static EB building graph into user-facing guidance. It does not require live GPS tracking; instead, it uses the selected entrance and classroom code to calculate a predictable indoor route.
+        </p>
+        <div class="routing-logic-grid" aria-label="Route generation logic">
+          <div class="routing-logic-item">
+            <h5>1. Start and destination mapping</h5>
+            <p>The selected entrance maps to a start node, while the room code maps to a destination node or room position.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>2. Graph-based route lookup</h5>
+            <p>The app searches connected route data to find a walkable path through corridors, stairs, and floor transitions.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>3. Floor-aware route state</h5>
+            <p>The route output is grouped by floor so users can understand when they need to move between levels.</p>
+          </div>
+          <div class="routing-logic-item">
+            <h5>4. UI rendering</h5>
+            <p>The map highlights the route by floor, shows instruction cards, and marks the target room.</p>
+          </div>
+        </div>
+        <p class="architecture-takeaway">
+          This architecture fits a lightweight browser-based kiosk because route data is static, predictable, and fast to run locally in the frontend.
+        </p>
+      </article>
 
       <h3 class="subsection-title">4.2 High-Fi Prototype</h3>
       <div class="content-card">
         <p>
           Hosted system: <a href="./app/">CampusCompass Interactive Web App</a>
         </p>
+        <p class="prototype-scenario">
+          Suggested test scenario: Select South Entrance &rarr; enter a valid EB room code &rarr; follow the generated route steps &rarr; check the arrival confirmation.
+        </p>
       </div>
 
       <h3 class="subsection-title">4.3 Individual Contributions</h3>
-      <table class="contrib-table" aria-label="Individual Contributions Table">
-        <thead>
-          <tr>
-            <th>Member</th>
-            <th>Primary Contributions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Pingsong Deng</td>
-            <td>Frontend implementation, route UI integration, testing support.</td>
-          </tr>
-          <tr>
-            <td>Zichen Fan</td>
-            <td>Graph modelling and algorithm support, coding and debugging.</td>
-          </tr>
-          <tr>
-            <td>Ziyi Jia</td>
-            <td>UX flow design, content writing, process documentation.</td>
-          </tr>
-          <tr>
-            <td>Tianchen Niu</td>
-            <td>User research coordination, evaluation records, visual assets.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="contrib-table-wrap">
+        <table class="contrib-table" aria-label="Individual Contributions Table">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Primary Contributions</th>
+              <th>Concrete Outputs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pingsong Deng</td>
+              <td>Frontend implementation, route UI integration, testing support.</td>
+              <td>Home layout, route panel, interface styling.</td>
+            </tr>
+            <tr>
+              <td>Zichen Fan</td>
+              <td>Graph modelling, routing logic, coding and debugging.</td>
+              <td>Room-node mapping, route data, path calculation.</td>
+            </tr>
+            <tr>
+              <td>Ziyi Jia</td>
+              <td>UX flow design, content writing, process documentation.</td>
+              <td>Journey map, requirements, reflection writing.</td>
+            </tr>
+            <tr>
+              <td>Tianchen Niu</td>
+              <td>User research coordination, evaluation records, visual assets.</td>
+              <td>Interviews, evidence photos, alpha testing notes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
 
       <div class="ai-process-panel scroll-fx" aria-label="AI development process">
@@ -4488,8 +5577,8 @@ body[data-route="evaluation"] .hero {
             <tbody>
               <tr>
                 <td>Completion Time</td>
-                <td>Average route-finding time dropped from 190.6s to 78.3s after guidance was introduced.</td>
-                <td>Step-by-step guidance helped users complete the task faster.</td>
+                <td>Compared with the existing-signage baseline, the 3-user alpha prototype test reduced average route-finding time from 190.0s to 78.3s.</td>
+                <td>Step-by-step guidance helped alpha users complete the task faster.</td>
               </tr>
               <tr>
                 <td>Task Success</td>
@@ -4719,23 +5808,29 @@ body[data-route="evaluation"] .hero {
       <div class="reflection-grid">
         <article class="content-card reflection-card">
           <h4>Societal Impact</h4>
-          <p>
-            CampusCompass helps new students, visitors, and time-pressured users reduce wayfinding stress inside unfamiliar academic buildings. By translating room codes into entrance-aware routes, the system supports punctuality, spatial confidence, and more independent movement through the EB building.
-          </p>
+          <ul class="reflection-list">
+            <li>CampusCompass helps new students, visitors, and occasional users navigate unfamiliar EB building spaces more confidently.</li>
+            <li>By reducing hesitation and wrong turns, the system supports punctuality and lowers wayfinding stress.</li>
+            <li>The project promotes more independent movement through the building, especially for first-time users.</li>
+          </ul>
         </article>
 
         <article class="content-card reflection-card">
           <h4>Ethical Considerations</h4>
-          <p>
-            The current prototype does not track users or collect personal location data. Research photos, observation notes, and interview records should be handled with consent and anonymisation. The next version should also provide stronger accessibility options, including wheelchair routes, elevator-first routes, and clearer support for users with different mobility needs.
-          </p>
+          <ul class="reflection-list">
+            <li>The current prototype does not track users or store personal location data.</li>
+            <li>Research photos and feedback records should be used with participant consent or anonymisation.</li>
+            <li>Future versions should better support accessibility needs, including wheelchair routes and elevator-first navigation.</li>
+          </ul>
         </article>
 
         <article class="content-card reflection-card">
           <h4>AI Use Reflection</h4>
-          <p>
-            AI tools supported wording refinement, coding assistance, debugging, and reflection structure. However, the research interpretation, user testing, design judgement, ethical judgement, and final decisions remained the responsibility of the project team.
-          </p>
+          <ul class="reflection-list">
+            <li>AI tools supported wording refinement, coding assistance, debugging, and portfolio structure.</li>
+            <li>The team reviewed AI-generated suggestions before using them in the final project.</li>
+            <li>Final research interpretation, design decisions, user testing, and ethical judgement remained the responsibility of the team.</li>
+          </ul>
         </article>
       </div>
 
