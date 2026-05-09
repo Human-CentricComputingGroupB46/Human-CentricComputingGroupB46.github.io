@@ -67,7 +67,8 @@ body {
 
 .top-nav a:focus-visible,
 .quick-link:focus-visible,
-.card-link:focus-visible {
+.card-link:focus-visible,
+.hero-demo-link:focus-visible {
   outline: 3px solid rgba(247, 148, 30, 0.45);
   outline-offset: 3px;
 }
@@ -128,7 +129,7 @@ body {
   margin-right: calc(-50vw + 50%);
   border-radius: 0;
   min-height: 100vh;
-  padding: 80px calc(50vw - min(590px, calc(50vw - 20px)));
+  padding: 0 clamp(72px, 14vw, 210px);
   /* Parallax fixed background */
   background-image: url('images/hero-bg-placeholder.png');
   background-attachment: fixed;
@@ -139,7 +140,7 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   box-shadow: 0 24px 58px rgba(7, 29, 54, 0.4);
   overflow: hidden;
@@ -170,7 +171,7 @@ body {
   max-width: 650px;
   display: flex;
   flex-direction: column;
-  margin-top: -160px; /* 让内容稍微偏上一点，还原图中布局 */
+  margin-top: 24vh;
 }
 
 .hero h1 {
@@ -204,10 +205,35 @@ body {
   line-height: 1.6;
 }
 
+.hero-demo-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid rgba(244, 194, 100, 0.68);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(246, 213, 139, 0.92) 0%, rgba(232, 181, 91, 0.9) 100%);
+  color: #071d36;
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  box-shadow: 0 18px 36px rgba(7, 29, 54, 0.32);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.hero-demo-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow: 0 22px 42px rgba(7, 29, 54, 0.38);
+}
+
 .hero-eyebrow {
   position: absolute;
   bottom: 50px;
-  left: calc(50vw - min(590px, calc(50vw - 20px)));
+  left: clamp(72px, 14vw, 210px);
   color: rgba(255, 255, 255, 0.7);
   font-size: 15px;
   letter-spacing: 0.03em;
@@ -247,13 +273,6 @@ body {
   color: #3f4d60;
   font-size: 17px;
   line-height: 1.65;
-}
-
-.intro-actions {
-  margin-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
 }
 
 .intro-stats {
@@ -2728,6 +2747,7 @@ body[data-route="evaluation"] .hero {
       <p class="desc">
         A browser-based EB building navigation kiosk that turns confusing room codes into entrance-aware routes for new students and visiting guests.
       </p>
+      <a href="./app/" class="hero-demo-link">Try the Demo</a>
     </div>
     <div class="hero-eyebrow">Indoor Navigation</div>
     <div class="scroll-down-arrow" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})" aria-label="Scroll down"></div>
@@ -2743,10 +2763,6 @@ body[data-route="evaluation"] .hero {
         <p>
           CampusCompass addresses a common EB building problem: room codes such as EB204 reveal the floor but not the wing, closest entrance, or turning decisions. Users choose their entrance, enter a target room, and receive map-based guidance with concise steps.
         </p>
-      </div>
-      <div class="intro-actions">
-        <a href="./app/" class="quick-link">Open High-Fi Prototype</a>
-<a href="#evaluation" class="quick-link secondary">View Evaluation</a>
       </div>
       <div class="intro-stats" aria-label="Project highlights">
         <div class="stat-card-moved">
