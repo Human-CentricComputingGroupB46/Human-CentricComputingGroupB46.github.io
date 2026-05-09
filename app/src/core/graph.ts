@@ -10,11 +10,10 @@ type AdjList = Map<string, AdjEntry[]>;
 
 /** Cross-floor links (elevators / staircases between floor 1 and floor 2) */
 const crossFloorEdges: GraphEdge[] = [
-  { from: 'F1_ELEV_N', to: 'F2_ELEV_NW', weight: 0.15 },
-  { from: 'F1_STAIR_NW', to: 'F2_ELEV_NW', weight: 0.15 },
+  { from: 'F1_ELEV_N', to: 'F2_STAIR_NW', weight: 0.15 },
+  { from: 'F1_STAIR_NW', to: 'F2_STAIR_NW', weight: 0.15 },
   { from: 'F1_STAIR_NE', to: 'F2_STAIR_NE', weight: 0.12 },
-  { from: 'F1_ELEV_E', to: 'F2_STAIR_SE', weight: 0.15 },
-  { from: 'F1_STAIR_SW', to: 'F2_ELEV_SW', weight: 0.15 },
+  { from: 'F1_STAIR_SW', to: 'F2_STAIR_SW', weight: 0.15 },
 ];
 
 function buildAdjList(edges: GraphEdge[]): AdjList {
