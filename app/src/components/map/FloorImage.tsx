@@ -14,7 +14,7 @@ export function FloorImage({ plan }: Props) {
       width={plan.viewBoxWidth}
       height={plan.viewBoxHeight}
       preserveAspectRatio="none"
-      style={{ opacity: 0.55 }}
+      style={{ opacity: 1 }}
     />
   );
 }
