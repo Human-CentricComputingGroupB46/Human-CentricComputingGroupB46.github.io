@@ -43,6 +43,19 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
             data-room-type={room.type}
             data-room-target={isTarget ? 'true' : undefined}
           >
+            {showRoom && (
+              <rect
+                x={x - 3}
+                y={y - 3}
+                width={w + 6}
+                height={h + 6}
+                fill="rgba(39, 174, 96, 0.16)"
+                stroke="none"
+                rx={5}
+                ry={5}
+                pointerEvents="none"
+              />
+            )}
             <rect
               x={x}
               y={y}
@@ -52,8 +65,8 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
               stroke={isTarget ? COLORS.destination : COLORS.roomStroke}
               strokeWidth={isTarget ? 2.5 : 1}
               opacity={showRoom ? 1 : 0}
-              rx={2}
-              ry={2}
+              rx={3}
+              ry={3}
             />
             {showRoom && room.type === 'inaccessible' && (
               <rect

@@ -15,7 +15,7 @@ interface TrieNode {
   roomId: string | null;
 }
 
-const DIGIT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Clear', '0', '⌫'];
+const DIGIT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Clear', '0', 'Back'];
 
 function createTrieNode(): TrieNode {
   return { children: new Map(), roomId: null };
@@ -73,6 +73,7 @@ export function Numpad({ onRoute, disabled = false }: Props) {
   const inputRoomNumber = useNavigationStore((s) => s.inputRoomNumber);
   const message = useNavigationStore((s) => s.message);
   const targetRoom = useNavigationStore((s) => s.targetRoom);
+  const routeFloors = useNavigationStore((s) => s.routeFloors);
   const setInputRoomNumber = useNavigationStore((s) => s.setInputRoomNumber);
   const inputDigit = useNavigationStore((s) => s.inputDigit);
   const clearInput = useNavigationStore((s) => s.clearInput);
@@ -95,7 +96,7 @@ export function Numpad({ onRoute, disabled = false }: Props) {
   const handleKey = (key: string) => {
     if (disabled) return;
     if (key === 'Clear') clearInput();
-    else if (key === '⌫') backspace();
+    else if (key === 'Back') backspace();
     else inputDigit(key);
   };
 
@@ -108,86 +109,100 @@ export function Numpad({ onRoute, disabled = false }: Props) {
   };
 
   const isError = message != null && message.toLowerCase().includes('not');
+  const displayValue = inputRoomNumber ? `${ROOM_PREFIX}${inputRoomNumber}` : '';
+  const routeDetail = message ?? 'Route instructions will appear here after searching.';
+  const floorText = routeFloors.length > 0
+    ? routeFloors.map((floor) => (floor === 'floor1' ? 'Floor 1' : 'Floor 2')).join(' + ')
+    : 'No active route';
 
   return (
-    <div className={`${styles.section} ${disabled ? styles.sectionDisabled : ''}`}>
-      {/* Display */}
-      <div className={styles.display}>
-        <span className={styles.displayLabel}>Room number</span>
+    <div className={`${styles.stack} ${disabled ? styles.sectionDisabled : ''}`}>
+      <section className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.kicker}>Destination</span>
+          <span className={styles.helper}>Enter room, e.g. EB249</span>
+        </div>
         <div className={styles.displayRow}>
-          <div className={styles.inputBox} data-ui="room-number-shell">
-            <span className={styles.prefix}>{ROOM_PREFIX}</span>
-            <input
-              id="room-number-input"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              className={styles.digitsInput}
-              value={inputRoomNumber}
-              placeholder="104"
-              aria-label="Room number"
-              data-ui="room-number-input"
-              disabled={disabled}
-              onChange={(e) => setInputRoomNumber(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  onRoute();
-                }
-              }}
-            />
-          </div>
-          <button type="button" className={styles.btnGo} data-ui="room-number-go" onClick={onRoute} disabled={disabled}>
+          <input
+            id="room-number-input"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            className={styles.roomInput}
+            value={displayValue}
+            placeholder="Enter room, e.g. EB249"
+            aria-label="Destination room"
+            data-ui="room-number-input"
+            disabled={disabled}
+            onChange={(e) => setInputRoomNumber(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                onRoute();
+              }
+            }}
+          />
+          <button type="button" className={styles.btnRoute} data-ui="room-number-go" onClick={onRoute} disabled={disabled}>
             Route
           </button>
         </div>
-      </div>
 
-      {/* Message */}
-      <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
-        {message}
-      </div>
+        {suggestedRoomIds.length > 0 && (
+          <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">
+            {suggestedRoomIds.map((roomId) => (
+              <button
+                key={roomId}
+                type="button"
+                className={`${styles.suggestionChip} room-suggestion-chip ${roomId === targetRoom ? styles.suggestionChipActive : ''}`}
+                data-ui="room-suggestion-chip"
+                onClick={() => handleSuggestionClick(roomId)}
+                disabled={disabled}
+              >
+                {roomId}
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
 
-      {/* Suggestions */}
-      {suggestedRoomIds.length > 0 && (
-        <div className={`${styles.recent} room-suggestions`} data-ui="room-suggestions">
-          {suggestedRoomIds.map((roomId) => (
-            <button
-              key={roomId}
-              type="button"
-              className={`${styles.recentChip} room-suggestion-chip ${roomId === targetRoom ? styles.recentChipActive : ''}`}
-              data-ui="room-suggestion-chip"
-              onClick={() => handleSuggestionClick(roomId)}
-              disabled={disabled}
-            >
-              {roomId}
-            </button>
-          ))}
+      <section className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.kicker}>Route Result</span>
+          <span className={targetRoom ? styles.resultRoom : styles.resultEmpty}>
+            {targetRoom ?? 'Waiting for destination'}
+          </span>
         </div>
-      )}
+        <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
+          {routeDetail}
+        </div>
+        <div className={styles.floorPill}>{floorText}</div>
+      </section>
 
-      {/* Numpad grid */}
-      <div className={styles.grid}>
-        {DIGIT_KEYS.map((key) => {
-          let cls = styles.key;
-          if (key === 'Clear') cls = `${styles.key} ${styles.keyClear}`;
-          else if (key === '⌫') cls = `${styles.key} ${styles.keyBackspace}`;
-          else cls = `${styles.key} ${styles.keyDigit}`;
+      <section className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.kicker}>Keypad</span>
+        </div>
+        <div className={styles.grid}>
+          {DIGIT_KEYS.map((key) => {
+            let cls = styles.key;
+            if (key === 'Clear') cls = `${styles.key} ${styles.keyClear}`;
+            else if (key === 'Back') cls = `${styles.key} ${styles.keyBackspace}`;
+            else cls = `${styles.key} ${styles.keyDigit}`;
 
-          return (
-            <button
-              key={key}
-              type="button"
-              className={cls}
-              onClick={() => handleKey(key)}
-              disabled={disabled}
-            >
-              {key}
-            </button>
-          );
-        })}
-      </div>
-
+            return (
+              <button
+                key={key}
+                type="button"
+                className={cls}
+                onClick={() => handleKey(key)}
+                disabled={disabled}
+              >
+                {key === 'Back' ? '⌫' : key}
+              </button>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }

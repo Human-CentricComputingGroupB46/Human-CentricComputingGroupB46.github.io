@@ -15,11 +15,13 @@ export function EntranceSelector() {
   const selectEntrance = useNavigationStore((s) => s.selectEntrance);
 
   return (
-    <div className={styles.selector}>
-      <div className={styles.label}>
-        You are here: <strong>{NAMES[currentEntrance]}</strong>
+    <section className={styles.card}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.kicker}>Current Location</span>
+        <strong className={styles.current}>{NAMES[currentEntrance]}</strong>
       </div>
-      <div className={styles.buttons}>
+      <div className={styles.selectorLabel}>Select Entrance</div>
+      <div className={styles.buttons} role="group" aria-label="Select current entrance">
         {ENTRANCES.map((id) => (
           <button
             key={id}
@@ -31,6 +33,6 @@ export function EntranceSelector() {
           </button>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

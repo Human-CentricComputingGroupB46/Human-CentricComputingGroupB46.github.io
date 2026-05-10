@@ -1,47 +1,79 @@
-.selector {
-  padding: 18px 18px 14px;
+.card {
+  padding: 16px;
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-md);
+  background: rgba(15, 23, 42, 0.46);
 }
 
-.label {
-  font-size: 13px;
-  color: #94a3b8;
-  margin-bottom: 10px;
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
 }
 
-.label strong {
-  color: #e2e8f0;
+.kicker,
+.selectorLabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cc-text-subtle);
+}
+
+.current {
+  color: var(--cc-text);
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.selectorLabel {
+  margin-bottom: 8px;
 }
 
 .buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
 .btn {
-  flex: 1;
-  padding: 12px 0;
-  border-radius: 9px;
+  min-height: 48px;
+  border-radius: var(--cc-radius-sm);
   font-size: 15px;
-  font-weight: 700;
-  color: #64748b;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.15s;
+  font-weight: 800;
+  color: var(--cc-text-muted);
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--cc-border);
+  transition:
+    background var(--cc-transition),
+    border-color var(--cc-transition),
+    color var(--cc-transition),
+    transform var(--cc-transition),
+    box-shadow var(--cc-transition);
 }
 
-.btn:hover {
-  color: #e2e8f0;
+.btn:hover:not(:disabled) {
+  color: var(--cc-text);
   background: rgba(255, 255, 255, 0.08);
+  border-color: var(--cc-border-strong);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.46;
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .btnActive {
   color: #ffffff;
-  background: #e67e22;
-  border-color: #e67e22;
-  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.35);
+  background: linear-gradient(180deg, var(--cc-orange), var(--cc-orange-hover));
+  border-color: rgba(242, 138, 26, 0.85);
+  box-shadow: var(--cc-shadow-accent);
 }
 
-.btnActive:hover {
+.btnActive:hover:not(:disabled) {
   color: #ffffff;
-  background: #d35400;
+  background: linear-gradient(180deg, #ff9828, var(--cc-orange-hover));
 }

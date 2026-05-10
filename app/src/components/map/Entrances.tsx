@@ -38,6 +38,13 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
                 strokeDasharray="4 3"
               />
             )}
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius + 3}
+              fill={COLORS.entranceMarker}
+              opacity={isActive ? 0.18 : 0.08}
+            />
             {/* Outer ring */}
             <circle cx={cx} cy={cy} r={radius} fill={COLORS.entranceMarker} opacity={isActive || isSelected ? 1 : 0.45} />
             {/* Pulse ring for active */}

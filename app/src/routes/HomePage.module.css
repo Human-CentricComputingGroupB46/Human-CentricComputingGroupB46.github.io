@@ -2,29 +2,34 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #0f172a;
+  background:
+    radial-gradient(circle at top left, rgba(242, 138, 26, 0.08), transparent 30%),
+    var(--cc-bg);
 }
 
 .floorBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
-  background: #1a1a2e;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 72px;
+  padding: 12px 24px;
+  background: rgba(20, 24, 43, 0.92);
+  border-bottom: 1px solid var(--cc-border);
   flex-shrink: 0;
 }
 
 .floorLabel {
-  font-size: 15px;
-  font-weight: 600;
-  color: #e2e8f0;
-  letter-spacing: 0.3px;
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--cc-text);
+  letter-spacing: 0.1px;
 }
 
 .main {
   flex: 1;
   display: flex;
+  gap: 16px;
+  padding: 16px;
   min-height: 0;
 }
 
@@ -32,19 +37,44 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   min-width: 0;
+}
+
+.mapStage {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  padding: 10px;
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-lg);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.82), rgba(15, 23, 42, 0.92));
+  box-shadow: var(--cc-shadow-soft);
 }
 
 .legendBar {
   display: flex;
   justify-content: center;
-  padding: 8px 16px;
-  background: rgba(26, 26, 46, 0.85);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(6px);
+  padding: 0;
   flex-shrink: 0;
 }
 
 .sidebarContainer {
   flex-shrink: 0;
+}
+
+@media (max-width: 980px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .floorBar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebarContainer {
+    width: 100%;
+  }
 }

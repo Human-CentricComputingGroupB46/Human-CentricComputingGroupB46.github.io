@@ -14,21 +14,20 @@ export function HomePage() {
   const designMode = useDesignStore((s) => s.designMode);
   const demoMode = useDesignStore((s) => s.demoMode);
 
-  // DEMO MODE auto-cycle
   useDemoMode();
 
   return (
     <div className={styles.page}>
       <Header />
       <div className={styles.floorBar}>
-        <span className={styles.floorLabel}>
-          {demoMode ? 'DEMO MODE — auto-cycling routes' : 'EB Building Navigation'}
-        </span>
+        <span className={styles.floorLabel}>EB Building Navigation</span>
         <FloorTabs />
       </div>
       <div className={styles.main}>
         <div className={styles.mapArea}>
-          <MapView />
+          <div className={styles.mapStage}>
+            <MapView />
+          </div>
           <div className={styles.legendBar}>
             <Legend />
           </div>

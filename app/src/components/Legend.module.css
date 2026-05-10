@@ -1,0 +1,63 @@
+.legend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 9px 14px;
+  border: 1px solid var(--cc-border);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: var(--cc-text-muted);
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.22);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+
+.dotCurrent {
+  background: var(--cc-orange);
+}
+
+.dotDestination {
+  background: var(--cc-green);
+}
+
+.routeLine {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--cc-orange);
+  box-shadow: 0 0 10px rgba(242, 138, 26, 0.34);
+}
+
+.hatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(226, 232, 240, 0.24);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(226, 232, 240, 0.72),
+    rgba(226, 232, 240, 0.72) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
