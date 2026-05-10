@@ -1,7 +1,7 @@
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   min-height: 0;
 }
 
@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 11px;
+  margin-bottom: 10px;
 }
 
 .kicker {
@@ -32,14 +32,15 @@
 
 .helper {
   color: var(--cc-text-muted);
-  font-size: 13px;
+  font-size: 12.5px;
+  line-height: 1.35;
 }
 
 .displayRow {
   display: flex;
   gap: 7px;
   min-width: 0;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .inputShell {
@@ -129,6 +130,10 @@
   box-shadow: none;
 }
 
+.resultHeader {
+  margin: 12px 0 7px;
+}
+
 .statusSlot {
   min-height: 34px;
   display: flex;
@@ -197,7 +202,7 @@
   display: inline-flex;
   align-items: center;
   max-width: 100%;
-  margin-top: 8px;
+  margin-top: 7px;
   padding: 5px 9px;
   border-radius: 999px;
   color: var(--cc-text-muted);

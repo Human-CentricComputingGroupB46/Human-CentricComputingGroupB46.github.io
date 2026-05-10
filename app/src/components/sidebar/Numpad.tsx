@@ -119,10 +119,8 @@ export function Numpad({ onRoute, disabled = false }: Props) {
     <div className={`${styles.stack} ${disabled ? styles.sectionDisabled : ''}`}>
       <section className={styles.card}>
         <div className={styles.sectionHeader}>
-          <span className={styles.kicker}>Route Result</span>
-          <span className={targetRoom ? styles.resultRoom : styles.resultEmpty}>
-            {targetRoom ?? 'Waiting for room number'}
-          </span>
+          <span className={styles.kicker}>Destination</span>
+          <span className={styles.helper}>Enter room number, e.g. EB249</span>
         </div>
 
         <div className={styles.displayRow}>
@@ -153,6 +151,9 @@ export function Numpad({ onRoute, disabled = false }: Props) {
           </button>
         </div>
 
+        <div className={styles.resultHeader}>
+          <span className={styles.kicker}>Route Result</span>
+        </div>
         <div className={styles.statusSlot}>
           {showSuggestions && (
             <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">

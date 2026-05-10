@@ -1,16 +1,15 @@
 .legend {
-  width: 124px;
+  width: 132px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 6px;
   padding: 9px;
   border: 1px solid rgba(226, 232, 240, 0.12);
   border-radius: var(--cc-radius-sm);
-  background: rgba(15, 23, 42, 0.82);
+  background: rgba(15, 23, 42, 0.74);
   color: var(--cc-text-muted);
-  box-shadow: 0 10px 22px rgba(2, 6, 23, 0.2);
-  backdrop-filter: blur(6px);
-  font-size: 11px;
+  box-shadow: none;
+  font-size: 10.5px;
   font-weight: 700;
 }
 
@@ -67,7 +66,7 @@
 
 @media (max-width: 980px) {
   .legend {
-    width: 118px;
+    width: 128px;
     gap: 5px;
     padding: 8px;
     font-size: 10.5px;
