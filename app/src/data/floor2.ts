@@ -160,14 +160,6 @@ const corridors: Corridor[] = [
     ],
   },
   {
-    id: 'F2_DROP_EB275',
-    floor: 'floor2',
-    path: [
-      { x: 0.42919, y: 0.92832 }, // J_S4
-      { x: 0.42140, y: 0.92832 }, // DROP_EB275
-    ],
-  },
-  {
     id: 'F2_CONN_SW',
     floor: 'floor2',
     path: [
