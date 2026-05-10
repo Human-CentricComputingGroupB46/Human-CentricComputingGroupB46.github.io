@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(242, 138, 26, 0.08), transparent 30%),
+    radial-gradient(circle at top left, rgba(242, 138, 26, 0.09), transparent 28%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0), rgba(30, 41, 59, 0.2)),
     var(--cc-bg);
 }
 
@@ -11,25 +13,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 72px;
-  padding: 12px 24px;
-  background: rgba(20, 24, 43, 0.92);
+  min-height: 60px;
+  padding: 10px 24px;
+  background: rgba(15, 23, 42, 0.72);
   border-bottom: 1px solid var(--cc-border);
   flex-shrink: 0;
 }
 
+.titleGroup {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
 .floorLabel {
-  font-size: 16px;
-  font-weight: 750;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
   color: var(--cc-text);
-  letter-spacing: 0.1px;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .main {
   flex: 1;
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: 18px;
+  padding: 16px 20px 18px;
   min-height: 0;
 }
 
@@ -44,37 +54,64 @@
 .mapStage {
   flex: 1;
   display: flex;
+  position: relative;
   min-height: 0;
-  padding: 10px;
-  border: 1px solid var(--cc-border);
-  border-radius: var(--cc-radius-lg);
-  background: linear-gradient(180deg, rgba(30, 41, 59, 0.82), rgba(15, 23, 42, 0.92));
-  box-shadow: var(--cc-shadow-soft);
+  padding: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.1);
+  border-radius: var(--cc-radius-xl);
+  background:
+    linear-gradient(180deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.96)),
+    var(--cc-surface-2);
+  box-shadow: var(--cc-shadow-map);
 }
 
-.legendBar {
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  flex-shrink: 0;
+.legendOverlay {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .sidebarContainer {
   flex-shrink: 0;
+  min-height: 0;
 }
 
 @media (max-width: 980px) {
   .main {
     flex-direction: column;
+    overflow-y: auto;
   }
 
   .floorBar {
     align-items: flex-start;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    min-height: auto;
   }
 
   .sidebarContainer {
     width: 100%;
+  }
+
+  .legendOverlay {
+    right: 18px;
+    bottom: 18px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 981px) {
+  .floorBar {
+    min-height: 54px;
+  }
+
+  .main {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .mapStage {
+    padding: 10px;
   }
 }

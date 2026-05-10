@@ -103,14 +103,14 @@ export function Numpad({ onRoute, disabled = false }: Props) {
   const handleSuggestionClick = (roomId: string) => {
     if (disabled) return;
     resetInput();
-    const num = roomId.slice(ROOM_PREFIX.length);
-    setInputRoomNumber(num);
+    setInputRoomNumber(roomId.slice(ROOM_PREFIX.length));
     setTimeout(onRoute, 0);
   };
 
   const isError = message != null && message.toLowerCase().includes('not');
-  const displayValue = inputRoomNumber ? `${ROOM_PREFIX}${inputRoomNumber}` : '';
-  const routeDetail = message ?? 'Route instructions will appear here after searching.';
+  const hasInput = inputRoomNumber.trim().length > 0;
+  const routeDetail = message ?? (hasInput ? null : 'Route instructions will appear here after searching.');
+  const showSuggestions = routeDetail == null && suggestedRoomIds.length > 0;
   const floorText = routeFloors.length > 0
     ? routeFloors.map((floor) => (floor === 'floor1' ? 'Floor 1' : 'Floor 2')).join(' + ')
     : 'No active route';
@@ -119,61 +119,63 @@ export function Numpad({ onRoute, disabled = false }: Props) {
     <div className={`${styles.stack} ${disabled ? styles.sectionDisabled : ''}`}>
       <section className={styles.card}>
         <div className={styles.sectionHeader}>
-          <span className={styles.kicker}>Destination</span>
-          <span className={styles.helper}>Enter room, e.g. EB249</span>
+          <span className={styles.kicker}>Route Result</span>
+          <span className={targetRoom ? styles.resultRoom : styles.resultEmpty}>
+            {targetRoom ?? 'Waiting for room number'}
+          </span>
         </div>
+
         <div className={styles.displayRow}>
-          <input
-            id="room-number-input"
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            className={styles.roomInput}
-            value={displayValue}
-            placeholder="Enter room, e.g. EB249"
-            aria-label="Destination room"
-            data-ui="room-number-input"
-            disabled={disabled}
-            onChange={(e) => setInputRoomNumber(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                onRoute();
-              }
-            }}
-          />
+          <div className={styles.inputShell} data-ui="room-number-shell">
+            <span className={styles.prefix}>{ROOM_PREFIX}</span>
+            <input
+              id="room-number-input"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              className={styles.digitsInput}
+              value={inputRoomNumber}
+              placeholder="249"
+              aria-label="Room number after EB"
+              data-ui="room-number-input"
+              disabled={disabled}
+              onChange={(e) => setInputRoomNumber(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  onRoute();
+                }
+              }}
+            />
+          </div>
           <button type="button" className={styles.btnRoute} data-ui="room-number-go" onClick={onRoute} disabled={disabled}>
             Route
           </button>
         </div>
 
-        {suggestedRoomIds.length > 0 && (
-          <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">
-            {suggestedRoomIds.map((roomId) => (
-              <button
-                key={roomId}
-                type="button"
-                className={`${styles.suggestionChip} room-suggestion-chip ${roomId === targetRoom ? styles.suggestionChipActive : ''}`}
-                data-ui="room-suggestion-chip"
-                onClick={() => handleSuggestionClick(roomId)}
-                disabled={disabled}
-              >
-                {roomId}
-              </button>
-            ))}
-          </div>
-        )}
-      </section>
+        <div className={styles.statusSlot}>
+          {showSuggestions && (
+            <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">
+              {suggestedRoomIds.map((roomId) => (
+                <button
+                  key={roomId}
+                  type="button"
+                  className={`${styles.suggestionChip} room-suggestion-chip ${roomId === targetRoom ? styles.suggestionChipActive : ''}`}
+                  data-ui="room-suggestion-chip"
+                  onClick={() => handleSuggestionClick(roomId)}
+                  disabled={disabled}
+                >
+                  {roomId}
+                </button>
+              ))}
+            </div>
+          )}
 
-      <section className={styles.card}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.kicker}>Route Result</span>
-          <span className={targetRoom ? styles.resultRoom : styles.resultEmpty}>
-            {targetRoom ?? 'Waiting for destination'}
-          </span>
-        </div>
-        <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
-          {routeDetail}
+          {routeDetail && (
+            <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
+              {routeDetail}
+            </div>
+          )}
         </div>
         <div className={styles.floorPill}>{floorText}</div>
       </section>
@@ -197,7 +199,7 @@ export function Numpad({ onRoute, disabled = false }: Props) {
                 onClick={() => handleKey(key)}
                 disabled={disabled}
               >
-                {key === 'Back' ? '⌫' : key}
+                {key}
               </button>
             );
           })}

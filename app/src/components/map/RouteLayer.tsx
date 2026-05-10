@@ -24,8 +24,17 @@ export function RouteLayer({ path, plan }: Props) {
       <path
         d={d}
         fill="none"
-        stroke="rgba(242, 138, 26, 0.24)"
-        strokeWidth={13}
+        stroke="rgba(242, 138, 26, 0.22)"
+        strokeWidth={12}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Route highlight */}
+      <path
+        d={d}
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.52)"
+        strokeWidth={6}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -34,7 +43,7 @@ export function RouteLayer({ path, plan }: Props) {
         d={d}
         fill="none"
         stroke={COLORS.routeLine}
-        strokeWidth={4}
+        strokeWidth={4.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

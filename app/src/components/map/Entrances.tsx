@@ -41,12 +41,18 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
             <circle
               cx={cx}
               cy={cy}
-              r={radius + 3}
+              r={radius + 4}
               fill={COLORS.entranceMarker}
-              opacity={isActive ? 0.18 : 0.08}
+              opacity={isActive ? 0.2 : 0.08}
             />
             {/* Outer ring */}
-            <circle cx={cx} cy={cy} r={radius} fill={COLORS.entranceMarker} opacity={isActive || isSelected ? 1 : 0.45} />
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill={COLORS.entranceMarker}
+              opacity={isActive || isSelected ? 1 : 0.5}
+            />
             {/* Pulse ring for active */}
             {isActive && (
               <circle
@@ -61,7 +67,7 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
               />
             )}
             {/* White border */}
-            <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#fff" strokeWidth={2} />
+            <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#fff" strokeWidth={1.8} opacity={0.9} />
             {/* Label */}
             <text
               x={cx}
