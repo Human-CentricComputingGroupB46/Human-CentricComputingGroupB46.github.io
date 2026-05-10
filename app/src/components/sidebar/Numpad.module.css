@@ -78,17 +78,20 @@
 .btnGo {
   flex: 0 0 auto;
   box-sizing: border-box;
-  padding: 10px 20px;
+  min-width: 76px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
   background: #e67e22;
-  transition: background 0.15s;
+  box-shadow: 0 3px 12px rgba(230, 126, 34, 0.28);
+  transition: background 0.15s, box-shadow 0.15s;
 }
 
 .btnGo:hover {
   background: #d35400;
+  box-shadow: 0 4px 16px rgba(230, 126, 34, 0.36);
 }
 
 /* Message */
@@ -137,7 +140,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .key {
@@ -179,25 +182,6 @@
 
 .keyBackspace:hover {
   background: rgba(255, 255, 255, 0.1);
-}
-
-/* Route button */
-.btnRoute {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-  background: #e67e22;
-  box-shadow: 0 4px 14px rgba(230, 126, 34, 0.3);
-  transition: all 0.15s;
-}
-
-.btnRoute:hover {
-  background: #d35400;
-  box-shadow: 0 4px 20px rgba(230, 126, 34, 0.4);
 }
 
 /* Disabled overlay */

@@ -34,6 +34,7 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
         const y = cy - h / 2;
         const isTarget = room.id === targetRoomId;
         const fontSize = Math.min(14, Math.max(8, w / Math.max(1, room.label.length) * 1.4));
+        const showRoom = isTarget;
 
         return (
           <g
@@ -50,10 +51,11 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
               fill={isTarget ? 'rgba(39, 174, 96, 0.35)' : fillByType(room.type)}
               stroke={isTarget ? COLORS.destination : COLORS.roomStroke}
               strokeWidth={isTarget ? 2.5 : 1}
+              opacity={showRoom ? 1 : 0}
               rx={2}
               ry={2}
             />
-            {room.type === 'inaccessible' && (
+            {showRoom && room.type === 'inaccessible' && (
               <rect
                 x={x}
                 y={y}
@@ -72,6 +74,7 @@ export function Rooms({ rooms, plan, targetRoomId }: Props) {
               fontSize={fontSize}
               fontFamily="Segoe UI, system-ui, sans-serif"
               fill={COLORS.roomLabel}
+              opacity={0}
               pointerEvents="none"
             >
               {room.label}

@@ -1,5 +1,5 @@
 .selector {
-  padding: 16px 18px 12px;
+  padding: 18px 18px 14px;
 }
 
 .label {
@@ -14,14 +14,14 @@
 
 .buttons {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .btn {
   flex: 1;
-  padding: 9px 0;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 12px 0;
+  border-radius: 9px;
+  font-size: 15px;
   font-weight: 700;
   color: #64748b;
   background: rgba(255, 255, 255, 0.04);

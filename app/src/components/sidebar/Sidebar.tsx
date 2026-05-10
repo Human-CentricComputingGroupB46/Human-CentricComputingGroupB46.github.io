@@ -13,6 +13,7 @@ export function Sidebar({ onRoute, disabled = false }: Props) {
       <EntranceSelector />
       <div className={styles.divider} />
       <Numpad onRoute={onRoute} disabled={disabled} />
+      <div className={styles.filler} aria-hidden="true" />
     </aside>
   );
 }

@@ -9,7 +9,6 @@ import { Corridors } from './Corridors';
 import { Rooms } from './Rooms';
 import { Entrances } from './Entrances';
 import { RouteLayer } from './RouteLayer';
-import { OrientationBadge } from './OrientationBadge';
 import styles from './MapView.module.css';
 
 /** Euclidean distance between two points (in SVG coords) */
@@ -464,7 +463,6 @@ export function MapView() {
           selectedNodeId={selectedNodeId}
         />
         {unifiedPath.length > 1 && <RouteLayer path={unifiedPath} plan={plan} />}
-        <OrientationBadge plan={plan} />
 
         {/* Design mode highlight + control handles */}
         {designMode && selectedRoomRect && (

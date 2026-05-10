@@ -13,3 +13,14 @@
   background: rgba(255, 255, 255, 0.06);
   margin: 0;
 }
+
+.filler {
+  flex: 1;
+  min-height: 120px;
+  margin: 0 18px 18px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.46), rgba(15, 23, 42, 0.68)),
+    #172033;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}

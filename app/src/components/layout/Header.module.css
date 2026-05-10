@@ -73,7 +73,8 @@
 
 .clock {
   font-size: 13px;
-  color: #64748b;
+  color: #9aa8bd;
+  font-weight: 500;
   min-width: 50px;
   text-align: right;
 }

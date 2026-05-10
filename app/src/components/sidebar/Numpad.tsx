@@ -138,7 +138,7 @@ export function Numpad({ onRoute, disabled = false }: Props) {
             />
           </div>
           <button type="button" className={styles.btnGo} data-ui="room-number-go" onClick={onRoute} disabled={disabled}>
-            Go
+            Route
           </button>
         </div>
       </div>
@@ -188,10 +188,6 @@ export function Numpad({ onRoute, disabled = false }: Props) {
         })}
       </div>
 
-      {/* Route button */}
-      <button type="button" className={styles.btnRoute} onClick={onRoute} disabled={disabled}>
-        Route
-      </button>
     </div>
   );
 }
