@@ -18,7 +18,7 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
         const cy = ent.position.y * plan.viewBoxHeight;
         const isActive = ent.id === currentEntrance;
         const isSelected = designMode && selectedNodeId === ent.id;
-        const radius = isActive ? 16 : 12;
+        const radius = isActive ? 20 : 15;
 
         return (
           <g
@@ -58,7 +58,7 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
               <circle
                 cx={cx}
                 cy={cy}
-                r={radius + 8}
+                r={radius + 10}
                 fill="none"
                 stroke={COLORS.entranceMarker}
                 strokeWidth={2}
@@ -74,7 +74,7 @@ export function Entrances({ entrances, plan, currentEntrance, designMode, select
               y={cy}
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize={isActive ? 12 : 10}
+              fontSize={isActive ? 13 : 11}
               fontWeight="bold"
               fontFamily="Segoe UI, system-ui, sans-serif"
               fill="#fff"
