@@ -6,11 +6,15 @@ import { ROOM_PREFIX } from '../core/constants';
 
 export type RouteHandler = (roomCode?: string) => void;
 
+const RESTRICTED_ROOM_IDS = new Set(['EB155', 'EB157', 'EB159', 'EB161']);
+const DEFAULT_ROOM_NUMBER = '249';
+
 export function useRoute(): RouteHandler {
   const floors = useAllFloorData();
   const currentEntrance = useNavigationStore((s) => s.currentEntrance);
   const inputRoomNumber = useNavigationStore((s) => s.inputRoomNumber);
   const currentFloor = useNavigationStore((s) => s.currentFloor);
+  const setInputRoomNumber = useNavigationStore((s) => s.setInputRoomNumber);
   const setRoute = useNavigationStore((s) => s.setRoute);
   const setError = useNavigationStore((s) => s.setError);
   const switchFloor = useNavigationStore((s) => s.switchFloor);
@@ -20,7 +24,10 @@ export function useRoute(): RouteHandler {
     const rawRoomCode = (roomCode ?? inputRoomNumber).trim().toUpperCase();
     const roomNumber = rawRoomCode.startsWith(ROOM_PREFIX)
       ? rawRoomCode.slice(ROOM_PREFIX.length)
-      : rawRoomCode;
+      : rawRoomCode || DEFAULT_ROOM_NUMBER;
+    if (!rawRoomCode) {
+      setInputRoomNumber(DEFAULT_ROOM_NUMBER);
+    }
     const roomId = `${ROOM_PREFIX}${roomNumber}`;
 
     if (!roomNumber) {
@@ -36,6 +43,11 @@ export function useRoute(): RouteHandler {
     const result = findRoute(currentEntrance, roomId, floors);
 
     if (!result) {
+      if (RESTRICTED_ROOM_IDS.has(roomId)) {
+        setError(`You do not have permission to enter ${roomId}. Please try another room.`);
+        return;
+      }
+
       setError(`No route available to ${roomId}.`);
       return;
     }
@@ -49,6 +61,6 @@ export function useRoute(): RouteHandler {
     setRoute(roomId, result.path, result.floors);
   }, [
     floors, currentEntrance, inputRoomNumber, currentFloor,
-    setRoute, setError, switchFloor, addRecentRoom,
+    setInputRoomNumber, setRoute, setError, switchFloor, addRecentRoom,
   ]);
 }

@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import type { FloorId, EntranceId, GraphNode } from '../core/types';
 import { MAX_RECENT_ROOMS } from '../core/constants';
 
+const MAX_ROOM_DIGITS = 3;
+
 export interface NavigationState {
   currentFloor: FloorId;
   currentEntrance: EntranceId;
@@ -40,7 +42,7 @@ export const useNavigationStore = create<NavigationState>((set) => ({
 
   setInputRoomNumber: (value) =>
     set({
-      inputRoomNumber: value.replace(/\D/g, '').slice(0, 8),
+      inputRoomNumber: value.replace(/\D/g, '').slice(0, MAX_ROOM_DIGITS),
       targetRoom: null,
       route: null,
       routeFloors: [],
@@ -49,7 +51,7 @@ export const useNavigationStore = create<NavigationState>((set) => ({
 
   inputDigit: (d) =>
     set((s) => ({
-      inputRoomNumber: `${s.inputRoomNumber}${d}`.slice(0, 8),
+      inputRoomNumber: `${s.inputRoomNumber}${d}`.slice(0, MAX_ROOM_DIGITS),
       targetRoom: null,
       route: null,
       routeFloors: [],

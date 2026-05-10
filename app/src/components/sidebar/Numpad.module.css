@@ -215,16 +215,22 @@
 
 .keypadCard {
   margin-top: auto;
+  flex: 0 0 286px;
+  display: flex;
+  flex-direction: column;
+  height: 286px;
 }
 
 .grid {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
+  gap: 8px;
+  grid-auto-rows: minmax(52px, 1fr);
 }
 
 .key {
-  min-height: 47px;
+  min-height: 52px;
   border-radius: var(--cc-radius-sm);
   font-size: 17px;
   font-weight: 750;
@@ -307,7 +313,17 @@
   }
 
   .key {
-    min-height: 42px;
+    min-height: 44px;
+  }
+
+  .keypadCard {
+    flex-basis: 248px;
+    height: 248px;
+  }
+
+  .grid {
+    grid-auto-rows: minmax(44px, 1fr);
+    gap: 7px;
   }
 
   .statusSlot {
