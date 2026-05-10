@@ -39,23 +39,41 @@ export const useNavigationStore = create<NavigationState>((set) => ({
   selectEntrance: (e) => set({ currentEntrance: e, route: null, message: null }),
 
   setInputRoomNumber: (value) =>
-    set({ inputRoomNumber: value.replace(/\D/g, '').slice(0, 8) }),
+    set({
+      inputRoomNumber: value.replace(/\D/g, '').slice(0, 8),
+      targetRoom: null,
+      route: null,
+      routeFloors: [],
+      message: null,
+    }),
 
   inputDigit: (d) =>
-    set((s) => ({ inputRoomNumber: s.inputRoomNumber + d })),
+    set((s) => ({
+      inputRoomNumber: `${s.inputRoomNumber}${d}`.slice(0, 8),
+      targetRoom: null,
+      route: null,
+      routeFloors: [],
+      message: null,
+    })),
 
   clearInput: () =>
     set({ inputRoomNumber: '', targetRoom: null, route: null, message: null }),
 
   backspace: () =>
-    set((s) => ({ inputRoomNumber: s.inputRoomNumber.slice(0, -1) })),
+    set((s) => ({
+      inputRoomNumber: s.inputRoomNumber.slice(0, -1),
+      targetRoom: null,
+      route: null,
+      routeFloors: [],
+      message: null,
+    })),
 
   setRoute: (target, route, floors) =>
     set({
       targetRoom: target,
       route,
       routeFloors: floors,
-      message: 'Shortest route shown on map.',
+      message: null,
     }),
 
   setError: (msg) => set({ message: msg, route: null, targetRoom: null }),

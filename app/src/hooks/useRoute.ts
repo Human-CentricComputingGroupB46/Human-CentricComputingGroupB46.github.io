@@ -4,7 +4,9 @@ import { useAllFloorData } from './useFloorData';
 import { findRoute, isValidRoom, getRoomFloor } from '../core/graph';
 import { ROOM_PREFIX } from '../core/constants';
 
-export function useRoute(): () => void {
+export type RouteHandler = (roomCode?: string) => void;
+
+export function useRoute(): RouteHandler {
   const floors = useAllFloorData();
   const currentEntrance = useNavigationStore((s) => s.currentEntrance);
   const inputRoomNumber = useNavigationStore((s) => s.inputRoomNumber);
@@ -14,19 +16,23 @@ export function useRoute(): () => void {
   const switchFloor = useNavigationStore((s) => s.switchFloor);
   const addRecentRoom = useNavigationStore((s) => s.addRecentRoom);
 
-  return useCallback(() => {
-    const digits = inputRoomNumber.trim();
-    if (!digits) {
+  return useCallback((roomCode?: string) => {
+    const rawRoomCode = (roomCode ?? inputRoomNumber).trim().toUpperCase();
+    const roomNumber = rawRoomCode.startsWith(ROOM_PREFIX)
+      ? rawRoomCode.slice(ROOM_PREFIX.length)
+      : rawRoomCode;
+    const roomId = `${ROOM_PREFIX}${roomNumber}`;
+
+    if (!roomNumber) {
       setError('Please enter a room number.');
       return;
     }
 
-    if (!isValidRoom(digits, floors)) {
-      setError(`Room ${ROOM_PREFIX}${digits} not found.`);
+    if (!isValidRoom(roomId, floors)) {
+      setError(`Room ${roomId} not found.`);
       return;
     }
 
-    const roomId = digits.startsWith(ROOM_PREFIX) ? digits : `${ROOM_PREFIX}${digits}`;
     const result = findRoute(currentEntrance, roomId, floors);
 
     if (!result) {

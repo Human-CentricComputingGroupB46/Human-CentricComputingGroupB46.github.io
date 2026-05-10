@@ -3,10 +3,11 @@ import { useNavigationStore } from '../../store/navigationStore';
 import { ROOM_PREFIX } from '../../core/constants';
 import { getAllRoomIds } from '../../core/graph';
 import { useAllFloorData } from '../../hooks/useFloorData';
+import type { RouteHandler } from '../../hooks/useRoute';
 import styles from './Numpad.module.css';
 
 interface Props {
-  onRoute: () => void;
+  onRoute: RouteHandler;
   disabled?: boolean;
 }
 
@@ -68,6 +69,10 @@ function suggestRoomIds(root: TrieNode, prefix: string, limit: number): string[]
   return suggestions;
 }
 
+function floorLabel(floor: string): string {
+  return floor === 'floor1' ? 'Floor 1' : 'Floor 2';
+}
+
 export function Numpad({ onRoute, disabled = false }: Props) {
   const floors = useAllFloorData();
   const inputRoomNumber = useNavigationStore((s) => s.inputRoomNumber);
@@ -104,16 +109,16 @@ export function Numpad({ onRoute, disabled = false }: Props) {
     if (disabled) return;
     resetInput();
     setInputRoomNumber(roomId.slice(ROOM_PREFIX.length));
-    setTimeout(onRoute, 0);
+    onRoute(roomId);
   };
 
-  const isError = message != null && message.toLowerCase().includes('not');
   const hasInput = inputRoomNumber.trim().length > 0;
-  const routeDetail = message ?? (hasInput ? null : 'Route instructions will appear here after searching.');
-  const showSuggestions = routeDetail == null && suggestedRoomIds.length > 0;
-  const floorText = routeFloors.length > 0
-    ? routeFloors.map((floor) => (floor === 'floor1' ? 'Floor 1' : 'Floor 2')).join(' + ')
-    : 'No active route';
+  const showSuggestions = hasInput && !targetRoom && suggestedRoomIds.length > 0;
+  const isError = message != null && !targetRoom;
+  const floorText = routeFloors.map(floorLabel).join(' / ');
+  const routeDetail = targetRoom
+    ? `Route to ${targetRoom} is shown on the map.\nUse ${floorText} to ${routeFloors.length > 1 ? 'view each part' : 'view the route'}.`
+    : message ?? 'Route instructions will appear here after searching.';
 
   return (
     <div className={`${styles.stack} ${disabled ? styles.sectionDisabled : ''}`}>
@@ -146,42 +151,39 @@ export function Numpad({ onRoute, disabled = false }: Props) {
               }}
             />
           </div>
-          <button type="button" className={styles.btnRoute} data-ui="room-number-go" onClick={onRoute} disabled={disabled}>
+          <button type="button" className={styles.btnRoute} data-ui="room-number-go" onClick={() => onRoute()} disabled={disabled}>
             Route
           </button>
         </div>
+
+        {showSuggestions && (
+          <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">
+            {suggestedRoomIds.map((roomId) => (
+              <button
+                key={roomId}
+                type="button"
+                className={`${styles.suggestionChip} room-suggestion-chip ${roomId === targetRoom ? styles.suggestionChipActive : ''}`}
+                data-ui="room-suggestion-chip"
+                onClick={() => handleSuggestionClick(roomId)}
+                disabled={disabled}
+              >
+                {roomId}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className={styles.resultHeader}>
           <span className={styles.kicker}>Route Result</span>
         </div>
         <div className={styles.statusSlot}>
-          {showSuggestions && (
-            <div className={`${styles.suggestions} room-suggestions`} data-ui="room-suggestions">
-              {suggestedRoomIds.map((roomId) => (
-                <button
-                  key={roomId}
-                  type="button"
-                  className={`${styles.suggestionChip} room-suggestion-chip ${roomId === targetRoom ? styles.suggestionChipActive : ''}`}
-                  data-ui="room-suggestion-chip"
-                  onClick={() => handleSuggestionClick(roomId)}
-                  disabled={disabled}
-                >
-                  {roomId}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {routeDetail && (
-            <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
-              {routeDetail}
-            </div>
-          )}
+          <div className={`${styles.message} ${isError ? styles.messageError : ''}`}>
+            {routeDetail}
+          </div>
         </div>
-        <div className={styles.floorPill}>{floorText}</div>
       </section>
 
-      <section className={styles.card}>
+      <section className={`${styles.card} ${styles.keypadCard}`}>
         <div className={styles.sectionHeader}>
           <span className={styles.kicker}>Keypad</span>
         </div>

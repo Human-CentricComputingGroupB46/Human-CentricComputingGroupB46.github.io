@@ -1,9 +1,10 @@
 import { EntranceSelector } from './EntranceSelector';
 import { Numpad } from './Numpad';
+import type { RouteHandler } from '../../hooks/useRoute';
 import styles from './Sidebar.module.css';
 
 interface Props {
-  onRoute: () => void;
+  onRoute: RouteHandler;
   disabled?: boolean;
 }
 
