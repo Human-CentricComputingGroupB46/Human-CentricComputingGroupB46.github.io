@@ -41,6 +41,53 @@ export function distance(a: Point, b: Point): number {
  * when nodes don't share a corridor.
  */
 const SNAP_THRESHOLD = 0.04; // normalized-distance tolerance for "on corridor"
+const BEND_EPSILON = 0.0002;
+
+function findOrthogonalBend(a: Point, b: Point, corridorPoints: Point[]): Point | null {
+  if (Math.abs(a.x - b.x) < BEND_EPSILON || Math.abs(a.y - b.y) < BEND_EPSILON) {
+    return null;
+  }
+
+  let best: Point | null = null;
+  let bestExtraDistance = Infinity;
+
+  for (const pt of corridorPoints) {
+    const bendsThroughPt =
+      (Math.abs(pt.x - a.x) < BEND_EPSILON && Math.abs(pt.y - b.y) < BEND_EPSILON) ||
+      (Math.abs(pt.x - b.x) < BEND_EPSILON && Math.abs(pt.y - a.y) < BEND_EPSILON);
+
+    if (!bendsThroughPt || distance(a, pt) < BEND_EPSILON || distance(b, pt) < BEND_EPSILON) {
+      continue;
+    }
+
+    const extraDistance = distance(a, pt) + distance(pt, b) - distance(a, b);
+    if (extraDistance < bestExtraDistance) {
+      bestExtraDistance = extraDistance;
+      best = pt;
+    }
+  }
+
+  return best ? { ...best } : null;
+}
+
+function insertOrthogonalBends(points: Point[], corridors: Corridor[]): Point[] {
+  if (points.length < 2) return points;
+
+  const corridorPoints = corridors.flatMap((c) => c.path);
+  const bent: Point[] = [];
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i]!;
+    const b = points[i + 1]!;
+    bent.push(a);
+
+    const bend = findOrthogonalBend(a, b, corridorPoints);
+    if (bend) bent.push(bend);
+  }
+
+  bent.push(points[points.length - 1]!);
+  return bent;
+}
 
 export function snapRouteToCorridors(
   route: GraphNode[],
@@ -104,5 +151,15 @@ export function snapRouteToCorridors(
     }
   }
 
-  return deduped;
+  const withBends = insertOrthogonalBends(deduped, corridors);
+
+  const finalPath: Point[] = [];
+  for (const pt of withBends) {
+    const last = finalPath[finalPath.length - 1];
+    if (!last || distance(last, pt) > 0.0001) {
+      finalPath.push(pt);
+    }
+  }
+
+  return finalPath;
 }

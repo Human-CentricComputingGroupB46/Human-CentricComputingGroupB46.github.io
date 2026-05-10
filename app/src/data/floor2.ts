@@ -147,7 +147,6 @@ const corridors: Corridor[] = [
       { x: 0.52274, y: 0.95654 }, // J_S2
       { x: 0.52274, y: 0.92832 }, // J_S3
       { x: 0.49643, y: 0.92832 }, // DROP_EB273
-      { x: 0.42140, y: 0.92832 }, // DROP_EB275
       { x: 0.42919, y: 0.92832 }, // J_S4
       { x: 0.42919, y: 0.95654 }, // J_S5
       { x: 0.34734, y: 0.95654 }, // DROP_EB277
@@ -158,6 +157,14 @@ const corridors: Corridor[] = [
       { x: 0.24600, y: 0.88262 }, // DROP_EB280
       { x: 0.24405, y: 0.88262 }, // DROP_EB287
       { x: 0.18168, y: 0.88262 }, // DROP_EB282 / J_S8
+    ],
+  },
+  {
+    id: 'F2_DROP_EB275',
+    floor: 'floor2',
+    path: [
+      { x: 0.42919, y: 0.92832 }, // J_S4
+      { x: 0.42140, y: 0.92832 }, // DROP_EB275
     ],
   },
   {
@@ -360,8 +367,8 @@ const edges: GraphEdge[] = [
   edge('DROP_EB269', 'J_S2'),
   edge('J_S2', 'J_S3'),
   edge('J_S3', 'DROP_EB273'),
-  edge('DROP_EB273', 'DROP_EB275'),
-  edge('DROP_EB275', 'J_S4'),
+  edge('DROP_EB273', 'J_S4'),
+  edge('J_S4', 'DROP_EB275'),
   edge('J_S4', 'J_S5'),
   edge('J_S5', 'DROP_EB277'),
   edge('DROP_EB277', 'DROP_EB279'),
