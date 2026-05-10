@@ -131,7 +131,7 @@ body {
   min-height: 100vh;
   padding: 0 clamp(72px, 14vw, 210px);
   /* Parallax fixed background */
-  background-image: url('images/hero-bg-placeholder.png');
+  background-image: url('images/hero-bg.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -159,7 +159,7 @@ body {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  /* 左侧渐变遮罩，还原图中的效果并保证文字可读性 */
+  /* Left gradient mask for readable hero text */
   background: linear-gradient(90deg, rgba(30, 45, 80, 0.95) 0%, rgba(30, 45, 80, 0.6) 45%, transparent 100%);
   pointer-events: none;
   z-index: 0;
@@ -364,16 +364,15 @@ body {
   white-space: nowrap;
 }
 
-.requirement-section-chip {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  background: rgba(234, 241, 248, 0.78);
-  color: var(--content-accent-2, #2b4c7e);
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-  padding: 4px 8px;
+.requirement-section-link {
+  color: inherit;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.requirement-section-link:hover,
+.requirement-section-link:focus-visible {
+  text-decoration: underline;
 }
 
 .evidence-chain-card {
@@ -902,7 +901,7 @@ body {
   line-height: 1.4;
 }
 
-/* 隐藏原有不需要的结构 */
+/* Hide legacy hero elements used by earlier layout versions */
 .hero-overview,
 .hero-actions,
 .hero-stats,
@@ -1257,7 +1256,7 @@ body {
   letter-spacing: 0.2px;
 }
 
-.status.todo {
+.status.planned {
   background: #fdf2e9;
   color: #7f4c00;
 }
@@ -1431,8 +1430,8 @@ body[data-route="evaluation"] .hero {
 }
 
 .detail-stage-card p {
-  max-width: 95%; /* 扩展了文字的最大宽度，允许更晚换行 */
-  margin-bottom: 0; /* 清除默认的段落底部边距，减小与卡片底部的空隙 */
+  max-width: 95%;
+  margin-bottom: 0;
   color: #4a5b70;
   font-size: 16px;
   line-height: 1.7;
@@ -2238,6 +2237,14 @@ body[data-route="evaluation"] .hero {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+}
+
+@media (min-width: 861px) {
+  .evidence-grid .evidence-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: min(100%, calc((100% - 16px) / 2));
+    justify-self: center;
+  }
 }
 
 .evidence-item {
@@ -3712,7 +3719,7 @@ body[data-route="evaluation"] .hero {
 }
 
 .content .status,
-.content .status.todo,
+.content .status.planned,
 .content .detail-stage-eyebrow,
 .content .gap-kicker,
 .content .must-have-label,
@@ -4000,7 +4007,7 @@ body[data-route="evaluation"] .hero {
     </div>
   </nav>
 
-  <header class="hero" id="about">
+  <header class="hero" id="home">
     <div class="hero-copy">
       <h1>Campus<span>Compass</span></h1>
       <span class="hero-line">Room codes show the floor. We show the way.</span>
@@ -4028,7 +4035,7 @@ body[data-route="evaluation"] .hero {
       <div class="intro-stats" aria-label="Project highlights">
         <div class="stat-card-moved">
           <strong>3</strong>
-          <span>tested users in alpha evaluation</span>
+          <span>users in the 3-user alpha test</span>
         </div>
         <div class="stat-card-moved">
           <strong>2</strong>
@@ -4036,7 +4043,7 @@ body[data-route="evaluation"] .hero {
         </div>
         <div class="stat-card-moved">
           <strong>60%</strong>
-          <span>estimated time saved in user testing</span>
+          <span>estimated time saved in alpha testing</span>
         </div>
       </div>
 
@@ -4057,23 +4064,23 @@ body[data-route="evaluation"] .hero {
               </tr>
             </thead>
             <tbody>
-              <tr><td>Why statement</td><td><span class="requirement-section-chip">Section 1.1</span></td></tr>
-              <tr><td>4 academic papers</td><td><span class="requirement-section-chip">Section 1.2 Academic Papers</span></td></tr>
-              <tr><td>4 commercial products</td><td><span class="requirement-section-chip">Section 1.2 Commercial Products</span></td></tr>
-              <tr><td>Primary and secondary personas</td><td><span class="requirement-section-chip">Section 1.3</span></td></tr>
-              <tr><td>Journey map</td><td><span class="requirement-section-chip">Section 2.1</span></td></tr>
-              <tr><td>3 must-have requirements</td><td><span class="requirement-section-chip">Section 2.2</span></td></tr>
-              <tr><td>5 evidence photos</td><td><span class="requirement-section-chip">Section 2.3</span></td></tr>
-              <tr><td>Crazy 8 sketches</td><td><span class="requirement-section-chip">Section 3.1</span></td></tr>
-              <tr><td>3 alternatives</td><td><span class="requirement-section-chip">Section 3.2</span></td></tr>
-              <tr><td>Low-fi Figma</td><td><span class="requirement-section-chip">Section 3.3</span></td></tr>
-              <tr><td>System architecture</td><td><span class="requirement-section-chip">Section 4.1</span></td></tr>
-              <tr><td>High-fi URL</td><td><span class="requirement-section-chip">Section 4.2</span></td></tr>
-              <tr><td>Individual contribution</td><td><span class="requirement-section-chip">Section 4.3</span></td></tr>
-              <tr><td>AI disclosure</td><td><span class="requirement-section-chip">Section 4.3 / 5 References</span></td></tr>
-              <tr><td>Usability testing with 3 real users</td><td><span class="requirement-section-chip">Section 5.1</span></td></tr>
-              <tr><td>Before / After refinement</td><td><span class="requirement-section-chip">Section 5.2</span></td></tr>
-              <tr><td>Final reflection + ethics + AI</td><td><span class="requirement-section-chip">Section 5.4</span></td></tr>
+              <tr><td>Why statement</td><td><a class="requirement-section-link" href="#research">Section 1.1</a></td></tr>
+              <tr><td>4 academic papers</td><td><a class="requirement-section-link" href="#research">Section 1.2 Academic Papers</a></td></tr>
+              <tr><td>4 commercial products</td><td><a class="requirement-section-link" href="#research">Section 1.2 Commercial Products</a></td></tr>
+              <tr><td>Primary and secondary personas</td><td><a class="requirement-section-link" href="#research">Section 1.3</a></td></tr>
+              <tr><td>Journey map</td><td><a class="requirement-section-link" href="#requirements">Section 2.1</a></td></tr>
+              <tr><td>3 must-have requirements</td><td><a class="requirement-section-link" href="#requirements">Section 2.2</a></td></tr>
+              <tr><td>5 evidence photos</td><td><a class="requirement-section-link" href="#requirements">Section 2.3</a></td></tr>
+              <tr><td>Crazy 8 sketches</td><td><a class="requirement-section-link" href="#ideation">Section 3.1</a></td></tr>
+              <tr><td>3 design alternatives</td><td><a class="requirement-section-link" href="#ideation">Section 3.2</a></td></tr>
+              <tr><td>Low-fi prototype</td><td><a class="requirement-section-link" href="#ideation">Section 3.3</a></td></tr>
+              <tr><td>System architecture and data flow</td><td><a class="requirement-section-link" href="#technical">Section 4.1</a></td></tr>
+              <tr><td>High-fi prototype URL</td><td><a class="requirement-section-link" href="#technical">Section 4.2</a></td></tr>
+              <tr><td>Individual contributions</td><td><a class="requirement-section-link" href="#technical">Section 4.3</a></td></tr>
+              <tr><td>AI disclosure</td><td><a class="requirement-section-link" href="#technical">Section 4.3</a> <span class="requirement-section-link">and</span> <a class="requirement-section-link" href="#evaluation">References</a></td></tr>
+              <tr><td>3-user alpha usability testing</td><td><a class="requirement-section-link" href="#evaluation">Section 5.1</a></td></tr>
+              <tr><td>Before and after refinement</td><td><a class="requirement-section-link" href="#evaluation">Section 5.2</a></td></tr>
+              <tr><td>Final reflection, ethics, and AI use</td><td><a class="requirement-section-link" href="#evaluation">Section 5.4</a></td></tr>
             </tbody>
           </table>
         </div>
@@ -4186,7 +4193,7 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="insight-card">
           <strong>3</strong>
-          <span>real users tested during alpha evaluation.</span>
+          <span>real users in the 3-user alpha test.</span>
         </article>
         <article class="insight-card">
           <strong>3 taps</strong>
@@ -4476,12 +4483,12 @@ body[data-route="evaluation"] .hero {
             <tbody>
               <tr>
                 <td><strong>Primary User</strong></td>
-                <td>First-year / new students</td>
+                <td>First-year and new students</td>
                 <td>Most likely to be unfamiliar with the EB building, classroom codes, entrances, stairs, and corridor layout.</td>
               </tr>
               <tr>
                 <td><strong>Secondary User</strong></td>
-                <td>Visitors / teachers / staff</td>
+                <td>Visitors, teachers, and staff</td>
                 <td>Need occasional wayfinding support but may have different levels of confidence, urgency, and familiarity with campus spaces.</td>
               </tr>
             </tbody>
@@ -4490,17 +4497,15 @@ body[data-route="evaluation"] .hero {
       </section>
 
       <div class="persona-grid">
-        <!-- Persona 1: John Smith -->
         <article class="persona-card scroll-fx">
           <div style="display: flex; flex-wrap: wrap; gap: 24px;">
-            <!-- Left Column -->
             <div style="flex: 1 1 200px; display: flex; flex-direction: column;">
               <div style="display: flex; gap: 12px; align-items: start; margin-bottom: 16px;">
                 <img class="persona-avatar" src="images/john-smith-real.jpg" alt="John Smith avatar" style="width: 75px; height: 75px; border-radius: 8px;">
                 <div>
                   <span class="persona-role-badge">Primary User</span>
                   <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">John Smith</h3>
-                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>First-year / New Student</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>First-year and New Student</strong></p>
                   <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 20<br><strong>Tech:</strong> High</p>
                 </div>
               </div>
@@ -4524,7 +4529,6 @@ body[data-route="evaluation"] .hero {
               </div>
             </div>
 
-            <!-- Middle Column -->
             <div style="flex: 2 1 350px;">
               <div style="margin-bottom: 18px;">
                 <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Bio</h4>
@@ -4550,7 +4554,6 @@ body[data-route="evaluation"] .hero {
               </div>
             </div>
 
-            <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
 
@@ -4565,7 +4568,7 @@ body[data-route="evaluation"] .hero {
               </div>
 
               <div style="margin-bottom: 14px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Low-stress / Comfort</span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; font-weight: 600;"><span>Low stress and comfort</span></div>
                 <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;"><div style="height: 100%; background: var(--brand-deep); width: 70%;"></div></div>
               </div>
 
@@ -4577,18 +4580,15 @@ body[data-route="evaluation"] .hero {
           </div>
         </article>
 
-        <!-- Persona 2: Mark Chen -->
         <article class="persona-card scroll-fx">
           <div style="display: flex; flex-wrap: wrap; gap: 24px;">
-            <!-- Left Column -->
             <div style="flex: 1 1 200px; display: flex; flex-direction: column;">
               <div style="display: flex; gap: 12px; align-items: start; margin-bottom: 16px;">
-                <!-- Reusing visiting guest image for Mark Chen if new image is not uploaded -->
                 <img class="persona-avatar" src="images/visiting-guest-real.jpg" alt="Mark Chen avatar" style="width: 75px; height: 75px; border-radius: 8px;">
                 <div>
                   <span class="persona-role-badge">Secondary User</span>
                   <h3 style="margin: 0; font-size: 20px; color: var(--brand-deep);">Mark Chen</h3>
-                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Visitor / Teacher / Staff</strong></p>
+                  <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Visitor, Teacher, and Staff</strong></p>
                   <p style="margin: 4px 0 0; font-size: 13px; color: #4a5568;"><strong>Age:</strong> 42<br><strong>Tech:</strong> Medium</p>
                 </div>
               </div>
@@ -4612,7 +4612,6 @@ body[data-route="evaluation"] .hero {
               </div>
             </div>
 
-            <!-- Middle Column -->
             <div style="flex: 2 1 350px;">
               <div style="margin-bottom: 18px;">
                 <h4 style="margin: 0 0 8px; font-size: 16px; color: var(--sky);">Bio</h4>
@@ -4638,7 +4637,6 @@ body[data-route="evaluation"] .hero {
               </div>
             </div>
 
-            <!-- Right Column -->
             <div style="flex: 1 1 200px;">
               <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--sky); border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Motivation</h4>
 
@@ -4715,10 +4713,10 @@ body[data-route="evaluation"] .hero {
                     fill="none" stroke="#2f7f79" stroke-width="8" stroke-linecap="round"/>
                 </svg>
                 <div class="emotion-points">
-                  <div>Lowest<br>(Anxious / Disoriented)</div>
-                  <div>Rising<br>(Hopeful / Seeking Help)</div>
-                  <div>High<br>(Confident / Guided)</div>
-                  <div>Highest<br>(Relieved / On Time)</div>
+                  <div>Lowest<br>(Anxious and disoriented)</div>
+                  <div>Rising<br>(Hopeful and seeking help)</div>
+                  <div>High<br>(Confident and guided)</div>
+                  <div>Highest<br>(Relieved and on time)</div>
                 </div>
               </div>
             </div>
@@ -4751,7 +4749,7 @@ body[data-route="evaluation"] .hero {
           <article class="requirements-panel">
             <h4>1. Data Collection &amp; Target Users</h4>
             <p>
-              We collected survey responses from 50 participants through a questionnaire. The sample included 20 first- and second-year students, 20 third- and fourth-year students, and 10 external visitors. This mix captured both routine classroom-finding problems and first-time navigation difficulties in unfamiliar campus buildings.
+              We collected survey responses from 50 questionnaire respondents. The sample included 20 first- and second-year students, 20 third- and fourth-year students, and 10 external visitors. This mix captured both routine classroom-finding problems and first-time navigation difficulties in unfamiliar campus buildings.
             </p>
           </article>
 
@@ -4927,7 +4925,7 @@ body[data-route="evaluation"] .hero {
       <div class="evidence-grid">
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-1-placeholder.jpg" alt="Interview record with a target user">
+            <img src="images/evidence-1.jpg" alt="Interview record with a target user">
           </div>
           <div class="evidence-body">
             <h4>Evidence 1 &mdash; Interview with Target User</h4>
@@ -4942,7 +4940,7 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-2-placeholder.jpg" alt="Site observation at an EB entrance">
+            <img src="images/evidence-2.jpg" alt="Site observation at an EB entrance">
           </div>
           <div class="evidence-body">
             <h4>Evidence 2 &mdash; Feature Discussion with Potential Users</h4>
@@ -4957,7 +4955,7 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-3-placeholder.jpg" alt="On-site survey of the EB building structure and classroom layout">
+            <img src="images/evidence-3.jpg" alt="On-site survey of the EB building structure and classroom layout">
           </div>
           <div class="evidence-body">
             <h4>Evidence 3 &mdash; On-site Building Observation</h4>
@@ -4972,7 +4970,7 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-4-placeholder.jpg" alt="Participants signed consent forms before research and usability testing">
+            <img src="images/evidence-4.jpg" alt="Participants signed consent forms before research and usability testing">
           </div>
           <div class="evidence-body">
             <h4>Evidence 4 &mdash; Consent and Research Notes</h4>
@@ -4987,7 +4985,7 @@ body[data-route="evaluation"] .hero {
         </article>
         <article class="evidence-item">
           <div class="evidence-media">
-            <img src="images/evidence-5-placeholder.jpg" alt="Usability testing experiment in progress">
+            <img src="images/evidence-5.jpg" alt="Usability testing experiment in progress">
           </div>
           <div class="evidence-body">
             <h4>Evidence 5 &mdash; Alpha Usability Testing in Progress</h4>
@@ -5026,15 +5024,6 @@ body[data-route="evaluation"] .hero {
           </div>
         </div>
 
-        <!-- <article class="block">
-          <h3>Low-Fi Prototype</h3>
-          <p>
-            A clickable low-fi flow was used to validate the 3-stage interaction before coding.
-          </p>
-          <p class="small-note">
-            <a href="https://www.figma.com/make/VZQ38hRqqUnw9UuN1sMe47/Draft-HTML-Sketch?p=f&t=W6HgK0xg3jczAQS2-0&fullscreen=1" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; font-weight: bold;">View clickable Figma prototype</a>
-          </p>
-        </article> -->
       </div>
 
       <h3 class="subsection-title">3.2 Design Alternatives</h3>
@@ -5126,7 +5115,7 @@ body[data-route="evaluation"] .hero {
             </article>
             <article class="lowfi-callout">
               <span class="lowfi-callout-number">05</span>
-              <h5>Distance / time feedback</h5>
+              <h5>Distance and time feedback</h5>
               <p>Gives users quick confidence before moving.</p>
             </article>
           </div>
@@ -5172,7 +5161,7 @@ body[data-route="evaluation"] .hero {
                   <td>Do users understand the route without relying only on the map?</td>
                 </tr>
                 <tr>
-                  <td>Distance / time feedback</td>
+                  <td>Distance and time feedback</td>
                   <td>Gives quick route confidence</td>
                   <td>Does summary feedback help users judge the route before moving?</td>
                 </tr>
@@ -5191,47 +5180,38 @@ body[data-route="evaluation"] .hero {
       <h3 class="subsection-title">4.1 System Architecture</h3>
       <div class="content-card">
         <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; text-align: center; flex-wrap: wrap;">
-          <!-- Step 1 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-input.svg" alt="Input Layer" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Input Layer</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Captures selected entrance, destination classroom code, and optional floor context.</p>
         </article>
 
-        <!-- Arrow 1 -->
         <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
 
-        <!-- Step 2 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-frontend.svg" alt="Frontend UI" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Frontend UI</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Normalises input, triggers route lookup, and renders map highlights and route feedback.</p>
         </article>
 
-        <!-- Arrow 2 -->
         <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
 
-        <!-- Step 3 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-routing.svg" alt="Routing Logic" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Routing Logic</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Matches entrance and room data to graph nodes, then calculates a route through EB corridors and stairs.</p>
         </article>
 
-        <!-- Arrow 3 -->
         <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
 
-        <!-- Step 4 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-data.svg" alt="Data Management" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Data Management</h4>
           <p style="margin: 0; font-size: 13px; color: var(--ink); line-height: 1.35;">Stores static room data, entrance data, corridor paths, route nodes, edges, and floor metadata.</p>
         </article>
 
-        <!-- Arrow 4 -->
         <div style="padding-top: 35px; color: #4a90e2; font-size: 24px; font-weight: 900;">&#8594;</div>
 
-        <!-- Step 5 -->
         <article style="flex: 1; display: flex; flex-direction: column; align-items: center;">
           <img src="images/arch-deployment.svg" alt="Deployment" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 12px; background: #e8eef5; border-radius: 16px; padding: 12px; border: 2px solid #000;">
           <h4 style="margin: 0 0 6px; font-size: 16px; color: var(--ink);">Deployment</h4>
@@ -5470,7 +5450,7 @@ const routeOutput = {
               </div>
             </div>
             <p>
-              We reviewed every AI-generated suggestion before using it, checking whether it matched our UX goals, technical feasibility, and course requirements.
+              We reviewed AI-assisted suggestions before using them, checking whether they matched our UX goals, technical feasibility, and course requirements.
             </p>
           </article>
 
@@ -5577,7 +5557,7 @@ const routeOutput = {
             <tbody>
               <tr>
                 <td>Completion Time</td>
-                <td>Compared with the existing-signage baseline, the 3-user alpha prototype test reduced average route-finding time from 190.0s to 78.3s.</td>
+                <td>Compared with the existing-signage baseline, the alpha prototype reduced average route-finding time from 190.0s to 78.3s in the 3-user alpha test.</td>
                 <td>Step-by-step guidance helped alpha users complete the task faster.</td>
               </tr>
               <tr>
@@ -5708,9 +5688,8 @@ const routeOutput = {
       <div class="before-after" aria-label="Iterative refinement before and after comparison">
         <article class="comparison-panel">
           <h4>Before: High Cognitive Load</h4>
-          <!-- Please replace the src with actual before screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
-            <img src="images/before-evaluation.jpg" alt="Insert Before screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
+            <img src="images/before-evaluation.jpg" alt="Before refinement interface showing the higher cognitive load version" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
             <li>Users had to select their target classroom only through the touchscreen panel.</li>
@@ -5720,9 +5699,8 @@ const routeOutput = {
         </article>
         <article class="comparison-panel after">
           <h4>After: Active Guidance</h4>
-          <!-- Please replace the src with actual after screenshot path -->
           <div style="background:rgba(255,255,255,0.5); border-radius:6px; margin-bottom:12px; padding:8px; text-align:center; border: 1px dashed var(--line);">
-            <img src="images/after-evaluation.png" alt="Insert After screenshot here" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
+            <img src="images/after-evaluation.png" alt="After refinement interface showing active route guidance" style="max-width:100%; height:auto; border-radius:4px; max-height:220px; object-fit: contain;">
           </div>
           <ul>
             <li>An input box was added so users could enter the classroom code directly.</li>
@@ -5762,11 +5740,10 @@ const routeOutput = {
           <span class="evaluation-badge evaluation-badge--secondary">Beyond Requirement</span>
         </div>
         <p style="margin-bottom:16px; color:var(--muted);">
-          After completing the required 3-user alpha test and applying the main interface refinements, we conducted an additional beta validation with 50 participants. This larger test was supplementary evidence, not a replacement for the required alpha usability test. It was used to check whether the refined CampusCompass flow remained understandable, efficient, and confidence-building for a broader group of users.
+          After completing the required 3-user alpha test and applying the main interface refinements, we conducted an additional 50-participant beta validation. This larger test was supplementary evidence, not a replacement for the required alpha usability test. It was used to check whether the refined CampusCompass flow remained understandable, efficient, and confidence-building for a broader group of users.
         </p>
         
         <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-          <!-- Chart Placeholder 1 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
              <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Subjective Ratings (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
@@ -5777,7 +5754,6 @@ const routeOutput = {
              </p>
           </div>
           
-          <!-- Chart Placeholder 2 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
              <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Route-Finding Time (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
@@ -5788,7 +5764,6 @@ const routeOutput = {
              </p>
           </div>
 
-          <!-- Chart Placeholder 3 -->
           <div style="background:rgba(255,255,255,0.7); border-radius:8px; padding:16px; border: 1px solid var(--line); text-align:center;">
              <h4 style="margin:0 0 12px 0; font-size:1em; color:var(--brand);">Cumulative Arrival Rate (n=50)</h4>
              <div style="background:#f5f8fc; border-radius:4px; height:180px; display:flex; align-items:center; justify-content:center; border: 1px dashed #c9d3e1;">
@@ -5828,7 +5803,7 @@ const routeOutput = {
           <h4>AI Use Reflection</h4>
           <ul class="reflection-list">
             <li>AI tools supported wording refinement, coding assistance, debugging, and portfolio structure.</li>
-            <li>The team reviewed AI-generated suggestions before using them in the final project.</li>
+            <li>The team reviewed AI-assisted suggestions before using them in the final project.</li>
             <li>Final research interpretation, design decisions, user testing, and ethical judgement remained the responsibility of the team.</li>
           </ul>
         </article>
@@ -5864,7 +5839,7 @@ const routeOutput = {
             <p>[2] Claude Opus 4.7, accessed on 2026-04-17, available at https://claude.ai. Used for building and iterating on the portfolio frontend page structure, and implementing the CampusCompass interactive demo prototype.</p>
             <p>[3] Gemini Pro, accessed on 2026-04-20, available at https://gemini.google.com. Used for generating conceptual illustrations for the Stakeholder Personas and visualizing the User Journey Map scenarios.</p>
             <p>[4] OpenAI Codex, accessed on 2026-04-27, available at https://platform.openai.com. Used for refining and beautifying the frontend interface, including layout adjustments and visual styling improvements to the portfolio website.</p>
-            <p>[5] Claude 3.5 Sonnet, v1.0, accessed on 2026-04-28, available at https://claude.ai. Used for assisting with the HTML/CSS structure of the portfolio website and debugging the parallax scrolling effect for the hero section.</p>
+            <p>[5] Claude 3.5 Sonnet, v1.0, accessed on 2026-04-28, available at https://claude.ai. Used for assisting with the HTML, CSS, and JavaScript structure of the portfolio website and debugging the parallax scrolling effect for the hero section.</p>
             <p>[6] DeepSeek V4 Pro, accessed on 2026-05-02, available at https://chat.deepseek.com. Used for assisting with frontend development and feature implementation of the portfolio website, and contributing to the CampusCompass demo functionality.</p>
             <p>[7] Gemini Pro, accessed on 2026-05-05, available at https://gemini.google.com. Used for refining the academic phrasing in the Evaluation & Reflection section and structuring the presentation script for the video walkthrough.</p>
           </article>
